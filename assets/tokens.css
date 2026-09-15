@@ -1,0 +1,32 @@
+:root {
+  --color-bg: #0D1117;
+  --color-text: #E6EDF3;
+  --color-primary: #71C7A6;
+  --color-muted: #8B949E;
+
+  --color-code-bg: #161B22;
+  --color-surface: rgba(255, 255, 255, 0.02);
+
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
+
+  --color-primary-soft: rgba(113, 199, 166, 0.08);
+  --color-primary-hover: rgba(113, 199, 166, 0.26);
+  --color-primary-border: rgba(113, 199, 166, 0.40);
+
+  --color-shadow: rgba(0, 0, 0, 0.25);
+
+  --color-gradient-start: rgba(13, 17, 23, 1);
+  --color-gradient-end: rgba(13, 17, 23, 0);
+
+  --syntax-text: #E6EDF3;
+  --syntax-comment: #7D8590;
+  --syntax-keyword: #71C7A6;
+  --syntax-string: #A8D5C2;
+  --syntax-number: #C7D1CC;
+  --syntax-function: #D5DDD9;
+  --syntax-class: #B7C9C1;
+  --syntax-builtin: #91BFAE;
+  --syntax-operator: #C9D1D9;
+  --syntax-error: #D98686;
+}
