@@ -19,7 +19,7 @@ published: true
 
 Oggi, Lorenzo, è il tuo compleanno.
 
-Sono dieci anni che sono padre, e ho pensato a qualche riga di codice per te e per Tommaso.  
+Sono dieci anni che sono padre, e ho scritto qualche riga di codice pensando a te e Tommaso.  
 Questo per ricordarmi ogni giorno come vorrei essere vostro padre.
 
 ### 01 — Love
