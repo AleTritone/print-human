@@ -1,8 +1,10 @@
 import html
+import json
 from base64 import b64encode
 from urllib.parse import quote
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from src.config import (
     ASSETS_DIR,
@@ -217,87 +219,226 @@ def render_share_links(post):
         f"&url={encoded_url}"
     )
 
-    st.markdown("Condividi:")
+    title_js = json.dumps(title)
+    share_url_js = json.dumps(share_url)
 
-    linkedin_col, x_col, empty_col = st.columns(
-        [1, 1, 4]
+    linkedin_html = html.escape(
+        linkedin_url,
+        quote=True
     )
 
-    with linkedin_col:
-        st.link_button(
-            "LinkedIn",
-            linkedin_url
-        )
+    x_html = html.escape(
+        x_url,
+        quote=True
+    )
 
-    with x_col:
-        st.link_button(
-            "X",
-            x_url
-        )
+    st.markdown("Condividi:")
+
+    components.html(
+        f"""
+        <div class="share-row">
+            <a
+                class="share-button"
+                href="{linkedin_html}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                LinkedIn
+            </a>
+
+            <a
+                class="share-button"
+                href="{x_html}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                X
+            </a>
+
+            <button
+                id="native-share"
+                class="share-button"
+                type="button"
+            >
+                Condividi link
+            </button>
+        </div>
+
+        <script>
+        const button = document.getElementById("native-share");
+        const title = {title_js};
+        const url = {share_url_js};
+
+        async function copyLink() {{
+            try {{
+                await navigator.clipboard.writeText(url);
+
+                const originalText = button.textContent;
+                button.textContent = "Link copiato";
+
+                setTimeout(() => {{
+                    button.textContent = originalText;
+                }}, 1600);
+            }} catch (error) {{
+                window.prompt("Copia questo link:", url);
+            }}
+        }}
+
+        button.addEventListener("click", async () => {{
+            if (navigator.share) {{
+                try {{
+                    await navigator.share({{
+                        title: title,
+                        url: url
+                    }});
+                }} catch (error) {{
+                    if (error.name !== "AbortError") {{
+                        await copyLink();
+                    }}
+                }}
+            }} else {{
+                await copyLink();
+            }}
+        }});
+        </script>
+
+        <style>
+        html,
+        body {{
+            margin: 0;
+            padding: 0;
+            background: transparent;
+        }}
+
+        .share-row {{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }}
+
+        .share-button {{
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 42px;
+            padding: 0 16px;
+
+            border: 1px solid #30363d;
+            border-radius: 8px;
+
+            background: #161b22;
+            color: #71c7a6;
+
+            font-family:
+                ui-monospace,
+                SFMono-Regular,
+                Menlo,
+                Monaco,
+                Consolas,
+                "Liberation Mono",
+                monospace;
+
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1;
+
+            text-decoration: none;
+            white-space: nowrap;
+
+            cursor: pointer;
+        }}
+
+        .share-button:hover {{
+            border-color: #71c7a6;
+        }}
+
+        .share-button:active {{
+            transform: translateY(1px);
+        }}
+        </style>
+        """,
+        height=52
+    )
 
 
 def render_post_navigation(post, posts):
-    if len(posts) <= 1:
-        return
-
     try:
         index = posts.index(post)
     except ValueError:
         return
 
-    newer = (
-        posts[index - 1]
-        if index > 0
-        else None
-    )
-
-    older = (
+    previous_post = (
         posts[index + 1]
         if index < len(posts) - 1
         else None
     )
 
-    left = ""
+    next_post = (
+        posts[index - 1]
+        if index > 0
+        else None
+    )
 
-    if newer:
-        newer_slug = quote(
-            newer["meta"]["slug"]
+    previous_html = ""
+
+    if previous_post:
+        previous_slug = quote(
+            previous_post["meta"]["slug"]
         )
 
-        newer_title = html.escape(
-            newer["meta"]["title"]
+        previous_title = html.escape(
+            previous_post["meta"]["title"]
         )
 
-        left = (
-            f'<a href="?p={newer_slug}" '
+        previous_html = (
+            f'<a href="?p={previous_slug}" '
             'target="_self">'
-            f'← {newer_title}'
+            f'← {previous_title}'
             '</a>'
         )
 
-    right = ""
+    next_html = ""
 
-    if older:
-        older_slug = quote(
-            older["meta"]["slug"]
+    if next_post:
+        next_slug = quote(
+            next_post["meta"]["slug"]
         )
 
-        older_title = html.escape(
-            older["meta"]["title"]
+        next_title = html.escape(
+            next_post["meta"]["title"]
         )
 
-        right = (
-            f'<a href="?p={older_slug}" '
+        next_html = (
+            f'<a href="?p={next_slug}" '
             'target="_self">'
-            f'{older_title} →'
+            f'{next_title} →'
             '</a>'
         )
 
     st.html(
         (
             '<div class="post-navigation">'
-            f'<div>{left}</div>'
-            f'<div>{right}</div>'
+
+            '<div class="post-navigation-cell '
+            'post-navigation-prev">'
+            f'{previous_html}'
+            '</div>'
+
+            '<div class="post-navigation-cell '
+            'post-navigation-home">'
+            '<a href="?" target="_self">'
+            'home'
+            '</a>'
+            '</div>'
+
+            '<div class="post-navigation-cell '
+            'post-navigation-next">'
+            f'{next_html}'
+            '</div>'
+
             '</div>'
         )
     )
@@ -306,7 +447,9 @@ def render_post_navigation(post, posts):
 def render_post(post, posts):
     meta = post["meta"]
 
-    st.title(meta["title"])
+    st.title(
+        meta["title"]
+    )
 
     st.markdown(
         (
@@ -322,18 +465,29 @@ def render_post(post, posts):
     )
 
     render_translation(
-        meta.get("translation", "")
+        meta.get(
+            "translation",
+            ""
+        )
     )
 
     render_reflection(
-        meta.get("reflection", "")
+        meta.get(
+            "reflection",
+            ""
+        )
     )
 
     render_tags(
-        meta.get("tags", [])
+        meta.get(
+            "tags",
+            []
+        )
     )
 
-    render_share_links(post)
+    render_share_links(
+        post
+    )
 
     render_post_navigation(
         post,
@@ -341,7 +495,11 @@ def render_post(post, posts):
     )
 
 
-def render_home(posts, search, selected_tag):
+def render_home(
+    posts,
+    search,
+    selected_tag
+):
     filtered = filter_posts(
         posts,
         search,
@@ -354,6 +512,7 @@ def render_home(posts, search, selected_tag):
             'Nessun post trovato.'
             '</div>'
         )
+
         return
 
     for post in filtered:
