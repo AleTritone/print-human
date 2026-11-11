@@ -1,14 +1,14 @@
 {
   "model": "glove-wiki-gigaword-50",
   "layout_mode": "hybrid-semantic-systems-weighted-mds",
-  "post_count": 5,
-  "all_tag_count": 16,
-  "tag_count": 11,
+  "post_count": 8,
+  "all_tag_count": 24,
+  "tag_count": 19,
   "excluded_tag_count": 5,
-  "cluster_count": 3,
-  "system_count": 3,
-  "layout_knn": 3,
-  "layout_stress": 4.756394,
+  "cluster_count": 2,
+  "system_count": 2,
+  "layout_knn": 4,
+  "layout_stress": 28.926889,
   "layout_corpus_max_boost": 0.65,
   "layout_corpus_confidence_scale": 2.0,
   "system_collision_padding_ratio": 0.1,
@@ -20,8 +20,10 @@
   "semantic_x_scale": 1.15,
   "semantic_y_scale": 0.82,
   "tag_boundary_scale": 0.86,
+  "layout_compactness": 0.82,
   "visibility_level_count": 4,
   "methodology": {
+    "intensity_model": "geometric_mean",
     "intensity_scale_min": 1.0,
     "intensity_scale_range": 4.0,
     "importance_frequency_weight": 0.45,
@@ -34,11 +36,10 @@
     "semantic_edge_threshold": 0.35,
     "layout_corpus_max_boost": 0.65,
     "layout_corpus_confidence_scale": 2.0,
-    "layout_knn": 3,
+    "layout_knn": 4,
     "core_score_ratio": 0.94,
     "max_system_cores": 3,
-    "pillow_attraction_visual_exponent": 0.72,
-    "intensity_model": "geometric_mean"
+    "pillow_attraction_visual_exponent": 0.72
   },
   "unresolved_tags": [],
   "excluded_tags": [
@@ -65,12 +66,15 @@
     },
     {
       "tag": "python",
-      "count": 4,
+      "count": 7,
       "posts": [
         "home",
+        "human-rights",
+        "old-friends",
         "parenting-syntax",
         "peace",
-        "try-again"
+        "try-again",
+        "work"
       ]
     },
     {
@@ -86,89 +90,88 @@
   "systems": [
     {
       "id": 0,
-      "size": 4,
+      "size": 11,
       "tags": [
         "care",
         "children",
-        "love",
-        "parenting"
+        "environment",
+        "experience",
+        "learning",
+        "life",
+        "parenting",
+        "planet",
+        "relationships",
+        "time",
+        "work"
       ],
       "core_tags": [
-        "children"
+        "life",
+        "experience",
+        "work"
       ],
-      "label": "children",
-      "x": 0.476670413599,
-      "y": 0.082737006127
+      "label": "life / experience / work",
+      "x": -0.4469700110643313,
+      "y": 0.027904644857856698
     },
     {
       "id": 1,
-      "size": 4,
+      "size": 8,
       "tags": [
+        "equality",
+        "friendship",
         "hope",
         "humanity",
         "kindness",
-        "peace"
+        "love",
+        "peace",
+        "rights"
       ],
       "core_tags": [
         "humanity"
       ],
       "label": "humanity",
-      "x": -0.291502111824,
-      "y": -0.316215613154
-    },
-    {
-      "id": 2,
-      "size": 3,
-      "tags": [
-        "environment",
-        "life",
-        "planet"
-      ],
-      "core_tags": [
-        "environment",
-        "life"
-      ],
-      "label": "environment / life",
-      "x": -0.281686139156,
-      "y": 0.32237551928
+      "x": 0.6048094591555415,
+      "y": -0.031309800678913216
     }
   ],
   "nodes": [
     {
       "tag": "care",
       "count": 1,
-      "weight": 3.309,
-      "attraction_strength": 0.5195,
-      "attraction_visual": 0.624,
+      "weight": 3.0,
+      "attraction_strength": 0.4876,
+      "attraction_visual": 0.5962,
       "attraction_components": {
-        "raw": 2.7532,
-        "max_raw": 5.3001,
-        "neighbor_count": 4
+        "raw": 4.1566,
+        "max_raw": 8.5242,
+        "neighbor_count": 6
       },
       "intensity_components": {
-        "frequency": 0.3333,
+        "frequency": 0.25,
         "degree": 1.0,
+        "activation": 0.5,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 1.0,
-        "activation": 0.5773
+        "max_post_count": 4,
+        "degree_centrality": 1.0
       },
       "cluster": 0,
       "system_id": 0,
-      "system_size": 4,
+      "system_size": 11,
       "system_core_tags": [
-        "children"
+        "life",
+        "experience",
+        "work"
       ],
-      "system_label": "children",
+      "system_label": "life / experience / work",
       "system_role": "member",
-      "x": 0.413777245683,
-      "y": 0.367201719706,
-      "label_priority": 0.6792,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "x": -0.7864780830946665,
+      "y": 0.03760117618263406,
+      "label_priority": 0.6379,
+      "visibility_level": 2,
+      "visibility_base_level": 2,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.9406,
+        "frequency": 0.25,
+        "degree": 0.9297,
         "betweenness": 1.0
       },
       "posts": [
@@ -208,9 +211,9 @@
           "jaccard": 1.0
         },
         {
-          "tag": "life",
-          "strength": 0.6232,
-          "semantic": 0.779,
+          "tag": "experience",
+          "strength": 0.6347,
+          "semantic": 0.7934,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
@@ -227,6 +230,26 @@
           "distance": 0.6962
         },
         {
+          "tag": "work",
+          "affinity": 0.7047,
+          "semantic": 0.7047,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.7685
+        },
+        {
+          "tag": "experience",
+          "affinity": 0.6987,
+          "semantic": 0.6987,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.7763
+        },
+        {
           "tag": "life",
           "affinity": 0.698,
           "semantic": 0.698,
@@ -235,64 +258,46 @@
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
           "distance": 0.7772
-        },
-        {
-          "tag": "environment",
-          "affinity": 0.6867,
-          "semantic": 0.579,
-          "cooccurrence": 1,
-          "jaccard": 1.0,
-          "corpus_confidence": 0.3935,
-          "corpus_signal": 0.3935,
-          "distance": 0.7916
-        },
-        {
-          "tag": "parenting",
-          "affinity": 0.6109,
-          "semantic": 0.6109,
-          "cooccurrence": 0,
-          "jaccard": 0.0,
-          "corpus_confidence": 0.0,
-          "corpus_signal": 0.0,
-          "distance": 0.8822
         }
       ]
     },
     {
       "tag": "children",
       "count": 1,
-      "weight": 3.309,
-      "attraction_strength": 0.552,
-      "attraction_visual": 0.6519,
+      "weight": 3.0,
+      "attraction_strength": 0.4225,
+      "attraction_visual": 0.5377,
       "attraction_components": {
-        "raw": 2.9255,
-        "max_raw": 5.3001,
-        "neighbor_count": 4
+        "raw": 3.6012,
+        "max_raw": 8.5242,
+        "neighbor_count": 5
       },
       "intensity_components": {
-        "frequency": 0.3333,
+        "frequency": 0.25,
         "degree": 1.0,
+        "activation": 0.5,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 1.0,
-        "activation": 0.5773
+        "max_post_count": 4,
+        "degree_centrality": 1.0
       },
       "cluster": 0,
       "system_id": 0,
-      "system_size": 4,
+      "system_size": 11,
       "system_core_tags": [
-        "children"
+        "life",
+        "experience",
+        "work"
       ],
-      "system_label": "children",
-      "system_role": "core",
-      "x": 0.49989765993,
-      "y": 0.113738558645,
-      "label_priority": 0.6927,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "system_label": "life / experience / work",
+      "system_role": "member",
+      "x": -0.43664705432496015,
+      "y": -0.23740327230248334,
+      "label_priority": 0.6411,
+      "visibility_level": 2,
+      "visibility_base_level": 2,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.979,
+        "frequency": 0.25,
+        "degree": 0.939,
         "betweenness": 1.0
       },
       "posts": [
@@ -313,7 +318,7 @@
         },
         {
           "tag": "humanity",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         }
       ],
@@ -324,22 +329,22 @@
       "neighbors": [
         {
           "tag": "love",
-          "strength": 0.9144,
-          "semantic": 0.893,
+          "strength": 0.9153,
+          "semantic": 0.8942,
           "cooccurrence": 1,
           "jaccard": 1.0
         },
         {
           "tag": "parenting",
-          "strength": 0.8569,
-          "semantic": 0.8211,
+          "strength": 0.8591,
+          "semantic": 0.8239,
           "cooccurrence": 1,
           "jaccard": 1.0
         },
         {
           "tag": "life",
-          "strength": 0.6723,
-          "semantic": 0.8404,
+          "strength": 0.6705,
+          "semantic": 0.8381,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
@@ -376,53 +381,54 @@
           "distance": 0.6962
         },
         {
-          "tag": "parenting",
-          "affinity": 0.6309,
-          "semantic": 0.5041,
-          "cooccurrence": 1,
-          "jaccard": 1.0,
-          "corpus_confidence": 0.3935,
-          "corpus_signal": 0.3935,
-          "distance": 0.8591
+          "tag": "work",
+          "affinity": 0.6757,
+          "semantic": 0.6757,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8053
         }
       ]
     },
     {
       "tag": "environment",
       "count": 1,
-      "weight": 3.309,
-      "attraction_strength": 0.3533,
-      "attraction_visual": 0.4728,
+      "weight": 3.0,
+      "attraction_strength": 0.2993,
+      "attraction_visual": 0.4196,
       "attraction_components": {
-        "raw": 1.8727,
-        "max_raw": 5.3001,
-        "neighbor_count": 3
+        "raw": 2.5515,
+        "max_raw": 8.5242,
+        "neighbor_count": 4
       },
       "intensity_components": {
-        "frequency": 0.3333,
+        "frequency": 0.25,
         "degree": 1.0,
+        "activation": 0.5,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 1.0,
-        "activation": 0.5773
+        "max_post_count": 4,
+        "degree_centrality": 1.0
       },
-      "cluster": 2,
-      "system_id": 2,
-      "system_size": 3,
+      "cluster": 0,
+      "system_id": 0,
+      "system_size": 11,
       "system_core_tags": [
-        "environment",
-        "life"
+        "life",
+        "experience",
+        "work"
       ],
-      "system_label": "environment / life",
-      "system_role": "core",
-      "x": -0.188933461975,
-      "y": 0.500484657559,
-      "label_priority": 0.6421,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "system_label": "life / experience / work",
+      "system_role": "member",
+      "x": -0.6502595302377457,
+      "y": 0.3752463055674216,
+      "label_priority": 0.6069,
+      "visibility_level": 2,
+      "visibility_base_level": 2,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.8344,
+        "frequency": 0.25,
+        "degree": 0.841,
         "betweenness": 1.0
       },
       "posts": [
@@ -462,9 +468,9 @@
           "jaccard": 1.0
         },
         {
-          "tag": "life",
-          "strength": 0.551,
-          "semantic": 0.6887,
+          "tag": "experience",
+          "strength": 0.5808,
+          "semantic": 0.726,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
@@ -481,6 +487,26 @@
           "distance": 0.7916
         },
         {
+          "tag": "experience",
+          "affinity": 0.634,
+          "semantic": 0.634,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8556
+        },
+        {
+          "tag": "work",
+          "affinity": 0.6221,
+          "semantic": 0.6221,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8693
+        },
+        {
           "tag": "planet",
           "affinity": 0.6087,
           "semantic": 0.4743,
@@ -489,54 +515,418 @@
           "corpus_confidence": 0.3935,
           "corpus_signal": 0.3935,
           "distance": 0.8846
+        }
+      ]
+    },
+    {
+      "tag": "equality",
+      "count": 1,
+      "weight": 2.944,
+      "attraction_strength": 0.3589,
+      "attraction_visual": 0.4781,
+      "attraction_components": {
+        "raw": 3.0589,
+        "max_raw": 8.5242,
+        "neighbor_count": 5
+      },
+      "intensity_components": {
+        "frequency": 0.25,
+        "degree": 0.9444,
+        "activation": 0.4859,
+        "post_count": 1,
+        "max_post_count": 4,
+        "degree_centrality": 0.9444
+      },
+      "cluster": 1,
+      "system_id": 1,
+      "system_size": 8,
+      "system_core_tags": [
+        "humanity"
+      ],
+      "system_label": "humanity",
+      "system_role": "member",
+      "x": 0.736490598169498,
+      "y": -0.25798657525814944,
+      "label_priority": 0.432,
+      "visibility_level": 3,
+      "visibility_base_level": 3,
+      "priority_components": {
+        "frequency": 0.25,
+        "degree": 0.7791,
+        "betweenness": 0.2339
+      },
+      "posts": [
+        "human-rights"
+      ],
+      "has_base_vector": true,
+      "has_context_vector": true,
+      "context": [
+        {
+          "tag": "rights",
+          "weight": 1.0,
+          "cooccurrence": 1
         },
         {
-          "tag": "life",
-          "affinity": 0.5773,
-          "semantic": 0.5773,
+          "tag": "humanity",
+          "weight": 0.25,
+          "cooccurrence": 1
+        }
+      ],
+      "anchors": [],
+      "anchor_scores": [],
+      "anchor_target_x": 0.0,
+      "anchor_target_y": 0.0,
+      "neighbors": [
+        {
+          "tag": "rights",
+          "strength": 0.9491,
+          "semantic": 0.9363,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "humanity",
+          "strength": 0.6526,
+          "semantic": 0.7532,
+          "cooccurrence": 1,
+          "jaccard": 0.25
+        },
+        {
+          "tag": "peace",
+          "strength": 0.5804,
+          "semantic": 0.7255,
+          "cooccurrence": 0,
+          "jaccard": 0.0
+        }
+      ],
+      "semantic_neighbors": [
+        {
+          "tag": "rights",
+          "affinity": 0.7843,
+          "semantic": 0.7101,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.6569
+        },
+        {
+          "tag": "peace",
+          "affinity": 0.6182,
+          "semantic": 0.6182,
           "cooccurrence": 0,
           "jaccard": 0.0,
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
-          "distance": 0.9194
+          "distance": 0.8739
+        },
+        {
+          "tag": "humanity",
+          "affinity": 0.5746,
+          "semantic": 0.5456,
+          "cooccurrence": 1,
+          "jaccard": 0.25,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.0984,
+          "distance": 0.9223
+        },
+        {
+          "tag": "friendship",
+          "affinity": 0.5728,
+          "semantic": 0.5728,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.9243
+        }
+      ]
+    },
+    {
+      "tag": "experience",
+      "count": 1,
+      "weight": 3.0,
+      "attraction_strength": 0.6666,
+      "attraction_visual": 0.7467,
+      "attraction_components": {
+        "raw": 5.682,
+        "max_raw": 8.5242,
+        "neighbor_count": 8
+      },
+      "intensity_components": {
+        "frequency": 0.25,
+        "degree": 1.0,
+        "activation": 0.5,
+        "post_count": 1,
+        "max_post_count": 4,
+        "degree_centrality": 1.0
+      },
+      "cluster": 0,
+      "system_id": 0,
+      "system_size": 11,
+      "system_core_tags": [
+        "life",
+        "experience",
+        "work"
+      ],
+      "system_label": "life / experience / work",
+      "system_role": "core",
+      "x": -0.4581004295447336,
+      "y": -0.02102916545426069,
+      "label_priority": 0.6625,
+      "visibility_level": 0,
+      "visibility_base_level": 0,
+      "priority_components": {
+        "frequency": 0.25,
+        "degree": 1.0,
+        "betweenness": 1.0
+      },
+      "posts": [
+        "work"
+      ],
+      "has_base_vector": true,
+      "has_context_vector": true,
+      "context": [
+        {
+          "tag": "learning",
+          "weight": 1.0,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "work",
+          "weight": 1.0,
+          "cooccurrence": 1
+        }
+      ],
+      "anchors": [],
+      "anchor_scores": [],
+      "anchor_target_x": 0.0,
+      "anchor_target_y": 0.0,
+      "neighbors": [
+        {
+          "tag": "learning",
+          "strength": 0.955,
+          "semantic": 0.9438,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "work",
+          "strength": 0.9454,
+          "semantic": 0.9317,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "time",
+          "strength": 0.6863,
+          "semantic": 0.8578,
+          "cooccurrence": 0,
+          "jaccard": 0.0
+        }
+      ],
+      "semantic_neighbors": [
+        {
+          "tag": "learning",
+          "affinity": 0.8661,
+          "semantic": 0.8201,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.5174
+        },
+        {
+          "tag": "work",
+          "affinity": 0.839,
+          "semantic": 0.7836,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.5675
+        },
+        {
+          "tag": "life",
+          "affinity": 0.8213,
+          "semantic": 0.8213,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.5978
+        },
+        {
+          "tag": "time",
+          "affinity": 0.7558,
+          "semantic": 0.7558,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.6989
+        }
+      ]
+    },
+    {
+      "tag": "friendship",
+      "count": 1,
+      "weight": 3.0,
+      "attraction_strength": 0.3824,
+      "attraction_visual": 0.5006,
+      "attraction_components": {
+        "raw": 3.26,
+        "max_raw": 8.5242,
+        "neighbor_count": 5
+      },
+      "intensity_components": {
+        "frequency": 0.25,
+        "degree": 1.0,
+        "activation": 0.5,
+        "post_count": 1,
+        "max_post_count": 4,
+        "degree_centrality": 1.0
+      },
+      "cluster": 1,
+      "system_id": 1,
+      "system_size": 8,
+      "system_core_tags": [
+        "humanity"
+      ],
+      "system_label": "humanity",
+      "system_role": "member",
+      "x": 0.6730678681795794,
+      "y": -0.056006105510105576,
+      "label_priority": 0.6382,
+      "visibility_level": 3,
+      "visibility_base_level": 2,
+      "priority_components": {
+        "frequency": 0.25,
+        "degree": 0.9307,
+        "betweenness": 1.0
+      },
+      "posts": [
+        "old-friends"
+      ],
+      "has_base_vector": true,
+      "has_context_vector": true,
+      "context": [
+        {
+          "tag": "relationships",
+          "weight": 1.0,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "time",
+          "weight": 1.0,
+          "cooccurrence": 1
+        }
+      ],
+      "anchors": [],
+      "anchor_scores": [],
+      "anchor_target_x": 0.0,
+      "anchor_target_y": 0.0,
+      "neighbors": [
+        {
+          "tag": "relationships",
+          "strength": 0.9148,
+          "semantic": 0.8935,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "time",
+          "strength": 0.8395,
+          "semantic": 0.7994,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "hope",
+          "strength": 0.5983,
+          "semantic": 0.7479,
+          "cooccurrence": 0,
+          "jaccard": 0.0
+        }
+      ],
+      "semantic_neighbors": [
+        {
+          "tag": "relationships",
+          "affinity": 0.7525,
+          "semantic": 0.6675,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.7035
+        },
+        {
+          "tag": "peace",
+          "affinity": 0.6903,
+          "semantic": 0.6903,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.7871
+        },
+        {
+          "tag": "hope",
+          "affinity": 0.6234,
+          "semantic": 0.6234,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8678
+        },
+        {
+          "tag": "love",
+          "affinity": 0.621,
+          "semantic": 0.621,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8707
         }
       ]
     },
     {
       "tag": "hope",
       "count": 1,
-      "weight": 3.309,
-      "attraction_strength": 0.5121,
-      "attraction_visual": 0.6177,
+      "weight": 3.0,
+      "attraction_strength": 0.4792,
+      "attraction_visual": 0.5888,
       "attraction_components": {
-        "raw": 2.7143,
-        "max_raw": 5.3001,
-        "neighbor_count": 4
+        "raw": 4.085,
+        "max_raw": 8.5242,
+        "neighbor_count": 6
       },
       "intensity_components": {
-        "frequency": 0.3333,
+        "frequency": 0.25,
         "degree": 1.0,
+        "activation": 0.5,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 1.0,
-        "activation": 0.5773
+        "max_post_count": 4,
+        "degree_centrality": 1.0
       },
       "cluster": 1,
       "system_id": 1,
-      "system_size": 4,
+      "system_size": 8,
       "system_core_tags": [
         "humanity"
       ],
       "system_label": "humanity",
       "system_role": "member",
-      "x": -0.354169389667,
-      "y": -0.128213170818,
-      "label_priority": 0.6841,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "x": 0.36021393959561027,
+      "y": 0.19781401809607296,
+      "label_priority": 0.6434,
+      "visibility_level": 2,
+      "visibility_base_level": 2,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.9545,
+        "frequency": 0.25,
+        "degree": 0.9454,
         "betweenness": 1.0
       },
       "posts": [
@@ -552,7 +942,7 @@
         },
         {
           "tag": "humanity",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         }
       ],
@@ -563,22 +953,22 @@
       "neighbors": [
         {
           "tag": "kindness",
-          "strength": 0.8744,
-          "semantic": 0.843,
+          "strength": 0.8803,
+          "semantic": 0.8504,
           "cooccurrence": 1,
           "jaccard": 1.0
         },
         {
           "tag": "humanity",
-          "strength": 0.692,
-          "semantic": 0.7817,
+          "strength": 0.6555,
+          "semantic": 0.7569,
           "cooccurrence": 1,
-          "jaccard": 0.3333
+          "jaccard": 0.25
         },
         {
           "tag": "peace",
-          "strength": 0.618,
-          "semantic": 0.7725,
+          "strength": 0.6122,
+          "semantic": 0.7652,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
@@ -593,6 +983,16 @@
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
           "distance": 0.7103
+        },
+        {
+          "tag": "time",
+          "affinity": 0.7473,
+          "semantic": 0.7473,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.711
         },
         {
           "tag": "life",
@@ -613,57 +1013,48 @@
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
           "distance": 0.7759
-        },
-        {
-          "tag": "kindness",
-          "affinity": 0.5529,
-          "semantic": 0.3993,
-          "cooccurrence": 1,
-          "jaccard": 1.0,
-          "corpus_confidence": 0.3935,
-          "corpus_signal": 0.3935,
-          "distance": 0.9456
         }
       ]
     },
     {
       "tag": "humanity",
-      "count": 3,
+      "count": 4,
       "weight": 5.0,
-      "attraction_strength": 0.344,
-      "attraction_visual": 0.4638,
+      "attraction_strength": 0.353,
+      "attraction_visual": 0.4724,
       "attraction_components": {
-        "raw": 1.8231,
-        "max_raw": 5.3001,
-        "neighbor_count": 3
+        "raw": 3.0086,
+        "max_raw": 8.5242,
+        "neighbor_count": 5
       },
       "intensity_components": {
         "frequency": 1.0,
         "degree": 1.0,
-        "post_count": 3,
-        "max_post_count": 3,
-        "degree_centrality": 1.0,
-        "activation": 1.0
+        "activation": 1.0,
+        "post_count": 4,
+        "max_post_count": 4,
+        "degree_centrality": 1.0
       },
       "cluster": 1,
       "system_id": 1,
-      "system_size": 4,
+      "system_size": 8,
       "system_core_tags": [
         "humanity"
       ],
       "system_label": "humanity",
       "system_role": "core",
-      "x": -0.310065351836,
-      "y": -0.450617584551,
-      "label_priority": 0.9798,
+      "x": 0.8564991243428096,
+      "y": -0.0004465744664417192,
+      "label_priority": 0.9669,
       "visibility_level": 0,
       "visibility_base_level": 0,
       "priority_components": {
         "frequency": 1.0,
-        "degree": 0.9423,
+        "degree": 0.9053,
         "betweenness": 1.0
       },
       "posts": [
+        "human-rights",
         "parenting-syntax",
         "peace",
         "try-again"
@@ -673,32 +1064,42 @@
       "context": [
         {
           "tag": "children",
-          "weight": 0.3333,
+          "weight": 0.25,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "equality",
+          "weight": 0.25,
           "cooccurrence": 1
         },
         {
           "tag": "hope",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         },
         {
           "tag": "kindness",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         },
         {
           "tag": "love",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         },
         {
           "tag": "parenting",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         },
         {
           "tag": "peace",
-          "weight": 0.3333,
+          "weight": 0.25,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "rights",
+          "weight": 0.25,
           "cooccurrence": 1
         }
       ],
@@ -709,24 +1110,24 @@
       "neighbors": [
         {
           "tag": "peace",
-          "strength": 0.7314,
-          "semantic": 0.8309,
+          "strength": 0.7198,
+          "semantic": 0.8373,
           "cooccurrence": 1,
-          "jaccard": 0.3333
+          "jaccard": 0.25
+        },
+        {
+          "tag": "rights",
+          "strength": 0.6668,
+          "semantic": 0.7711,
+          "cooccurrence": 1,
+          "jaccard": 0.25
         },
         {
           "tag": "hope",
-          "strength": 0.692,
-          "semantic": 0.7817,
+          "strength": 0.6555,
+          "semantic": 0.7569,
           "cooccurrence": 1,
-          "jaccard": 0.3333
-        },
-        {
-          "tag": "kindness",
-          "strength": 0.6881,
-          "semantic": 0.7768,
-          "cooccurrence": 1,
-          "jaccard": 0.3333
+          "jaccard": 0.25
         }
       ],
       "semantic_neighbors": [
@@ -741,63 +1142,73 @@
           "distance": 0.8482
         },
         {
-          "tag": "peace",
-          "affinity": 0.609,
-          "semantic": 0.5725,
+          "tag": "rights",
+          "affinity": 0.6299,
+          "semantic": 0.6047,
           "cooccurrence": 1,
-          "jaccard": 0.3333,
+          "jaccard": 0.25,
           "corpus_confidence": 0.3935,
-          "corpus_signal": 0.1312,
-          "distance": 0.8843
+          "corpus_signal": 0.0984,
+          "distance": 0.8603
         },
         {
-          "tag": "kindness",
-          "affinity": 0.5738,
-          "semantic": 0.5341,
+          "tag": "peace",
+          "affinity": 0.5999,
+          "semantic": 0.5725,
           "cooccurrence": 1,
-          "jaccard": 0.3333,
+          "jaccard": 0.25,
           "corpus_confidence": 0.3935,
-          "corpus_signal": 0.1312,
-          "distance": 0.9233
+          "corpus_signal": 0.0984,
+          "distance": 0.8946
+        },
+        {
+          "tag": "equality",
+          "affinity": 0.5746,
+          "semantic": 0.5456,
+          "cooccurrence": 1,
+          "jaccard": 0.25,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.0984,
+          "distance": 0.9223
         }
       ]
     },
     {
       "tag": "kindness",
       "count": 1,
-      "weight": 3.191,
-      "attraction_strength": 0.3223,
-      "attraction_visual": 0.4425,
+      "weight": 2.944,
+      "attraction_strength": 0.2589,
+      "attraction_visual": 0.378,
       "attraction_components": {
-        "raw": 1.7082,
-        "max_raw": 5.3001,
-        "neighbor_count": 3
+        "raw": 2.2073,
+        "max_raw": 8.5242,
+        "neighbor_count": 4
       },
       "intensity_components": {
-        "frequency": 0.3333,
-        "degree": 0.9,
+        "frequency": 0.25,
+        "degree": 0.9444,
+        "activation": 0.4859,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 0.9,
-        "activation": 0.5477
+        "max_post_count": 4,
+        "degree_centrality": 0.9444
       },
       "cluster": 1,
       "system_id": 1,
-      "system_size": 4,
+      "system_size": 8,
       "system_core_tags": [
         "humanity"
       ],
       "system_label": "humanity",
       "system_role": "member",
-      "x": 0.200555576167,
-      "y": -0.495700113889,
-      "label_priority": 0.4916,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "x": 0.5472749363094436,
+      "y": -0.47990012863028353,
+      "label_priority": 0.4338,
+      "visibility_level": 3,
+      "visibility_base_level": 3,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.7942,
-        "betweenness": 0.3182
+        "frequency": 0.25,
+        "degree": 0.7843,
+        "betweenness": 0.2339
       },
       "posts": [
         "try-again"
@@ -812,7 +1223,7 @@
         },
         {
           "tag": "humanity",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         }
       ],
@@ -823,22 +1234,22 @@
       "neighbors": [
         {
           "tag": "hope",
-          "strength": 0.8744,
-          "semantic": 0.843,
+          "strength": 0.8803,
+          "semantic": 0.8504,
           "cooccurrence": 1,
           "jaccard": 1.0
         },
         {
           "tag": "humanity",
-          "strength": 0.6881,
-          "semantic": 0.7768,
+          "strength": 0.6518,
+          "semantic": 0.7523,
           "cooccurrence": 1,
-          "jaccard": 0.3333
+          "jaccard": 0.25
         },
         {
           "tag": "love",
-          "strength": 0.5825,
-          "semantic": 0.7281,
+          "strength": 0.5807,
+          "semantic": 0.7259,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
@@ -856,13 +1267,13 @@
         },
         {
           "tag": "humanity",
-          "affinity": 0.5738,
+          "affinity": 0.5639,
           "semantic": 0.5341,
           "cooccurrence": 1,
-          "jaccard": 0.3333,
+          "jaccard": 0.25,
           "corpus_confidence": 0.3935,
-          "corpus_signal": 0.1312,
-          "distance": 0.9233
+          "corpus_signal": 0.0984,
+          "distance": 0.9339
         },
         {
           "tag": "hope",
@@ -873,45 +1284,182 @@
           "corpus_confidence": 0.3935,
           "corpus_signal": 0.3935,
           "distance": 0.9456
+        },
+        {
+          "tag": "equality",
+          "affinity": 0.509,
+          "semantic": 0.509,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.9909
+        }
+      ]
+    },
+    {
+      "tag": "learning",
+      "count": 1,
+      "weight": 3.0,
+      "attraction_strength": 0.4343,
+      "attraction_visual": 0.5485,
+      "attraction_components": {
+        "raw": 3.7017,
+        "max_raw": 8.5242,
+        "neighbor_count": 5
+      },
+      "intensity_components": {
+        "frequency": 0.25,
+        "degree": 1.0,
+        "activation": 0.5,
+        "post_count": 1,
+        "max_post_count": 4,
+        "degree_centrality": 1.0
+      },
+      "cluster": 0,
+      "system_id": 0,
+      "system_size": 11,
+      "system_core_tags": [
+        "life",
+        "experience",
+        "work"
+      ],
+      "system_label": "life / experience / work",
+      "system_role": "member",
+      "x": -0.6827283390902789,
+      "y": -0.1383741206128628,
+      "label_priority": 0.647,
+      "visibility_level": 1,
+      "visibility_base_level": 1,
+      "priority_components": {
+        "frequency": 0.25,
+        "degree": 0.9556,
+        "betweenness": 1.0
+      },
+      "posts": [
+        "work"
+      ],
+      "has_base_vector": true,
+      "has_context_vector": true,
+      "context": [
+        {
+          "tag": "experience",
+          "weight": 1.0,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "work",
+          "weight": 1.0,
+          "cooccurrence": 1
+        }
+      ],
+      "anchors": [],
+      "anchor_scores": [],
+      "anchor_target_x": 0.0,
+      "anchor_target_y": 0.0,
+      "neighbors": [
+        {
+          "tag": "experience",
+          "strength": 0.955,
+          "semantic": 0.9438,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "work",
+          "strength": 0.9424,
+          "semantic": 0.9281,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "time",
+          "strength": 0.6411,
+          "semantic": 0.8013,
+          "cooccurrence": 0,
+          "jaccard": 0.0
+        }
+      ],
+      "semantic_neighbors": [
+        {
+          "tag": "experience",
+          "affinity": 0.8661,
+          "semantic": 0.8201,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.5174
+        },
+        {
+          "tag": "work",
+          "affinity": 0.8308,
+          "semantic": 0.7727,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.5817
+        },
+        {
+          "tag": "life",
+          "affinity": 0.6866,
+          "semantic": 0.6866,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.7917
+        },
+        {
+          "tag": "relationships",
+          "affinity": 0.6639,
+          "semantic": 0.6639,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8199
         }
       ]
     },
     {
       "tag": "life",
       "count": 1,
-      "weight": 3.309,
+      "weight": 3.0,
       "attraction_strength": 1.0,
       "attraction_visual": 1.0,
       "attraction_components": {
-        "raw": 5.3001,
-        "max_raw": 5.3001,
-        "neighbor_count": 8
+        "raw": 8.5242,
+        "max_raw": 8.5242,
+        "neighbor_count": 12
       },
       "intensity_components": {
-        "frequency": 0.3333,
+        "frequency": 0.25,
         "degree": 1.0,
+        "activation": 0.5,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 1.0,
-        "activation": 0.5773
+        "max_post_count": 4,
+        "degree_centrality": 1.0
       },
-      "cluster": 2,
-      "system_id": 2,
-      "system_size": 3,
+      "cluster": 0,
+      "system_id": 0,
+      "system_size": 11,
       "system_core_tags": [
-        "environment",
-        "life"
+        "life",
+        "experience",
+        "work"
       ],
-      "system_label": "environment / life",
+      "system_label": "life / experience / work",
       "system_role": "core",
-      "x": -0.028758918227,
-      "y": 0.146649343243,
-      "label_priority": 0.6907,
+      "x": -0.2106263210085511,
+      "y": 0.03091043174824258,
+      "label_priority": 0.659,
       "visibility_level": 0,
       "visibility_base_level": 0,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.9735,
+        "frequency": 0.25,
+        "degree": 0.9901,
         "betweenness": 1.0
       },
       "posts": [
@@ -927,22 +1475,22 @@
       "neighbors": [
         {
           "tag": "love",
-          "strength": 0.7057,
-          "semantic": 0.8821,
+          "strength": 0.7039,
+          "semantic": 0.8799,
           "cooccurrence": 0,
           "jaccard": 0.0
         },
         {
-          "tag": "children",
-          "strength": 0.6723,
-          "semantic": 0.8404,
+          "tag": "time",
+          "strength": 0.684,
+          "semantic": 0.8551,
           "cooccurrence": 0,
           "jaccard": 0.0
         },
         {
-          "tag": "care",
-          "strength": 0.6232,
-          "semantic": 0.779,
+          "tag": "experience",
+          "strength": 0.6709,
+          "semantic": 0.8387,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
@@ -959,72 +1507,72 @@
           "distance": 0.5651
         },
         {
-          "tag": "children",
-          "affinity": 0.7768,
-          "semantic": 0.7768,
+          "tag": "experience",
+          "affinity": 0.8213,
+          "semantic": 0.8213,
           "cooccurrence": 0,
           "jaccard": 0.0,
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
-          "distance": 0.6682
+          "distance": 0.5978
         },
         {
-          "tag": "hope",
-          "affinity": 0.7146,
-          "semantic": 0.7146,
+          "tag": "work",
+          "affinity": 0.8022,
+          "semantic": 0.8022,
           "cooccurrence": 0,
           "jaccard": 0.0,
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
-          "distance": 0.7555
+          "distance": 0.6289
         },
         {
-          "tag": "care",
-          "affinity": 0.698,
-          "semantic": 0.698,
+          "tag": "time",
+          "affinity": 0.7819,
+          "semantic": 0.7819,
           "cooccurrence": 0,
           "jaccard": 0.0,
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
-          "distance": 0.7772
+          "distance": 0.6605
         }
       ]
     },
     {
       "tag": "love",
       "count": 1,
-      "weight": 3.309,
-      "attraction_strength": 0.7255,
-      "attraction_visual": 0.7937,
+      "weight": 3.0,
+      "attraction_strength": 0.4894,
+      "attraction_visual": 0.5978,
       "attraction_components": {
-        "raw": 3.8453,
-        "max_raw": 5.3001,
+        "raw": 4.1718,
+        "max_raw": 8.5242,
         "neighbor_count": 6
       },
       "intensity_components": {
-        "frequency": 0.3333,
+        "frequency": 0.25,
         "degree": 1.0,
+        "activation": 0.5,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 1.0,
-        "activation": 0.5773
+        "max_post_count": 4,
+        "degree_centrality": 1.0
       },
-      "cluster": 0,
-      "system_id": 0,
-      "system_size": 4,
+      "cluster": 1,
+      "system_id": 1,
+      "system_size": 8,
       "system_core_tags": [
-        "children"
+        "humanity"
       ],
-      "system_label": "children",
+      "system_label": "humanity",
       "system_role": "member",
-      "x": 0.290677466823,
-      "y": -0.151837797411,
-      "label_priority": 0.7,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "x": 0.38107257719557797,
+      "y": -0.16919932692060285,
+      "label_priority": 0.6508,
+      "visibility_level": 1,
+      "visibility_base_level": 1,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 1.0,
+        "frequency": 0.25,
+        "degree": 0.9666,
         "betweenness": 1.0
       },
       "posts": [
@@ -1045,7 +1593,7 @@
         },
         {
           "tag": "humanity",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         }
       ],
@@ -1056,22 +1604,22 @@
       "neighbors": [
         {
           "tag": "children",
-          "strength": 0.9144,
-          "semantic": 0.893,
+          "strength": 0.9153,
+          "semantic": 0.8942,
           "cooccurrence": 1,
           "jaccard": 1.0
         },
         {
           "tag": "parenting",
-          "strength": 0.8322,
-          "semantic": 0.7903,
+          "strength": 0.8346,
+          "semantic": 0.7933,
           "cooccurrence": 1,
           "jaccard": 1.0
         },
         {
           "tag": "life",
-          "strength": 0.7057,
-          "semantic": 0.8821,
+          "strength": 0.7039,
+          "semantic": 0.8799,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
@@ -1108,52 +1656,54 @@
           "distance": 0.7759
         },
         {
-          "tag": "kindness",
-          "affinity": 0.5815,
-          "semantic": 0.5815,
+          "tag": "time",
+          "affinity": 0.6699,
+          "semantic": 0.6699,
           "cooccurrence": 0,
           "jaccard": 0.0,
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
-          "distance": 0.9149
+          "distance": 0.8126
         }
       ]
     },
     {
       "tag": "parenting",
       "count": 1,
-      "weight": 3.065,
-      "attraction_strength": 0.3423,
-      "attraction_visual": 0.4621,
+      "weight": 2.886,
+      "attraction_strength": 0.2966,
+      "attraction_visual": 0.4168,
       "attraction_components": {
-        "raw": 1.8142,
-        "max_raw": 5.3001,
-        "neighbor_count": 3
+        "raw": 2.5281,
+        "max_raw": 8.5242,
+        "neighbor_count": 4
       },
       "intensity_components": {
-        "frequency": 0.3333,
-        "degree": 0.8,
+        "frequency": 0.25,
+        "degree": 0.8889,
+        "activation": 0.4714,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 0.8,
-        "activation": 0.5164
+        "max_post_count": 4,
+        "degree_centrality": 0.8889
       },
       "cluster": 0,
       "system_id": 0,
-      "system_size": 4,
+      "system_size": 11,
       "system_core_tags": [
-        "children"
+        "life",
+        "experience",
+        "work"
       ],
-      "system_label": "children",
+      "system_label": "life / experience / work",
       "system_role": "member",
-      "x": 0.702329281961,
-      "y": 0.001845543567,
-      "label_priority": 0.407,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "x": -0.532490919395189,
+      "y": -0.48598635127291145,
+      "label_priority": 0.3854,
+      "visibility_level": 3,
+      "visibility_base_level": 3,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.7344,
+        "frequency": 0.25,
+        "degree": 0.7796,
         "betweenness": 0.0
       },
       "posts": [
@@ -1174,7 +1724,7 @@
         },
         {
           "tag": "humanity",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         }
       ],
@@ -1185,27 +1735,47 @@
       "neighbors": [
         {
           "tag": "children",
-          "strength": 0.8569,
-          "semantic": 0.8211,
+          "strength": 0.8591,
+          "semantic": 0.8239,
           "cooccurrence": 1,
           "jaccard": 1.0
         },
         {
           "tag": "love",
-          "strength": 0.8322,
-          "semantic": 0.7903,
+          "strength": 0.8346,
+          "semantic": 0.7933,
           "cooccurrence": 1,
           "jaccard": 1.0
         },
         {
-          "tag": "life",
-          "strength": 0.5371,
-          "semantic": 0.6714,
+          "tag": "learning",
+          "strength": 0.5863,
+          "semantic": 0.7329,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
       ],
       "semantic_neighbors": [
+        {
+          "tag": "learning",
+          "affinity": 0.6542,
+          "semantic": 0.6542,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8316
+        },
+        {
+          "tag": "relationships",
+          "affinity": 0.632,
+          "semantic": 0.632,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8579
+        },
         {
           "tag": "children",
           "affinity": 0.6309,
@@ -1225,55 +1795,45 @@
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
           "distance": 0.8822
-        },
-        {
-          "tag": "love",
-          "affinity": 0.5724,
-          "semantic": 0.4255,
-          "cooccurrence": 1,
-          "jaccard": 1.0,
-          "corpus_confidence": 0.3935,
-          "corpus_signal": 0.3935,
-          "distance": 0.9248
         }
       ]
     },
     {
       "tag": "peace",
       "count": 1,
-      "weight": 3.191,
-      "attraction_strength": 0.3583,
-      "attraction_visual": 0.4776,
+      "weight": 2.944,
+      "attraction_strength": 0.3827,
+      "attraction_visual": 0.5008,
       "attraction_components": {
-        "raw": 1.8988,
-        "max_raw": 5.3001,
-        "neighbor_count": 3
+        "raw": 3.2619,
+        "max_raw": 8.5242,
+        "neighbor_count": 5
       },
       "intensity_components": {
-        "frequency": 0.3333,
-        "degree": 0.9,
+        "frequency": 0.25,
+        "degree": 0.9444,
+        "activation": 0.4859,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 0.9,
-        "activation": 0.5477
+        "max_post_count": 4,
+        "degree_centrality": 0.9444
       },
       "cluster": 1,
       "system_id": 1,
-      "system_size": 4,
+      "system_size": 8,
       "system_core_tags": [
         "humanity"
       ],
       "system_label": "humanity",
       "system_role": "member",
-      "x": -0.702329281961,
-      "y": -0.190331583356,
-      "label_priority": 0.4605,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "x": 0.6338795198109752,
+      "y": 0.36753190144414677,
+      "label_priority": 0.4822,
+      "visibility_level": 3,
+      "visibility_base_level": 3,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.7053,
-        "betweenness": 0.3182
+        "frequency": 0.25,
+        "degree": 0.7712,
+        "betweenness": 0.4989
       },
       "posts": [
         "peace"
@@ -1283,7 +1843,7 @@
       "context": [
         {
           "tag": "humanity",
-          "weight": 0.3333,
+          "weight": 0.25,
           "cooccurrence": 1
         }
       ],
@@ -1294,22 +1854,22 @@
       "neighbors": [
         {
           "tag": "humanity",
-          "strength": 0.7314,
-          "semantic": 0.8309,
+          "strength": 0.7198,
+          "semantic": 0.8373,
           "cooccurrence": 1,
-          "jaccard": 0.3333
+          "jaccard": 0.25
         },
         {
           "tag": "hope",
-          "strength": 0.618,
-          "semantic": 0.7725,
+          "strength": 0.6122,
+          "semantic": 0.7652,
           "cooccurrence": 0,
           "jaccard": 0.0
         },
         {
-          "tag": "life",
-          "strength": 0.5048,
-          "semantic": 0.631,
+          "tag": "rights",
+          "strength": 0.5833,
+          "semantic": 0.7292,
           "cooccurrence": 0,
           "jaccard": 0.0
         }
@@ -1326,63 +1886,74 @@
           "distance": 0.7103
         },
         {
-          "tag": "humanity",
-          "affinity": 0.609,
-          "semantic": 0.5725,
-          "cooccurrence": 1,
-          "jaccard": 0.3333,
-          "corpus_confidence": 0.3935,
-          "corpus_signal": 0.1312,
-          "distance": 0.8843
-        },
-        {
-          "tag": "life",
-          "affinity": 0.5421,
-          "semantic": 0.5421,
+          "tag": "friendship",
+          "affinity": 0.6903,
+          "semantic": 0.6903,
           "cooccurrence": 0,
           "jaccard": 0.0,
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
-          "distance": 0.957
+          "distance": 0.7871
+        },
+        {
+          "tag": "equality",
+          "affinity": 0.6182,
+          "semantic": 0.6182,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8739
+        },
+        {
+          "tag": "rights",
+          "affinity": 0.6058,
+          "semantic": 0.6058,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8879
         }
       ]
     },
     {
       "tag": "planet",
       "count": 1,
-      "weight": 3.065,
-      "attraction_strength": 0.2851,
-      "attraction_visual": 0.4052,
+      "weight": 2.826,
+      "attraction_strength": 0.2304,
+      "attraction_visual": 0.3475,
       "attraction_components": {
-        "raw": 1.5113,
-        "max_raw": 5.3001,
-        "neighbor_count": 3
+        "raw": 1.9639,
+        "max_raw": 8.5242,
+        "neighbor_count": 4
       },
       "intensity_components": {
-        "frequency": 0.3333,
-        "degree": 0.8,
+        "frequency": 0.25,
+        "degree": 0.8333,
+        "activation": 0.4564,
         "post_count": 1,
-        "max_post_count": 3,
-        "degree_centrality": 0.8,
-        "activation": 0.5164
+        "max_post_count": 4,
+        "degree_centrality": 0.8333
       },
-      "cluster": 2,
-      "system_id": 2,
-      "system_size": 3,
+      "cluster": 0,
+      "system_id": 0,
+      "system_size": 11,
       "system_core_tags": [
-        "environment",
-        "life"
+        "life",
+        "experience",
+        "work"
       ],
-      "system_label": "environment / life",
+      "system_label": "life / experience / work",
       "system_role": "member",
-      "x": -0.627366037266,
-      "y": 0.319992557038,
-      "label_priority": 0.3828,
-      "visibility_level": 0,
-      "visibility_base_level": 0,
+      "x": -0.13066241227746844,
+      "y": 0.5977541219973409,
+      "label_priority": 0.3361,
+      "visibility_level": 3,
+      "visibility_base_level": 3,
       "priority_components": {
-        "frequency": 0.3333,
-        "degree": 0.6651,
+        "frequency": 0.25,
+        "degree": 0.6389,
         "betweenness": 0.0
       },
       "posts": [
@@ -1451,14 +2022,526 @@
           "distance": 0.9893
         },
         {
-          "tag": "love",
-          "affinity": 0.392,
-          "semantic": 0.392,
+          "tag": "time",
+          "affinity": 0.4518,
+          "semantic": 0.4518,
           "cooccurrence": 0,
           "jaccard": 0.0,
           "corpus_confidence": 0.0,
           "corpus_signal": 0.0,
-          "distance": 1.1028
+          "distance": 1.0471
+        },
+        {
+          "tag": "experience",
+          "affinity": 0.3928,
+          "semantic": 0.3928,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 1.102
+        }
+      ]
+    },
+    {
+      "tag": "relationships",
+      "count": 1,
+      "weight": 3.0,
+      "attraction_strength": 0.3955,
+      "attraction_visual": 0.5128,
+      "attraction_components": {
+        "raw": 3.3712,
+        "max_raw": 8.5242,
+        "neighbor_count": 5
+      },
+      "intensity_components": {
+        "frequency": 0.25,
+        "degree": 1.0,
+        "activation": 0.5,
+        "post_count": 1,
+        "max_post_count": 4,
+        "degree_centrality": 1.0
+      },
+      "cluster": 0,
+      "system_id": 0,
+      "system_size": 11,
+      "system_core_tags": [
+        "life",
+        "experience",
+        "work"
+      ],
+      "system_label": "life / experience / work",
+      "system_role": "member",
+      "x": -0.1704131606169564,
+      "y": -0.3147049213954525,
+      "label_priority": 0.6468,
+      "visibility_level": 1,
+      "visibility_base_level": 1,
+      "priority_components": {
+        "frequency": 0.25,
+        "degree": 0.9552,
+        "betweenness": 1.0
+      },
+      "posts": [
+        "old-friends"
+      ],
+      "has_base_vector": true,
+      "has_context_vector": true,
+      "context": [
+        {
+          "tag": "friendship",
+          "weight": 1.0,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "time",
+          "weight": 1.0,
+          "cooccurrence": 1
+        }
+      ],
+      "anchors": [],
+      "anchor_scores": [],
+      "anchor_target_x": 0.0,
+      "anchor_target_y": 0.0,
+      "neighbors": [
+        {
+          "tag": "friendship",
+          "strength": 0.9148,
+          "semantic": 0.8935,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "time",
+          "strength": 0.8448,
+          "semantic": 0.806,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "experience",
+          "strength": 0.6279,
+          "semantic": 0.7849,
+          "cooccurrence": 0,
+          "jaccard": 0.0
+        }
+      ],
+      "semantic_neighbors": [
+        {
+          "tag": "friendship",
+          "affinity": 0.7525,
+          "semantic": 0.6675,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.7035
+        },
+        {
+          "tag": "experience",
+          "affinity": 0.6744,
+          "semantic": 0.6744,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.807
+        },
+        {
+          "tag": "learning",
+          "affinity": 0.6639,
+          "semantic": 0.6639,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8199
+        },
+        {
+          "tag": "life",
+          "affinity": 0.6483,
+          "semantic": 0.6483,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8387
+        }
+      ]
+    },
+    {
+      "tag": "rights",
+      "count": 1,
+      "weight": 3.0,
+      "attraction_strength": 0.3077,
+      "attraction_visual": 0.428,
+      "attraction_components": {
+        "raw": 2.6232,
+        "max_raw": 8.5242,
+        "neighbor_count": 4
+      },
+      "intensity_components": {
+        "frequency": 0.25,
+        "degree": 1.0,
+        "activation": 0.5,
+        "post_count": 1,
+        "max_post_count": 4,
+        "degree_centrality": 1.0
+      },
+      "cluster": 1,
+      "system_id": 1,
+      "system_size": 8,
+      "system_core_tags": [
+        "humanity"
+      ],
+      "system_label": "humanity",
+      "system_role": "member",
+      "x": 0.6499771096408373,
+      "y": 0.14771438581405777,
+      "label_priority": 0.6027,
+      "visibility_level": 2,
+      "visibility_base_level": 2,
+      "priority_components": {
+        "frequency": 0.25,
+        "degree": 0.8292,
+        "betweenness": 1.0
+      },
+      "posts": [
+        "human-rights"
+      ],
+      "has_base_vector": true,
+      "has_context_vector": true,
+      "context": [
+        {
+          "tag": "equality",
+          "weight": 1.0,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "humanity",
+          "weight": 0.25,
+          "cooccurrence": 1
+        }
+      ],
+      "anchors": [],
+      "anchor_scores": [],
+      "anchor_target_x": 0.0,
+      "anchor_target_y": 0.0,
+      "neighbors": [
+        {
+          "tag": "equality",
+          "strength": 0.9491,
+          "semantic": 0.9363,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "humanity",
+          "strength": 0.6668,
+          "semantic": 0.7711,
+          "cooccurrence": 1,
+          "jaccard": 0.25
+        },
+        {
+          "tag": "peace",
+          "strength": 0.5833,
+          "semantic": 0.7292,
+          "cooccurrence": 0,
+          "jaccard": 0.0
+        }
+      ],
+      "semantic_neighbors": [
+        {
+          "tag": "equality",
+          "affinity": 0.7843,
+          "semantic": 0.7101,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.6569
+        },
+        {
+          "tag": "humanity",
+          "affinity": 0.6299,
+          "semantic": 0.6047,
+          "cooccurrence": 1,
+          "jaccard": 0.25,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.0984,
+          "distance": 0.8603
+        },
+        {
+          "tag": "peace",
+          "affinity": 0.6058,
+          "semantic": 0.6058,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8879
+        },
+        {
+          "tag": "life",
+          "affinity": 0.6032,
+          "semantic": 0.6032,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.8909
+        }
+      ]
+    },
+    {
+      "tag": "time",
+      "count": 1,
+      "weight": 3.0,
+      "attraction_strength": 0.4925,
+      "attraction_visual": 0.6005,
+      "attraction_components": {
+        "raw": 4.1979,
+        "max_raw": 8.5242,
+        "neighbor_count": 6
+      },
+      "intensity_components": {
+        "frequency": 0.25,
+        "degree": 1.0,
+        "activation": 0.5,
+        "post_count": 1,
+        "max_post_count": 4,
+        "degree_centrality": 1.0
+      },
+      "cluster": 0,
+      "system_id": 0,
+      "system_size": 11,
+      "system_core_tags": [
+        "life",
+        "experience",
+        "work"
+      ],
+      "system_label": "life / experience / work",
+      "system_role": "member",
+      "x": -0.336676268786542,
+      "y": 0.30191222833169046,
+      "label_priority": 0.6555,
+      "visibility_level": 1,
+      "visibility_base_level": 1,
+      "priority_components": {
+        "frequency": 0.25,
+        "degree": 0.9799,
+        "betweenness": 1.0
+      },
+      "posts": [
+        "old-friends"
+      ],
+      "has_base_vector": true,
+      "has_context_vector": true,
+      "context": [
+        {
+          "tag": "friendship",
+          "weight": 1.0,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "relationships",
+          "weight": 1.0,
+          "cooccurrence": 1
+        }
+      ],
+      "anchors": [],
+      "anchor_scores": [],
+      "anchor_target_x": 0.0,
+      "anchor_target_y": 0.0,
+      "neighbors": [
+        {
+          "tag": "relationships",
+          "strength": 0.8448,
+          "semantic": 0.806,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "friendship",
+          "strength": 0.8395,
+          "semantic": 0.7994,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "work",
+          "strength": 0.6894,
+          "semantic": 0.8618,
+          "cooccurrence": 0,
+          "jaccard": 0.0
+        }
+      ],
+      "semantic_neighbors": [
+        {
+          "tag": "work",
+          "affinity": 0.7913,
+          "semantic": 0.7913,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.646
+        },
+        {
+          "tag": "life",
+          "affinity": 0.7819,
+          "semantic": 0.7819,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.6605
+        },
+        {
+          "tag": "experience",
+          "affinity": 0.7558,
+          "semantic": 0.7558,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.6989
+        },
+        {
+          "tag": "hope",
+          "affinity": 0.7473,
+          "semantic": 0.7473,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.711
+        }
+      ]
+    },
+    {
+      "tag": "work",
+      "count": 1,
+      "weight": 3.0,
+      "attraction_strength": 0.6178,
+      "attraction_visual": 0.707,
+      "attraction_components": {
+        "raw": 5.2659,
+        "max_raw": 8.5242,
+        "neighbor_count": 7
+      },
+      "intensity_components": {
+        "frequency": 0.25,
+        "degree": 1.0,
+        "activation": 0.5,
+        "post_count": 1,
+        "max_post_count": 4,
+        "degree_centrality": 1.0
+      },
+      "cluster": 0,
+      "system_id": 0,
+      "system_size": 11,
+      "system_core_tags": [
+        "life",
+        "experience",
+        "work"
+      ],
+      "system_label": "life / experience / work",
+      "system_role": "core",
+      "x": -0.521587603330553,
+      "y": 0.16102466064706486,
+      "label_priority": 0.6579,
+      "visibility_level": 0,
+      "visibility_base_level": 0,
+      "priority_components": {
+        "frequency": 0.25,
+        "degree": 0.9869,
+        "betweenness": 1.0
+      },
+      "posts": [
+        "work"
+      ],
+      "has_base_vector": true,
+      "has_context_vector": true,
+      "context": [
+        {
+          "tag": "experience",
+          "weight": 1.0,
+          "cooccurrence": 1
+        },
+        {
+          "tag": "learning",
+          "weight": 1.0,
+          "cooccurrence": 1
+        }
+      ],
+      "anchors": [],
+      "anchor_scores": [],
+      "anchor_target_x": 0.0,
+      "anchor_target_y": 0.0,
+      "neighbors": [
+        {
+          "tag": "experience",
+          "strength": 0.9454,
+          "semantic": 0.9317,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "learning",
+          "strength": 0.9424,
+          "semantic": 0.9281,
+          "cooccurrence": 1,
+          "jaccard": 1.0
+        },
+        {
+          "tag": "time",
+          "strength": 0.6894,
+          "semantic": 0.8618,
+          "cooccurrence": 0,
+          "jaccard": 0.0
+        }
+      ],
+      "semantic_neighbors": [
+        {
+          "tag": "experience",
+          "affinity": 0.839,
+          "semantic": 0.7836,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.5675
+        },
+        {
+          "tag": "learning",
+          "affinity": 0.8308,
+          "semantic": 0.7727,
+          "cooccurrence": 1,
+          "jaccard": 1.0,
+          "corpus_confidence": 0.3935,
+          "corpus_signal": 0.3935,
+          "distance": 0.5817
+        },
+        {
+          "tag": "life",
+          "affinity": 0.8022,
+          "semantic": 0.8022,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.6289
+        },
+        {
+          "tag": "time",
+          "affinity": 0.7913,
+          "semantic": 0.7913,
+          "cooccurrence": 0,
+          "jaccard": 0.0,
+          "corpus_confidence": 0.0,
+          "corpus_signal": 0.0,
+          "distance": 0.646
         }
       ]
     }
@@ -1467,8 +2550,8 @@
     {
       "source": "care",
       "target": "children",
-      "strength": 0.6089,
-      "semantic": 0.7611,
+      "strength": 0.6086,
+      "semantic": 0.7608,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
@@ -1482,25 +2565,57 @@
     },
     {
       "source": "care",
+      "target": "equality",
+      "strength": 0.4139,
+      "semantic": 0.5174,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "care",
+      "target": "experience",
+      "strength": 0.6347,
+      "semantic": 0.7934,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "care",
+      "target": "friendship",
+      "strength": 0.4449,
+      "semantic": 0.5562,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "care",
       "target": "hope",
-      "strength": 0.5394,
-      "semantic": 0.6743,
+      "strength": 0.5386,
+      "semantic": 0.6733,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "care",
       "target": "humanity",
-      "strength": 0.4423,
-      "semantic": 0.5529,
+      "strength": 0.4365,
+      "semantic": 0.5456,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "care",
       "target": "kindness",
-      "strength": 0.4021,
-      "semantic": 0.5027,
+      "strength": 0.4048,
+      "semantic": 0.5059,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "care",
+      "target": "learning",
+      "strength": 0.6032,
+      "semantic": 0.754,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
@@ -1515,16 +2630,16 @@
     {
       "source": "care",
       "target": "love",
-      "strength": 0.5159,
-      "semantic": 0.6448,
+      "strength": 0.5164,
+      "semantic": 0.6455,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "care",
       "target": "parenting",
-      "strength": 0.5288,
-      "semantic": 0.6609,
+      "strength": 0.5281,
+      "semantic": 0.6602,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
@@ -1545,98 +2660,226 @@
       "jaccard": 1.0
     },
     {
+      "source": "care",
+      "target": "relationships",
+      "strength": 0.524,
+      "semantic": 0.6549,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "care",
+      "target": "rights",
+      "strength": 0.4673,
+      "semantic": 0.5841,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "care",
+      "target": "time",
+      "strength": 0.5619,
+      "semantic": 0.7024,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "care",
+      "target": "work",
+      "strength": 0.6321,
+      "semantic": 0.7901,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
       "source": "children",
       "target": "environment",
-      "strength": 0.4389,
-      "semantic": 0.5486,
+      "strength": 0.4376,
+      "semantic": 0.547,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "children",
+      "target": "equality",
+      "strength": 0.4228,
+      "semantic": 0.5285,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "children",
+      "target": "experience",
+      "strength": 0.5799,
+      "semantic": 0.7249,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "children",
+      "target": "friendship",
+      "strength": 0.4797,
+      "semantic": 0.5997,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "children",
       "target": "hope",
-      "strength": 0.5369,
-      "semantic": 0.6712,
+      "strength": 0.5338,
+      "semantic": 0.6672,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "children",
       "target": "humanity",
-      "strength": 0.6134,
-      "semantic": 0.6834,
+      "strength": 0.5733,
+      "semantic": 0.6541,
       "cooccurrence": 1,
-      "jaccard": 0.3333
+      "jaccard": 0.25
     },
     {
       "source": "children",
       "target": "kindness",
-      "strength": 0.5044,
-      "semantic": 0.6305,
+      "strength": 0.502,
+      "semantic": 0.6276,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "children",
+      "target": "learning",
+      "strength": 0.58,
+      "semantic": 0.725,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "children",
       "target": "life",
-      "strength": 0.6723,
-      "semantic": 0.8404,
+      "strength": 0.6705,
+      "semantic": 0.8381,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "children",
       "target": "love",
-      "strength": 0.9144,
-      "semantic": 0.893,
+      "strength": 0.9153,
+      "semantic": 0.8942,
       "cooccurrence": 1,
       "jaccard": 1.0
     },
     {
       "source": "children",
       "target": "parenting",
-      "strength": 0.8569,
-      "semantic": 0.8211,
+      "strength": 0.8591,
+      "semantic": 0.8239,
       "cooccurrence": 1,
       "jaccard": 1.0
     },
     {
       "source": "children",
       "target": "peace",
-      "strength": 0.3953,
-      "semantic": 0.4942,
+      "strength": 0.3898,
+      "semantic": 0.4872,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "children",
       "target": "planet",
-      "strength": 0.3604,
-      "semantic": 0.4505,
+      "strength": 0.3581,
+      "semantic": 0.4477,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "children",
+      "target": "relationships",
+      "strength": 0.5292,
+      "semantic": 0.6615,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "children",
+      "target": "rights",
+      "strength": 0.4574,
+      "semantic": 0.5718,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "children",
+      "target": "time",
+      "strength": 0.5568,
+      "semantic": 0.696,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "children",
+      "target": "work",
+      "strength": 0.5934,
+      "semantic": 0.7418,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "environment",
+      "target": "equality",
+      "strength": 0.3976,
+      "semantic": 0.497,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "environment",
+      "target": "experience",
+      "strength": 0.5808,
+      "semantic": 0.726,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "environment",
+      "target": "friendship",
+      "strength": 0.4269,
+      "semantic": 0.5336,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "environment",
       "target": "hope",
-      "strength": 0.4615,
-      "semantic": 0.5769,
+      "strength": 0.4594,
+      "semantic": 0.5743,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "environment",
       "target": "humanity",
-      "strength": 0.3916,
-      "semantic": 0.4895,
+      "strength": 0.394,
+      "semantic": 0.4925,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "environment",
       "target": "kindness",
-      "strength": 0.311,
-      "semantic": 0.3887,
+      "strength": 0.3126,
+      "semantic": 0.3907,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "environment",
+      "target": "learning",
+      "strength": 0.5449,
+      "semantic": 0.6811,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
@@ -1651,16 +2894,16 @@
     {
       "source": "environment",
       "target": "love",
-      "strength": 0.3937,
-      "semantic": 0.4921,
+      "strength": 0.3929,
+      "semantic": 0.4911,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "environment",
       "target": "parenting",
-      "strength": 0.3598,
-      "semantic": 0.4498,
+      "strength": 0.3586,
+      "semantic": 0.4482,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
@@ -1681,154 +2924,706 @@
       "jaccard": 1.0
     },
     {
+      "source": "environment",
+      "target": "relationships",
+      "strength": 0.4917,
+      "semantic": 0.6146,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "environment",
+      "target": "rights",
+      "strength": 0.4409,
+      "semantic": 0.5511,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "environment",
+      "target": "time",
+      "strength": 0.5145,
+      "semantic": 0.6431,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "environment",
+      "target": "work",
+      "strength": 0.5731,
+      "semantic": 0.7164,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "experience",
+      "strength": 0.4053,
+      "semantic": 0.5066,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "friendship",
+      "strength": 0.5057,
+      "semantic": 0.6321,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "hope",
+      "strength": 0.4905,
+      "semantic": 0.6132,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "humanity",
+      "strength": 0.6526,
+      "semantic": 0.7532,
+      "cooccurrence": 1,
+      "jaccard": 0.25
+    },
+    {
+      "source": "equality",
+      "target": "kindness",
+      "strength": 0.4827,
+      "semantic": 0.6034,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "learning",
+      "strength": 0.4169,
+      "semantic": 0.5211,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "life",
+      "strength": 0.4305,
+      "semantic": 0.5381,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "love",
+      "strength": 0.4256,
+      "semantic": 0.532,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "parenting",
+      "strength": 0.4392,
+      "semantic": 0.549,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "peace",
+      "strength": 0.5804,
+      "semantic": 0.7255,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "relationships",
+      "strength": 0.492,
+      "semantic": 0.615,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "rights",
+      "strength": 0.9491,
+      "semantic": 0.9363,
+      "cooccurrence": 1,
+      "jaccard": 1.0
+    },
+    {
+      "source": "equality",
+      "target": "time",
+      "strength": 0.4209,
+      "semantic": 0.5261,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "equality",
+      "target": "work",
+      "strength": 0.4111,
+      "semantic": 0.5139,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "friendship",
+      "strength": 0.5804,
+      "semantic": 0.7254,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "hope",
+      "strength": 0.5892,
+      "semantic": 0.7365,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "humanity",
+      "strength": 0.4885,
+      "semantic": 0.6106,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "kindness",
+      "strength": 0.4821,
+      "semantic": 0.6027,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "learning",
+      "strength": 0.955,
+      "semantic": 0.9438,
+      "cooccurrence": 1,
+      "jaccard": 1.0
+    },
+    {
+      "source": "experience",
+      "target": "life",
+      "strength": 0.6709,
+      "semantic": 0.8387,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "love",
+      "strength": 0.5964,
+      "semantic": 0.7455,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "parenting",
+      "strength": 0.5491,
+      "semantic": 0.6863,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "peace",
+      "strength": 0.4307,
+      "semantic": 0.5383,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "planet",
+      "strength": 0.4669,
+      "semantic": 0.5836,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "relationships",
+      "strength": 0.6279,
+      "semantic": 0.7849,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "rights",
+      "strength": 0.4306,
+      "semantic": 0.5382,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "time",
+      "strength": 0.6863,
+      "semantic": 0.8578,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "experience",
+      "target": "work",
+      "strength": 0.9454,
+      "semantic": 0.9317,
+      "cooccurrence": 1,
+      "jaccard": 1.0
+    },
+    {
+      "source": "friendship",
+      "target": "hope",
+      "strength": 0.5983,
+      "semantic": 0.7479,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "humanity",
+      "strength": 0.516,
+      "semantic": 0.6451,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "kindness",
+      "strength": 0.5111,
+      "semantic": 0.6389,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "learning",
+      "strength": 0.5538,
+      "semantic": 0.6922,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "life",
+      "strength": 0.5903,
+      "semantic": 0.7379,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "love",
+      "strength": 0.5729,
+      "semantic": 0.7161,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "parenting",
+      "strength": 0.4508,
+      "semantic": 0.5635,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "peace",
+      "strength": 0.5704,
+      "semantic": 0.713,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "planet",
+      "strength": 0.3481,
+      "semantic": 0.4352,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "relationships",
+      "strength": 0.9148,
+      "semantic": 0.8935,
+      "cooccurrence": 1,
+      "jaccard": 1.0
+    },
+    {
+      "source": "friendship",
+      "target": "rights",
+      "strength": 0.4922,
+      "semantic": 0.6152,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "friendship",
+      "target": "time",
+      "strength": 0.8395,
+      "semantic": 0.7994,
+      "cooccurrence": 1,
+      "jaccard": 1.0
+    },
+    {
+      "source": "friendship",
+      "target": "work",
+      "strength": 0.5624,
+      "semantic": 0.703,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
       "source": "hope",
       "target": "humanity",
-      "strength": 0.692,
-      "semantic": 0.7817,
+      "strength": 0.6555,
+      "semantic": 0.7569,
       "cooccurrence": 1,
-      "jaccard": 0.3333
+      "jaccard": 0.25
     },
     {
       "source": "hope",
       "target": "kindness",
-      "strength": 0.8744,
-      "semantic": 0.843,
+      "strength": 0.8803,
+      "semantic": 0.8504,
       "cooccurrence": 1,
       "jaccard": 1.0
     },
     {
       "source": "hope",
+      "target": "learning",
+      "strength": 0.5287,
+      "semantic": 0.6609,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "hope",
       "target": "life",
-      "strength": 0.6094,
-      "semantic": 0.7618,
+      "strength": 0.6066,
+      "semantic": 0.7583,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "hope",
       "target": "love",
-      "strength": 0.6146,
-      "semantic": 0.7682,
+      "strength": 0.6121,
+      "semantic": 0.7652,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "hope",
       "target": "parenting",
-      "strength": 0.3978,
-      "semantic": 0.4972,
+      "strength": 0.3974,
+      "semantic": 0.4967,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "hope",
       "target": "peace",
-      "strength": 0.618,
-      "semantic": 0.7725,
+      "strength": 0.6122,
+      "semantic": 0.7652,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "hope",
       "target": "planet",
-      "strength": 0.4095,
-      "semantic": 0.5118,
+      "strength": 0.4059,
+      "semantic": 0.5074,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "hope",
+      "target": "relationships",
+      "strength": 0.5308,
+      "semantic": 0.6635,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "hope",
+      "target": "rights",
+      "strength": 0.498,
+      "semantic": 0.6225,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "hope",
+      "target": "time",
+      "strength": 0.6112,
+      "semantic": 0.764,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "hope",
+      "target": "work",
+      "strength": 0.5672,
+      "semantic": 0.7089,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "humanity",
       "target": "kindness",
-      "strength": 0.6881,
-      "semantic": 0.7768,
+      "strength": 0.6518,
+      "semantic": 0.7523,
       "cooccurrence": 1,
-      "jaccard": 0.3333
+      "jaccard": 0.25
+    },
+    {
+      "source": "humanity",
+      "target": "learning",
+      "strength": 0.4342,
+      "semantic": 0.5427,
+      "cooccurrence": 0,
+      "jaccard": 0.0
     },
     {
       "source": "humanity",
       "target": "life",
-      "strength": 0.6169,
-      "semantic": 0.7712,
+      "strength": 0.6021,
+      "semantic": 0.7526,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "humanity",
       "target": "love",
-      "strength": 0.6432,
-      "semantic": 0.7207,
+      "strength": 0.5988,
+      "semantic": 0.6859,
       "cooccurrence": 1,
-      "jaccard": 0.3333
+      "jaccard": 0.25
     },
     {
       "source": "humanity",
       "target": "parenting",
-      "strength": 0.4757,
-      "semantic": 0.5113,
+      "strength": 0.4426,
+      "semantic": 0.4907,
       "cooccurrence": 1,
-      "jaccard": 0.3333
+      "jaccard": 0.25
     },
     {
       "source": "humanity",
       "target": "peace",
-      "strength": 0.7314,
-      "semantic": 0.8309,
+      "strength": 0.7198,
+      "semantic": 0.8373,
       "cooccurrence": 1,
-      "jaccard": 0.3333
+      "jaccard": 0.25
     },
     {
       "source": "humanity",
       "target": "planet",
-      "strength": 0.3858,
-      "semantic": 0.4822,
+      "strength": 0.378,
+      "semantic": 0.4726,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "humanity",
+      "target": "relationships",
+      "strength": 0.5058,
+      "semantic": 0.6322,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "humanity",
+      "target": "rights",
+      "strength": 0.6668,
+      "semantic": 0.7711,
+      "cooccurrence": 1,
+      "jaccard": 0.25
+    },
+    {
+      "source": "humanity",
+      "target": "time",
+      "strength": 0.4946,
+      "semantic": 0.6183,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "humanity",
+      "target": "work",
+      "strength": 0.4762,
+      "semantic": 0.5952,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "kindness",
+      "target": "learning",
+      "strength": 0.4323,
+      "semantic": 0.5403,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "kindness",
       "target": "life",
-      "strength": 0.511,
-      "semantic": 0.6387,
+      "strength": 0.5107,
+      "semantic": 0.6383,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "kindness",
       "target": "love",
-      "strength": 0.5825,
-      "semantic": 0.7281,
+      "strength": 0.5807,
+      "semantic": 0.7259,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "kindness",
       "target": "parenting",
-      "strength": 0.4389,
-      "semantic": 0.5487,
+      "strength": 0.437,
+      "semantic": 0.5462,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "kindness",
       "target": "peace",
-      "strength": 0.4751,
-      "semantic": 0.5939,
+      "strength": 0.4728,
+      "semantic": 0.591,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
+      "source": "kindness",
+      "target": "relationships",
+      "strength": 0.456,
+      "semantic": 0.57,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "kindness",
+      "target": "rights",
+      "strength": 0.4385,
+      "semantic": 0.5482,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "kindness",
+      "target": "time",
+      "strength": 0.4158,
+      "semantic": 0.5198,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "kindness",
+      "target": "work",
+      "strength": 0.4211,
+      "semantic": 0.5264,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "life",
+      "strength": 0.6112,
+      "semantic": 0.7641,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "love",
+      "strength": 0.5716,
+      "semantic": 0.7145,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "parenting",
+      "strength": 0.5863,
+      "semantic": 0.7329,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "peace",
+      "strength": 0.4008,
+      "semantic": 0.501,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "planet",
+      "strength": 0.405,
+      "semantic": 0.5062,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "relationships",
+      "strength": 0.6109,
+      "semantic": 0.7637,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "rights",
+      "strength": 0.4071,
+      "semantic": 0.5089,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "time",
+      "strength": 0.6411,
+      "semantic": 0.8013,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "learning",
+      "target": "work",
+      "strength": 0.9424,
+      "semantic": 0.9281,
+      "cooccurrence": 1,
+      "jaccard": 1.0
+    },
+    {
       "source": "life",
       "target": "love",
-      "strength": 0.7057,
-      "semantic": 0.8821,
+      "strength": 0.7039,
+      "semantic": 0.8799,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "life",
       "target": "parenting",
-      "strength": 0.5371,
-      "semantic": 0.6714,
+      "strength": 0.5353,
+      "semantic": 0.6691,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
@@ -1849,26 +3644,122 @@
       "jaccard": 0.0
     },
     {
+      "source": "life",
+      "target": "relationships",
+      "strength": 0.6068,
+      "semantic": 0.7585,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "life",
+      "target": "rights",
+      "strength": 0.49,
+      "semantic": 0.6124,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "life",
+      "target": "time",
+      "strength": 0.684,
+      "semantic": 0.8551,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "life",
+      "target": "work",
+      "strength": 0.6652,
+      "semantic": 0.8315,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
       "source": "love",
       "target": "parenting",
-      "strength": 0.8322,
-      "semantic": 0.7903,
+      "strength": 0.8346,
+      "semantic": 0.7933,
       "cooccurrence": 1,
       "jaccard": 1.0
     },
     {
       "source": "love",
       "target": "peace",
-      "strength": 0.4405,
-      "semantic": 0.5506,
+      "strength": 0.4349,
+      "semantic": 0.5436,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
     {
       "source": "love",
       "target": "planet",
-      "strength": 0.3855,
-      "semantic": 0.4819,
+      "strength": 0.3834,
+      "semantic": 0.4792,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "love",
+      "target": "relationships",
+      "strength": 0.574,
+      "semantic": 0.7175,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "love",
+      "target": "rights",
+      "strength": 0.4352,
+      "semantic": 0.5441,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "love",
+      "target": "time",
+      "strength": 0.6108,
+      "semantic": 0.7635,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "love",
+      "target": "work",
+      "strength": 0.5832,
+      "semantic": 0.7289,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "parenting",
+      "target": "relationships",
+      "strength": 0.5571,
+      "semantic": 0.6964,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "parenting",
+      "target": "rights",
+      "strength": 0.4029,
+      "semantic": 0.5036,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "parenting",
+      "target": "time",
+      "strength": 0.4451,
+      "semantic": 0.5564,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "parenting",
+      "target": "work",
+      "strength": 0.5184,
+      "semantic": 0.648,
       "cooccurrence": 0,
       "jaccard": 0.0
     },
@@ -1879,7 +3770,385 @@
       "semantic": 0.4136,
       "cooccurrence": 0,
       "jaccard": 0.0
+    },
+    {
+      "source": "peace",
+      "target": "relationships",
+      "strength": 0.4718,
+      "semantic": 0.5897,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "peace",
+      "target": "rights",
+      "strength": 0.5833,
+      "semantic": 0.7292,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "peace",
+      "target": "time",
+      "strength": 0.5127,
+      "semantic": 0.6408,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "peace",
+      "target": "work",
+      "strength": 0.4817,
+      "semantic": 0.6022,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "planet",
+      "target": "relationships",
+      "strength": 0.4057,
+      "semantic": 0.5072,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "planet",
+      "target": "rights",
+      "strength": 0.2935,
+      "semantic": 0.3669,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "planet",
+      "target": "time",
+      "strength": 0.4811,
+      "semantic": 0.6014,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "planet",
+      "target": "work",
+      "strength": 0.4425,
+      "semantic": 0.5531,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "relationships",
+      "target": "rights",
+      "strength": 0.4835,
+      "semantic": 0.6044,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "relationships",
+      "target": "time",
+      "strength": 0.8448,
+      "semantic": 0.806,
+      "cooccurrence": 1,
+      "jaccard": 1.0
+    },
+    {
+      "source": "relationships",
+      "target": "work",
+      "strength": 0.5936,
+      "semantic": 0.742,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "rights",
+      "target": "time",
+      "strength": 0.4748,
+      "semantic": 0.5935,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "rights",
+      "target": "work",
+      "strength": 0.462,
+      "semantic": 0.5775,
+      "cooccurrence": 0,
+      "jaccard": 0.0
+    },
+    {
+      "source": "time",
+      "target": "work",
+      "strength": 0.6894,
+      "semantic": 0.8618,
+      "cooccurrence": 0,
+      "jaccard": 0.0
     }
   ],
-  "layout_compactness": 0.82
+  "layout_edges": [
+    {
+      "source": "care",
+      "target": "children",
+      "weight": 0.75762674
+    },
+    {
+      "source": "care",
+      "target": "work",
+      "weight": 0.70470788
+    },
+    {
+      "source": "care",
+      "target": "experience",
+      "weight": 0.69867075
+    },
+    {
+      "source": "care",
+      "target": "life",
+      "weight": 0.69801383
+    },
+    {
+      "source": "care",
+      "target": "environment",
+      "weight": 0.68667539
+    },
+    {
+      "source": "care",
+      "target": "parenting",
+      "weight": 0.61087433
+    },
+    {
+      "source": "children",
+      "target": "life",
+      "weight": 0.77676235
+    },
+    {
+      "source": "children",
+      "target": "love",
+      "weight": 0.76015031
+    },
+    {
+      "source": "children",
+      "target": "work",
+      "weight": 0.67572704
+    },
+    {
+      "source": "children",
+      "target": "parenting",
+      "weight": 0.63094409
+    },
+    {
+      "source": "environment",
+      "target": "experience",
+      "weight": 0.63398532
+    },
+    {
+      "source": "environment",
+      "target": "work",
+      "weight": 0.62213941
+    },
+    {
+      "source": "environment",
+      "target": "planet",
+      "weight": 0.60873309
+    },
+    {
+      "source": "equality",
+      "target": "rights",
+      "weight": 0.78427302
+    },
+    {
+      "source": "equality",
+      "target": "peace",
+      "weight": 0.61816203
+    },
+    {
+      "source": "equality",
+      "target": "humanity",
+      "weight": 0.57464439
+    },
+    {
+      "source": "equality",
+      "target": "friendship",
+      "weight": 0.57284553
+    },
+    {
+      "source": "equality",
+      "target": "kindness",
+      "weight": 0.50901256
+    },
+    {
+      "source": "experience",
+      "target": "learning",
+      "weight": 0.86614192
+    },
+    {
+      "source": "experience",
+      "target": "work",
+      "weight": 0.83896904
+    },
+    {
+      "source": "experience",
+      "target": "life",
+      "weight": 0.82131891
+    },
+    {
+      "source": "experience",
+      "target": "time",
+      "weight": 0.75576689
+    },
+    {
+      "source": "experience",
+      "target": "planet",
+      "weight": 0.39277812
+    },
+    {
+      "source": "experience",
+      "target": "relationships",
+      "weight": 0.67440868
+    },
+    {
+      "source": "friendship",
+      "target": "relationships",
+      "weight": 0.75254333
+    },
+    {
+      "source": "friendship",
+      "target": "peace",
+      "weight": 0.69025541
+    },
+    {
+      "source": "friendship",
+      "target": "hope",
+      "weight": 0.62343154
+    },
+    {
+      "source": "friendship",
+      "target": "love",
+      "weight": 0.62095221
+    },
+    {
+      "source": "hope",
+      "target": "peace",
+      "weight": 0.7477627
+    },
+    {
+      "source": "hope",
+      "target": "time",
+      "weight": 0.74727465
+    },
+    {
+      "source": "hope",
+      "target": "life",
+      "weight": 0.71461755
+    },
+    {
+      "source": "hope",
+      "target": "love",
+      "weight": 0.69898252
+    },
+    {
+      "source": "hope",
+      "target": "kindness",
+      "weight": 0.55294543
+    },
+    {
+      "source": "humanity",
+      "target": "life",
+      "weight": 0.64030252
+    },
+    {
+      "source": "humanity",
+      "target": "rights",
+      "weight": 0.62992865
+    },
+    {
+      "source": "humanity",
+      "target": "peace",
+      "weight": 0.59986776
+    },
+    {
+      "source": "humanity",
+      "target": "kindness",
+      "weight": 0.56386896
+    },
+    {
+      "source": "kindness",
+      "target": "love",
+      "weight": 0.58149748
+    },
+    {
+      "source": "learning",
+      "target": "work",
+      "weight": 0.8307983
+    },
+    {
+      "source": "learning",
+      "target": "life",
+      "weight": 0.6865865
+    },
+    {
+      "source": "learning",
+      "target": "relationships",
+      "weight": 0.6638961
+    },
+    {
+      "source": "learning",
+      "target": "parenting",
+      "weight": 0.65423496
+    },
+    {
+      "source": "life",
+      "target": "love",
+      "weight": 0.84034384
+    },
+    {
+      "source": "life",
+      "target": "work",
+      "weight": 0.80224231
+    },
+    {
+      "source": "life",
+      "target": "time",
+      "weight": 0.78186064
+    },
+    {
+      "source": "life",
+      "target": "planet",
+      "weight": 0.51059652
+    },
+    {
+      "source": "life",
+      "target": "relationships",
+      "weight": 0.64832898
+    },
+    {
+      "source": "life",
+      "target": "rights",
+      "weight": 0.60319178
+    },
+    {
+      "source": "love",
+      "target": "time",
+      "weight": 0.66986422
+    },
+    {
+      "source": "parenting",
+      "target": "relationships",
+      "weight": 0.63202112
+    },
+    {
+      "source": "peace",
+      "target": "rights",
+      "weight": 0.60582655
+    },
+    {
+      "source": "planet",
+      "target": "time",
+      "weight": 0.45181797
+    },
+    {
+      "source": "time",
+      "target": "work",
+      "weight": 0.7913141
+    }
+  ]
 }

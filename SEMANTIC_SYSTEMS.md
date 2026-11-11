@@ -83,12 +83,24 @@ two-decimal values.
 
 ## Commands
 
+GitHub Actions rebuilds both the JSON data and HTML map on every push to `main`
+and during the existing daily run at 02:15 UTC (03:15 in Rome in winter, 04:15
+in summer). Only published posts whose date has arrived are included, using the
+same Italian source and Europe/Rome date filter as the blog. Changed map files
+are committed back to `main` so Streamlit can display them. Word vectors are
+cached between runs; unchanged maps do not create a commit.
+
 With the project requirements and GloVe model available:
 
 ```bash
-python scripts/build_semantic_map.py --include-future
+python scripts/build_semantic_map.py
 python scripts/preview_semantic_map.py
 ```
+
+Use `--include-future` only for a local preview of scheduled publications.
+The HTML loads its versioned Plotly library from the CDN and requires an
+internet connection. The library is cached by the browser instead of being
+sent inside Streamlit's WebSocket on every map visit.
 
 For UI or translation changes, update the preview bundle while retaining its
 embedded figure and coordinates:

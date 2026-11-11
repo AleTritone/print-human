@@ -39,15 +39,16 @@ posts = load_posts(
     language=language
 )
 
-social_posts = (
-    posts
-    if language == "it"
-    else load_posts(
-        include_future=preview_mode,
-        language="it"
+if page not in {"about", "semantic-map"}:
+    social_posts = (
+        posts
+        if language == "it"
+        else load_posts(
+            include_future=preview_mode,
+            language="it"
+        )
     )
-)
-ensure_social_cards(social_posts)
+    ensure_social_cards(social_posts)
 
 all_tags = get_all_tags(posts)
 

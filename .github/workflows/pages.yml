@@ -1,4 +1,4 @@
-name: Deploy social share pages
+name: Update semantic map and deploy share pages
 
 on:
   push:
@@ -22,6 +22,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
 
     steps:
       - name: Checkout
@@ -35,6 +38,32 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Cache word vectors
+        uses: actions/cache@v5
+        with:
+          path: ~/gensim-data
+          key: ${{ runner.os }}-gensim-glove-wiki-gigaword-50-v1
+
+      - name: Build semantic map from published posts
+        run: |
+          python scripts/build_semantic_map.py
+          python scripts/preview_semantic_map.py
+
+      - name: Validate semantic map
+        run: |
+          python -m unittest discover -s tests -p "test_*.py"
+          node --test tests/semantic_map_explanations.test.cjs
+
+      - name: Save updated semantic map for Streamlit
+        run: |
+          git add data/semantic_map.json data/semantic_map_preview.html
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Update semantic map from published posts"
+            git push origin HEAD:main
+          fi
 
       - name: Build social share site
         run: python scripts/build_share_site.py

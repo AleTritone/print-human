@@ -235,7 +235,7 @@ def load_map(path):
             "Semantic map JSON not found: "
             f"{path}\n"
             "Build it first with: "
-            "python scripts/build_semantic_map.py --include-future"
+            "python scripts/build_semantic_map.py"
         )
 
     return json.loads(
@@ -2295,7 +2295,12 @@ def main():
             output_path
         ),
 
-        include_plotlyjs=True,
+        # Load the versioned library over HTTP, where the browser can cache it,
+        # rather than sending it inside Streamlit's WebSocket on every visit.
+        include_plotlyjs="cdn",
+
+        # Stable output avoids an automatic commit when the data is unchanged.
+        div_id="semantic-map",
 
         full_html=True,
 

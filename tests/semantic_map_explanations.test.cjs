@@ -21,6 +21,26 @@ const topics = ["circuit", "importance", "traces", "pull", "connections", "echoe
 const close = (actual, expected, tolerance = 0.00015) => assert(Math.abs(actual - expected) <= tolerance,
     `${actual} differs from expected ${expected}`);
 
+test("the rendered map stays synchronized with generated publication data", () => {
+    const data = JSON.parse(fs.readFileSync(path.join(root, "data/semantic_map.json"), "utf8"));
+    assert.equal(config.postCount, data.post_count);
+    assert.deepEqual(config.nodes.map((node) => node.tag).sort(), data.nodes.map((node) => node.tag).sort());
+    assert.deepEqual(config.layoutEdges, data.layout_edges);
+    for (const node of config.nodes) {
+        const source = data.nodes.find((entry) => entry.tag === node.tag);
+        assert.deepEqual(node.posts, source.posts);
+        assert.equal(node.weight, source.weight);
+        assert.equal(node.x, source.x);
+        assert.equal(node.y, source.y);
+    }
+});
+
+test("the map loads cacheable Plotly separately from the Streamlit payload", () => {
+    assert.match(preview, /<script[^>]+src="https:\/\/cdn\.plot\.ly\/plotly-[\d.]+\.min\.js"/);
+    assert(Buffer.byteLength(preview, "utf8") < 2_000_000, "Keep the map WebSocket payload below 2 MB.");
+    assert.match(preview, /id="semantic-map"/);
+});
+
 function shape(value) {
     if (Array.isArray(value)) return value.map(shape);
     if (value && typeof value === "object") return Object.fromEntries(Object.keys(value).sort().map((key) => [key, shape(value[key])]));
