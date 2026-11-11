@@ -1,0 +1,22 @@
+{
+  "back_home": "← Back to home",
+  "search": "Search",
+  "search_placeholder": "words, ideas, syntax...",
+  "tags": "Ideas",
+  "all_tags": "(all)",
+  "sidebar_about_desc": "who writes · why it exists",
+  "sidebar_map_desc": "ideas · associations · recurrences",
+  "translation_expander": "Notes / translation",
+  "post_home": "home",
+  "empty_posts": "No posts found.",
+  "preview_body": "An interactive semantic map of the project: the brain as a visual entrance into the ideas, associations, and recurrences that run through print(\"human\").",
+  "preview_cta": "explore the map →",
+  "site_tagline": "Every line is an experiment in humanity.",
+  "share": "Share:",
+  "share_link": "Share link",
+  "link_copied": "Link copied",
+  "copy_link_prompt": "Copy this link:",
+  "post_not_found": "Post not found.",
+  "preview_mode": "PREVIEW MODE — future posts are visible too",
+  "map_missing": "Semantic map preview not found. Run `python scripts/preview_semantic_map.py`."
+}

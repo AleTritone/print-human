@@ -1,0 +1,558 @@
+{
+  "explanation_prefix": "Spiegazione",
+  "info_hint": "clicca il nome di un parametro per la spiegazione",
+  "close_explanation": "Chiudi spiegazione",
+  "search_placeholder": "trova un’idea...",
+  "view_traces": "vedi tracce",
+  "buttons": {
+    "intensity": "intensità",
+    "circuit": "circuito",
+    "importance": "importanza",
+    "traces": "tracce",
+    "pull": "attrazione associativa",
+    "connections": "associazioni vicine",
+    "echoes": "echi"
+  },
+  "labels": {
+    "pull": "attrazione",
+    "shared": "condivisi",
+    "confidence": "confidenza",
+    "breakdown": "Dettaglio dell’idea",
+    "strength": "forza",
+    "context_semantic": "semantica di contesto",
+    "echo": "eco",
+    "shared_posts": "pubblicazioni condivise",
+    "unresolved": "non risolto",
+    "member": "membro",
+    "core": "core",
+    "minimum": "minima",
+    "maximum": "massima",
+    "weak": "debole",
+    "faint": "debole",
+    "emerging": "emergente",
+    "moderate": "moderata",
+    "strong": "forte",
+    "intense": "intensa",
+    "low": "bassa",
+    "high": "alta",
+    "essential": "essenziale",
+    "close": "stretta",
+    "ideas": "idee"
+  },
+  "explanations": {
+    "scale": "Come leggere la scala",
+    "rounding": "Le fasce si riferiscono al valore mostrato, arrotondato a due decimali.",
+    "rounded": "I valori intermedi sono arrotondati: ricomponendo il calcolo può comparire una piccola differenza nell’ultima cifra.",
+    "unavailable": "Il dettaglio non è disponibile in questi dati della mappa.",
+    "no_pairs": "Questa idea non ha coppie disponibili per un esempio numerico. Le formule descrivono comunque il metodo.",
+    "no_flow": "Da questa idea non parte alcun ramo disponibile.",
+    "no_publications": "Nessuna pubblicazione associata.",
+    "pair": "Esempio dalla mappa: {tag} ↔ {other}"
+  },
+  "fallback": {
+    "title": "Metodologia",
+    "body": "Non sono disponibili ulteriori dettagli metodologici per questo elemento."
+  },
+  "topics": {
+    "intensity": {
+      "title": "Intensità",
+      "intro": "Misura quanto un’idea è attiva nella mappa attraverso due parametri:",
+      "axis_x": "R",
+      "axis_y": "C",
+      "value_recurrence": "R",
+      "value_connections": "C",
+      "value_intensity": "I",
+      "value_activation": "A",
+      "formula_note": "Ricorrenza e connessioni hanno lo stesso peso e vengono combinate attraverso una media geometrica. In questo modo un valore elevato in una sola dimensione non basta a produrre un’attivazione elevata.\nDall’attivazione si ricava poi l’intensità, trasformando linearmente il valore dalla scala 0.00–1.00 alla scala 1.00–5.00.",
+      "legend_recurrence": "R = ricorrenza",
+      "legend_connections": "C = connessioni",
+      "legend_activation": "A = attivazione",
+      "legend_intensity": "I = intensità",
+      "scale_title": "La valutazione qualitativa segue il valore di intensità mostrato, arrotondato a due decimali:",
+      "scale_1": "1.00 ≤ I < 2.00 → {label}",
+      "scale_2": "2.00 ≤ I < 3.00 → {label}",
+      "scale_3": "3.00 ≤ I < 4.00 → {label}",
+      "scale_4": "4.00 ≤ I < 5.00 → {label}",
+      "scale_5": "I = 5.00 → {label}",
+      "footer": "I valori mostrati (R, C, A e I) sono relativi alla mappa corrente.",
+      "recurrence_definition": "Ricorrenza: frequenza relativa con cui l’idea compare nelle pubblicazioni di print(\"human\").",
+      "connections_definition": "Connessioni: numero relativo di associazioni dirette dell’idea nella mappa semantica.",
+      "normalization_intro": "I due valori vengono normalizzati rispetto ai massimi osservati nella mappa corrente:",
+      "where_title": "dove:",
+      "rx_definition": "r_x = numero di pubblicazioni in cui compare l’idea selezionata",
+      "rmax_definition": "r_max = massimo numero di pubblicazioni raggiunto da una singola idea",
+      "cx_definition": "c_x = numero di associazioni dirette dell’idea selezionata",
+      "cmax_definition": "c_max = massimo numero di associazioni dirette raggiunto da una singola idea"
+    },
+    "circuit": {
+      "title": "Circuito",
+      "intro": "Un circuito è un gruppo di idee che la mappa riconosce come particolarmente connesse tra loro. Il suo nome deriva dalle idee centrali, chiamate core.",
+      "steps": [
+        {
+          "title": "Dalle affinità ai gruppi",
+          "body": "Per ogni idea si conservano i k vicini con maggiore attrazione associativa. Un collegamento entra nel grafo se viene scelto da almeno una delle due idee. Si parte poi da gruppi di una sola idea e si uniscono quelli che aumentano maggiormente la modularità Q: quanto le associazioni interne superano ciò che ci si aspetterebbe dalle forze complessive dei nodi."
+        },
+        {
+          "title": "Misurare la centralità nel circuito",
+          "body": "Per scegliere i core si combinano forza dei legami interni, vicinanza lungo la rete e intensità. Ogni ingrediente viene diviso per il massimo osservato nel circuito. Il punteggio q resta così confrontabile tra i suoi membri."
+        },
+        {
+          "title": "Scegliere le idee core",
+          "body": "Si confronta ogni punteggio con il migliore del circuito. La linea tratteggiata nel grafico indica la soglia di selezione. Le idee sopra la soglia vengono ordinate per punteggio e si conservano al massimo tre core."
+        },
+        {
+          "title": "Leggere il circuito selezionato",
+          "body": "I cerchi pieni indicano i core; l’anello tratteggiato identifica l’idea selezionata. Le linee mostrano le associazioni del grafo di disposizione interne al circuito. L’appartenenza riguarda il gruppo nel suo insieme: non richiede un legame forte tra ogni coppia."
+        }
+      ],
+      "definitions_graph": [
+        [
+          "N",
+          "Numero di idee con dati sufficienti a costruire il grafo; k non può superare N − 1. Con meno di due idee non si creano collegamenti."
+        ],
+        [
+          "w_c",
+          "Somma dei pesi dei collegamenti interni al circuito c, contati una volta."
+        ],
+        [
+          "s_c",
+          "Somma delle forze di tutti i nodi del circuito, includendo i collegamenti verso l’esterno."
+        ],
+        [
+          "m",
+          "Somma dei pesi di tutti i collegamenti della mappa. Q valuta l’intera suddivisione in circuiti."
+        ]
+      ],
+      "definitions_core": [
+        [
+          "dₓ / Dₓ",
+          "dₓ somma i pesi dei legami interni dell’idea; Dₓ è il valore normalizzato."
+        ],
+        [
+          "cₓ / Cₓ",
+          "cₓ misura la vicinanza agli altri membri lungo i percorsi più brevi, usando distanza 1/peso. Considera anche quanti membri sono raggiungibili; Cₓ è normalizzata."
+        ],
+        [
+          "iₓ / Iₓ",
+          "iₓ è l’intensità sulla scala 1–5; qui Iₓ la divide per la massima intensità del circuito."
+        ],
+        [
+          "qₓ",
+          "Punteggio per scegliere i core: 55% centralità semantica e 45% intensità normalizzata. Un massimo nullo produce un contributo nullo."
+        ],
+        [
+          "rₓ, n_c, ℓₓᵧ",
+          "rₓ conta gli altri membri raggiungibili da x; n_c è il numero di idee nel circuito; ℓₓᵧ è la distanza del percorso minimo, ottenuta sommando 1/peso lungo i collegamenti. Se nessun membro è raggiungibile, cₓ = 0. N_c(x) indica i vicini interni; R(x) i membri raggiungibili."
+        ]
+      ],
+      "core_limit": "Soglia = {ratio} × miglior punteggio; si conservano al massimo {max} core. Il confronto usa i valori prima dell’arrotondamento.",
+      "singleton": "Questo circuito contiene una sola idea: l’idea stessa è il core, senza confronto tra punteggi.",
+      "chart_title": "Membri e collegamenti del circuito",
+      "chart_caption": "Le posizioni riprendono la mappa e vengono adattate al riquadro. La direzione geografica non attribuisce un significato alle idee.",
+      "reading": "{tag} appartiene al circuito identificato da {core}. I circuiti descrivono la rete di affinità e vengono rilevati automaticamente.",
+      "labels": {
+        "ideas": "Idee nella mappa",
+        "neighbors": "Vicini scelti: k",
+        "modularity": "Modularità Q",
+        "components": "Ingredienti normalizzati dell’idea selezionata",
+        "degree": "Forza interna D",
+        "closeness": "Vicinanza C",
+        "intensity": "Intensità relativa I",
+        "ranking": "Punteggi dei membri del circuito",
+        "cutoff": "Ogni barra mostra q; la linea tratteggiata è la soglia per i core. Piccole differenze possono dipendere dall’arrotondamento dei dati.",
+        "core": "Core",
+        "size": "Idee nel circuito",
+        "role": "Ruolo dell’idea"
+      }
+    },
+    "importance": {
+      "title": "Importanza",
+      "intro": "L’importanza stabilisce quali etichette hanno la precedenza quando lo spazio è limitato. Combina presenza nelle pubblicazioni, forza delle associazioni e ruolo di ponte nella rete.",
+      "steps": [
+        {
+          "title": "Portare tre misure sulla stessa scala",
+          "body": "Ogni misura viene divisa per il massimo osservato nella mappa. Si ottengono F, W e B, tutti tra 0 e 1. Se una misura è zero per tutte le idee, il suo contributo è zero."
+        },
+        {
+          "title": "Sommare i contributi pesati",
+          "body": "Ogni ingrediente viene moltiplicato per il proprio peso e poi sommato. Il grafico mostra quanto ciascuno contribuisce davvero al risultato P: la lunghezza complessiva della barra è l’importanza dell’idea."
+        },
+        {
+          "title": "Interpretare il risultato",
+          "body": "Un valore più alto assegna maggiore priorità all’etichetta durante la gestione di densità e sovrapposizioni. Le quattro fasce descrivono questo punteggio relativo alla mappa corrente."
+        }
+      ],
+      "definitions": [
+        [
+          "fₓ / F",
+          "Numero di pubblicazioni contenenti l’idea, poi diviso per il massimo della mappa."
+        ],
+        [
+          "wₓ / W",
+          "Somma delle forze aₓᵧ di tutte le associazioni dirette nel grafo di interazione, poi normalizzata."
+        ],
+        [
+          "bₓ / B",
+          "Centralità di intermediazione: quanto spesso l’idea si trova sui percorsi minimi tra altre idee, poi normalizzata. I percorsi vengono calcolati contando i collegamenti, senza pesarli."
+        ],
+        [
+          "σₛₜ",
+          "Numero di percorsi minimi tra s e t; σₛₜ(x) conta quelli che attraversano x. Le coppie senza un percorso non contribuiscono."
+        ]
+      ],
+      "chart_caption": "I contributi si sommano; lo spazio restante fino a 1 non viene attribuito ad alcun ingrediente.",
+      "reading": "Per {tag}, P = {value}: priorità {label}. Questo punteggio regola la visibilità dell’etichetta; le coordinate sono determinate dalla disposizione semantica.",
+      "labels": {
+        "components": [
+          "Ricorrenza · F",
+          "Forza delle associazioni · W",
+          "Ruolo di ponte · B"
+        ],
+        "inputs": "Tre ingredienti normalizzati",
+        "contributions": "Contributi all’importanza",
+        "result": "Importanza P"
+      }
+    },
+    "traces": {
+      "title": "Tracce",
+      "intro": "Le tracce contano in quante pubblicazioni compare un’idea. È il conteggio più diretto della sua presenza in print(\"human\").",
+      "steps": [
+        {
+          "title": "Contare le pubblicazioni distinte",
+          "body": "Si raccolgono le pubblicazioni a cui è assegnato il tag dell’idea e si conta ciascuna una sola volta. Ripetere la stessa idea nel testo non aumenta il conteggio."
+        },
+        {
+          "title": "Confrontare il conteggio con il corpus",
+          "body": "Il grafico divide le pubblicazioni della mappa tra quelle che contengono l’idea e quelle che non la contengono. La copertura ρ è una percentuale di contesto; il valore delle tracce rimane il numero intero T."
+        },
+        {
+          "title": "Capire cosa misura",
+          "body": "Le tracce indicano presenza nelle pubblicazioni, senza pesi semantici o di rete. Due idee con lo stesso numero di tracce possono avere intensità e importanza diverse perché hanno associazioni diverse."
+        }
+      ],
+      "definitions": [
+        [
+          "Pₓ",
+          "Insieme delle pubblicazioni distinte contenenti l’idea x."
+        ],
+        [
+          "Tₓ",
+          "Numero di elementi di Pₓ: il valore delle tracce."
+        ],
+        [
+          "N",
+          "Numero totale di pubblicazioni incluse nella mappa corrente."
+        ]
+      ],
+      "chart_title": "Presenza dell’idea nelle pubblicazioni",
+      "chart_caption": "L’intera barra rappresenta il corpus corrente; i due segmenti sono conteggi di pubblicazioni.",
+      "reading": "{tag} lascia {count} tracce su {total} pubblicazioni incluse nella mappa.",
+      "labels": {
+        "idea": "Idea",
+        "count": "Tracce T",
+        "with": "Contengono l’idea",
+        "without": "Altre pubblicazioni",
+        "total": "Pubblicazioni N",
+        "coverage": "Copertura ρ",
+        "publications": "Pubblicazioni associate"
+      }
+    },
+    "pull": {
+      "title": "Attrazione associativa",
+      "intro": "L’attrazione associativa misura quanto due idee tendono ad avvicinarsi. Parte dal significato delle parole e viene rafforzata dal loro uso insieme nelle pubblicazioni.",
+      "steps": [
+        {
+          "title": "Partire dal significato delle parole",
+          "body": "Ogni idea è rappresentata da un vettore: una sequenza di numeri che ne descrive le relazioni linguistiche. La similarità coseno confronta la direzione di due vettori GloVe. Il valore viene limitato tra 0 e 1: questa è la base G dell’attrazione."
+        },
+        {
+          "title": "Misurare l’evidenza nelle pubblicazioni",
+          "body": "J misura la quota di pubblicazioni condivise rispetto a quelle che contengono almeno una delle due idee. C cresce con il numero di pubblicazioni condivise: una sola coincidenza pesa meno di un’associazione ripetuta. La curva mostra questa crescita, che rallenta verso 1."
+        },
+        {
+          "title": "Combinare i due segnali",
+          "body": "Il contributo delle pubblicazioni può soltanto aumentare la base linguistica G. Viene applicato alla parte ancora disponibile, 1 − G, così P resta tra 0 e 1. Un’attrazione maggiore produce una distanza obiettivo d più piccola."
+        },
+        {
+          "title": "Dall’attrazione complessiva al bagliore",
+          "body": "Per una singola idea si sommano le attrazioni dei suoi collegamenti nel grafo di disposizione: si ottiene H. Si divide per il massimo della mappa e si applica un esponente percettivo. Il valore V regola il trattamento luminoso dell’etichetta."
+        }
+      ],
+      "definitions_language": [
+        [
+          "vₐ, vᵦ",
+          "Vettori delle due idee. Se una parola non ha un vettore GloVe, si usa il contesto delle idee con cui compare, quando disponibile."
+        ],
+        [
+          "G",
+          "Similarità linguistica tra 0 e 1. clip limita i valori a questo intervallo; un vettore mancante produce una base nulla."
+        ]
+      ],
+      "definitions_corpus": [
+        [
+          "A, B",
+          "Numero di pubblicazioni con ciascuna idea."
+        ],
+        [
+          "S",
+          "Numero di pubblicazioni condivise."
+        ],
+        [
+          "J",
+          "Sovrapposizione di Jaccard: S / (A + B − S)."
+        ],
+        [
+          "C",
+          "Confidenza dovuta alla ripetizione. Con S = 0, C = 0; il denominatore nell’esponente regola la velocità di crescita."
+        ]
+      ],
+      "definitions_result": [
+        [
+          "P",
+          "Attrazione finale della coppia, tra 0 e 1."
+        ],
+        [
+          "d",
+          "Distanza obiettivo derivata da P. Il calcolo mantiene un minimo positivo anche quando P = 1."
+        ]
+      ],
+      "definitions_glow": [
+        [
+          "Hₓ",
+          "Somma delle attrazioni sui collegamenti dell’idea nel grafo di disposizione, inclusi quelli verso altri circuiti."
+        ],
+        [
+          "Uₓ",
+          "Attrazione aggregata divisa per il massimo della mappa."
+        ],
+        [
+          "Vₓ",
+          "Segnale visivo dopo la trasformazione percettiva. Con H massimo nullo il valore normalizzato è zero."
+        ],
+        [
+          "Nₗ(x)",
+          "Vicini di x nel grafo di disposizione, che possono appartenere anche ad altri circuiti."
+        ]
+      ],
+      "confidence_caption": "Il punto indica le pubblicazioni condivise della coppia mostrata. C esprime ripetizione nel corpus, non una probabilità statistica.",
+      "distance_caption": "La barra somma G e il contributo delle pubblicazioni. La mappa deve conciliare tutte le coppie in due dimensioni e separare eventuali sovrapposizioni: la distanza visibile può differire da d.",
+      "reading": "P contribuisce alla disposizione delle idee; V ne descrive il bagliore. Selezionare un’idea evidenzia le relazioni e mantiene la geografia della mappa.",
+      "labels": {
+        "confidence": "Come cresce la confidenza C",
+        "shared": "Pubblicazioni condivise S",
+        "pull": "Attrazione finale P",
+        "language": "Base linguistica G",
+        "bonus": "Contributo delle pubblicazioni",
+        "distance": "Distanza obiettivo d",
+        "glow": "Attrazione normalizzata e segnale visivo",
+        "maximum": "Massima attrazione H"
+      }
+    },
+    "connections": {
+      "title": "Associazioni vicine",
+      "intro": "Le associazioni vicine sono i collegamenti diretti del grafo di interazione. Mostrano quali idee sono legate alla selezione e con quale forza.",
+      "steps": [
+        {
+          "title": "Aggiungere il contesto alla parola",
+          "body": "Il vettore di contesto c combina le idee presenti nelle stesse pubblicazioni: ciascuna pesa secondo la sovrapposizione Jaccard. Si combina poi questo contesto con il vettore linguistico v. normalize riporta un vettore a lunghezza 1, mantenendone la direzione."
+        },
+        {
+          "title": "Calcolare la forza della coppia",
+          "body": "Si confrontano i vettori arricchiti u con la similarità coseno S. Si sommano poi la parte semantica positiva e la sovrapposizione J delle pubblicazioni. Per i collegamenti conservati si garantisce un peso minimo di 0.01."
+        },
+        {
+          "title": "Decidere se conservare il collegamento",
+          "body": "Il collegamento entra nella rete se S è almeno {threshold}, oppure se esiste almeno una pubblicazione condivisa. La forza w determina poi l’ordine delle associazioni mostrate; l’elenco principale presenta le prime tre."
+        },
+        {
+          "title": "Leggere la forza",
+          "body": "La scala interpreta w tra 0 e 1. Due coppie possono avere la stessa forza grazie a combinazioni diverse di similarità semantica e pubblicazioni condivise."
+        }
+      ],
+      "definitions_vectors": [
+        [
+          "vₓ",
+          "Vettore linguistico normalizzato dell’idea."
+        ],
+        [
+          "cₓ",
+          "Contesto: somma dei vettori linguistici normalizzati delle idee co-occorrenti, pesati con Jₓᵧ, poi normalizzata."
+        ],
+        [
+          "uₓ",
+          "Vettore usato dalle associazioni. I coefficienti indicano il peso di linguaggio e contesto."
+        ],
+        [
+          "C(x)",
+          "Insieme delle idee co-occorrenti con x che hanno un vettore linguistico disponibile."
+        ]
+      ],
+      "definitions_score": [
+        [
+          "S",
+          "Similarità coseno dei vettori arricchiti: può essere negativa, ma la parte negativa non contribuisce alla forza."
+        ],
+        [
+          "J",
+          "Quota di pubblicazioni condivise: nₐᵦ / (nₐ + nᵦ − nₐᵦ), dove nₐ e nᵦ contano le pubblicazioni delle due idee e nₐᵦ quelle condivise."
+        ],
+        [
+          "w",
+          "Forza del collegamento conservato. Il minimo 0.01 evita un peso nullo."
+        ]
+      ],
+      "fallback": "Se manca uno dei due vettori si usa quello disponibile. Se mancano entrambi, il collegamento può comunque derivare da pubblicazioni condivise.",
+      "chart_caption": "La barra mostra i due contributi alla forza prima dell’eventuale minimo 0.01. Gli ingredienti usano i coefficienti della mappa corrente.",
+      "reading": "Le associazioni guidano collegamenti ed esplorazione del flusso. L’attrazione associativa della sezione precedente usa invece la base linguistica e una confidenza nella ripetizione per costruire la geografia.",
+      "labels": {
+        "contributions": "Contributi alla forza dell’associazione",
+        "semantic": "Similarità arricchita",
+        "corpus": "Pubblicazioni in comune",
+        "or": "oppure",
+        "shared": "Pubblicazioni condivise",
+        "kept": "Collegamento conservato",
+        "yes": "sì",
+        "no": "no"
+      }
+    },
+    "echoes": {
+      "title": "Echi",
+      "intro": "Un’eco misura quanto coincidono le pubblicazioni associate a due idee. Usa soltanto la loro presenza nei testi.",
+      "steps": [
+        {
+          "title": "Contare ciò che è condiviso",
+          "body": "Si contano le pubblicazioni con la prima idea, con la seconda e con entrambe. Il grafico divide l’insieme complessivo in tre parti senza sovrapposizioni: solo la prima, entrambe, solo la seconda."
+        },
+        {
+          "title": "Dividere la parte condivisa per il totale",
+          "body": "A + B − S conta le pubblicazioni contenenti almeno una delle due idee. Si sottrae S perché le pubblicazioni condivise sono state contate due volte in A + B. L’eco E è la parte condivisa divisa per questo totale."
+        },
+        {
+          "title": "Interpretare punteggio ed evidenza",
+          "body": "E = 0 significa nessuna pubblicazione in comune; E = 1 significa esattamente lo stesso insieme di pubblicazioni. I valori intermedi descrivono una sovrapposizione parziale. La scala qualitativa aiuta a leggerli."
+        }
+      ],
+      "definitions": [
+        [
+          "A",
+          "Pubblicazioni con la prima idea."
+        ],
+        [
+          "B",
+          "Pubblicazioni con la seconda idea."
+        ],
+        [
+          "S",
+          "Pubblicazioni condivise dalle due idee."
+        ],
+        [
+          "E / J",
+          "Eco, uguale all’indice di Jaccard. Se l’insieme complessivo è vuoto, il valore è zero."
+        ]
+      ],
+      "chart_title": "Come si ripartiscono le pubblicazioni",
+      "chart_caption": "L’intera barra è A + B − S. Il segmento condiviso determina il numeratore dell’eco.",
+      "reading": "Eco {value}: {shared} pubblicazioni condivise su {union} contenenti almeno una delle due idee.",
+      "evidence": "Leggi sempre anche il conteggio condiviso: un’eco di 1.00 può derivare da una sola pubblicazione. Il valore esprime sovrapposizione; la confidenza dovuta alla ripetizione viene calcolata separatamente nell’attrazione associativa.",
+      "labels": {
+        "only_a": "Solo la prima idea",
+        "shared": "Entrambe le idee",
+        "only_b": "Solo la seconda idea"
+      }
+    },
+    "flow": {
+      "title": "Flusso del pensiero",
+      "diagram_hint": "percorso associativo",
+      "intro": "Il flusso è un percorso di esplorazione che parte dall’idea selezionata e costruisce un albero di associazioni. Le frecce seguono la costruzione dalla radice verso le altre idee.",
+      "steps": [
+        {
+          "title": "Ordinare i collegamenti candidati",
+          "body": "Si assegnano priorità p alle associazioni combinando forza, similarità e pubblicazioni condivise. Si considerano al massimo {candidates} idee: la radice e i suoi vicini diretti con priorità più alta. p è un punteggio di ordinamento e può superare 1."
+        },
+        {
+          "title": "Costruire l’albero un passo alla volta",
+          "body": "La radice può avere al massimo {root} figli; ogni altra idea al massimo {children}; la profondità massima è {depth}. Si scelgono prima i rami della radice che superano la soglia f. Se nessuno la supera, si mantiene il primo candidato disponibile. Poi si aggiunge ogni volta l’aggancio a con il punteggio valido più alto, evitando cicli."
+        },
+        {
+          "title": "Quantificare il carico e lo spessore",
+          "body": "Un ramo porta la propria forza e una parte del carico dei rami che proseguono. Si divide per il massimo dell’albero e si calcola lo spessore t. Anche forza diretta e profondità influiscono sullo spessore; il carico da solo non lo determina."
+        },
+        {
+          "title": "Leggere il percorso",
+          "body": "Il diagramma riproduce l’albero calcolato per l’idea selezionata. La disposizione è schematica e le linee più spesse indicano un carico normalizzato maggiore. Le coordinate della mappa principale restano quelle della geografia semantica."
+        }
+      ],
+      "definitions_priority": [
+        [
+          "w",
+          "Forza dell’associazione."
+        ],
+        [
+          "S",
+          "Similarità semantica arricchita, limitata tra 0 e 1 per la priorità."
+        ],
+        [
+          "h",
+          "Vale 1 se esiste almeno una pubblicazione condivisa, altrimenti 0."
+        ],
+        [
+          "J",
+          "Sovrapposizione di Jaccard delle pubblicazioni."
+        ]
+      ],
+      "definitions_tree": [
+        [
+          "wₚ₁",
+          "Forza del candidato diretto con la priorità p più alta: è il riferimento per la soglia della radice."
+        ],
+        [
+          "d",
+          "Profondità del genitore nell’albero; la radice ha profondità zero."
+        ],
+        [
+          "n",
+          "Numero di figli già collegati al genitore. I piccoli termini sottratti favoriscono percorsi meno profondi e meno affollati."
+        ]
+      ],
+      "definitions_load": [
+        [
+          "Lᵦ",
+          "Carico del ramo b: forza diretta più il contributo ricorsivo dei rami figli."
+        ],
+        [
+          "Uᵦ",
+          "Carico diviso per il massimo dell’albero, tra 0 e 1."
+        ],
+        [
+          "D_d",
+          "Fattore di profondità dello spessore: 1.00, 0.74 e 0.56 per i livelli 1, 2 e 3."
+        ],
+        [
+          "t",
+          "Spessore della linea centrale in pixel. La forza w usata qui è limitata a 0–1."
+        ],
+        [
+          "F(b)",
+          "Insieme dei rami figli che proseguono dopo il ramo b."
+        ]
+      ],
+      "chart_title": "Albero di esplorazione dell’idea selezionata",
+      "chart_caption": "Le frecce indicano genitore → figlio. È un percorso generato dal grafo, senza un significato causale o cronologico.",
+      "load_caption": "Sono mostrati i primi sei rami dell’albero e il relativo carico U. Nel diagramma schematico lo spessore illustra U; nella mappa si applica anche la formula completa di t.",
+      "reading": "Segui le frecce per esplorare le associazioni a partire dalla selezione. Un ramo più marcato sostiene una parte più consistente del percorso; la direzione dipende dalla radice scelta.",
+      "labels": {
+        "edge": "Ramo di esempio",
+        "floor": "Soglia della radice f",
+        "reached": "Idee raggiunte",
+        "loads": "Carico normalizzato dei rami",
+        "example_load": "Carico L dell’esempio",
+        "width": "Spessore t dell’esempio",
+        "depth": "Fattori di profondità"
+      }
+    }
+  },
+  "controls": {
+    "detail": "dettaglio",
+    "links": "collegamenti"
+  }
+}

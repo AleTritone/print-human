@@ -1,0 +1,558 @@
+{
+  "explanation_prefix": "Explanation",
+  "info_hint": "click a parameter name for its explanation",
+  "close_explanation": "Close explanation",
+  "search_placeholder": "find an idea...",
+  "view_traces": "view traces",
+  "buttons": {
+    "intensity": "intensity",
+    "circuit": "circuit",
+    "importance": "importance",
+    "traces": "traces",
+    "pull": "associative pull",
+    "connections": "nearby associations",
+    "echoes": "echoes"
+  },
+  "labels": {
+    "pull": "pull",
+    "shared": "shared",
+    "confidence": "confidence",
+    "breakdown": "Idea details",
+    "strength": "strength",
+    "context_semantic": "context semantic",
+    "echo": "echo",
+    "shared_posts": "shared publications",
+    "unresolved": "unresolved",
+    "member": "member",
+    "core": "core",
+    "minimum": "minimum",
+    "maximum": "maximum",
+    "weak": "weak",
+    "faint": "faint",
+    "emerging": "emerging",
+    "moderate": "moderate",
+    "strong": "strong",
+    "intense": "intense",
+    "low": "low",
+    "high": "high",
+    "essential": "essential",
+    "close": "close",
+    "ideas": "ideas"
+  },
+  "explanations": {
+    "scale": "How to read the scale",
+    "rounding": "The bands refer to the displayed value, rounded to two decimal places.",
+    "rounded": "Intermediate values are rounded, so recomputing the result may produce a small difference in the final digit.",
+    "unavailable": "This map data does not contain the detail needed for this calculation.",
+    "no_pairs": "This idea has no available pair for a numerical example. The formulas still describe the method.",
+    "no_flow": "No available branch starts from this idea.",
+    "no_publications": "No associated publications.",
+    "pair": "Example from the map: {tag} ↔ {other}"
+  },
+  "fallback": {
+    "title": "Methodology",
+    "body": "No additional methodology is available for this item."
+  },
+  "topics": {
+    "intensity": {
+      "title": "Intensity",
+      "intro": "Measures how active an idea is in the map through two parameters:",
+      "axis_x": "R",
+      "axis_y": "C",
+      "value_recurrence": "R",
+      "value_connections": "C",
+      "value_intensity": "I",
+      "value_activation": "A",
+      "formula_note": "Recurrence and connections have the same weight and are combined through a geometric mean. This way, a high value in only one dimension is not enough to produce a high activation.\nIntensity is then derived from activation by linearly mapping the value from the 0.00–1.00 scale to the 1.00–5.00 scale.",
+      "legend_recurrence": "R = recurrence",
+      "legend_connections": "C = connections",
+      "legend_activation": "A = activation",
+      "legend_intensity": "I = intensity",
+      "scale_title": "The qualitative assessment follows the displayed intensity value, rounded to two decimal places:",
+      "scale_1": "1.00 ≤ I < 2.00 → {label}",
+      "scale_2": "2.00 ≤ I < 3.00 → {label}",
+      "scale_3": "3.00 ≤ I < 4.00 → {label}",
+      "scale_4": "4.00 ≤ I < 5.00 → {label}",
+      "scale_5": "I = 5.00 → {label}",
+      "footer": "The displayed values (R, C, A, and I) are relative to the current map.",
+      "recurrence_definition": "Recurrence: relative frequency with which the idea appears in print(\"human\") publications.",
+      "connections_definition": "Connections: relative number of direct associations the idea has in the semantic map.",
+      "normalization_intro": "Both values are normalized against the maxima observed in the current map:",
+      "where_title": "where:",
+      "rx_definition": "r_x = number of publications in which the selected idea appears",
+      "rmax_definition": "r_max = maximum number of publications reached by a single idea",
+      "cx_definition": "c_x = number of direct associations of the selected idea",
+      "cmax_definition": "c_max = maximum number of direct associations reached by a single idea"
+    },
+    "circuit": {
+      "title": "Circuit",
+      "intro": "A circuit is a group of ideas that the map identifies as particularly connected to one another. Its name comes from its central ideas, called cores.",
+      "steps": [
+        {
+          "title": "From affinities to groups",
+          "body": "For each idea, keep the k neighbours with the highest associative pull. A link enters the graph if either idea selects the other. Start with one idea per group, then merge the groups that most increase modularity Q: how much their internal connections exceed what the nodes’ overall strengths would lead us to expect."
+        },
+        {
+          "title": "Measure centrality within the circuit",
+          "body": "Core selection combines internal connection strength, closeness along the network and intensity. Divide each ingredient by its maximum within the circuit. This makes the score q comparable across the circuit’s members."
+        },
+        {
+          "title": "Select the core ideas",
+          "body": "Compare every score with the circuit’s best score. The dashed line marks the selection threshold. Rank ideas above the threshold by score, keeping at most three cores."
+        },
+        {
+          "title": "Read the selected circuit",
+          "body": "Filled circles mark cores; the dashed ring marks the selected idea. Lines show links within this circuit in the layout graph. Membership describes the group as a whole and does not require a strong link between every pair."
+        }
+      ],
+      "definitions_graph": [
+        [
+          "N",
+          "Ideas with enough data to build the graph; k cannot exceed N − 1. Fewer than two ideas produce no links."
+        ],
+        [
+          "w_c",
+          "Sum of the weights of links inside circuit c, counting each link once."
+        ],
+        [
+          "s_c",
+          "Sum of the strengths of all nodes in the circuit, including their links to other circuits."
+        ],
+        [
+          "m",
+          "Sum of all link weights in the map. Q evaluates the complete division into circuits."
+        ]
+      ],
+      "definitions_core": [
+        [
+          "dₓ / Dₓ",
+          "dₓ sums the idea’s internal link weights; Dₓ is its normalized value."
+        ],
+        [
+          "cₓ / Cₓ",
+          "cₓ measures closeness to other members along shortest paths, using distance 1/weight. It also accounts for how many members are reachable; Cₓ is normalized."
+        ],
+        [
+          "iₓ / Iₓ",
+          "iₓ is intensity on the 1–5 scale; here Iₓ divides it by the circuit’s maximum intensity."
+        ],
+        [
+          "qₓ",
+          "Core selection score: 55% semantic centrality and 45% normalized intensity. A zero maximum gives a zero contribution."
+        ],
+        [
+          "rₓ, n_c, ℓₓᵧ",
+          "rₓ counts other members reachable from x; n_c is the number of ideas in the circuit; ℓₓᵧ is shortest-path distance, adding 1/weight along links. If no member is reachable, cₓ = 0. N_c(x) means internal neighbours; R(x) means reachable members."
+        ]
+      ],
+      "core_limit": "Threshold = {ratio} × best score; keep at most {max} cores. Comparisons use values before rounding.",
+      "singleton": "This circuit contains a single idea, which is its core without any score comparison.",
+      "chart_title": "Circuit members and links",
+      "chart_caption": "Positions come from the map and are fitted into this panel. Geographic direction does not assign meaning to ideas.",
+      "reading": "{tag} belongs to the circuit identified by {core}. Circuits describe the affinity network and are detected automatically.",
+      "labels": {
+        "ideas": "Ideas in the map",
+        "neighbors": "Chosen neighbours: k",
+        "modularity": "Modularity Q",
+        "components": "Normalized ingredients for the selected idea",
+        "degree": "Internal strength D",
+        "closeness": "Closeness C",
+        "intensity": "Relative intensity I",
+        "ranking": "Scores of circuit members",
+        "cutoff": "Each bar shows q; the dashed line is the core threshold. Small differences can result from rounded data.",
+        "core": "Cores",
+        "size": "Ideas in the circuit",
+        "role": "Idea’s role"
+      }
+    },
+    "importance": {
+      "title": "Importance",
+      "intro": "Importance determines which labels take priority when space is limited. It combines presence in publications, association strength and the idea’s role as a bridge in the network.",
+      "steps": [
+        {
+          "title": "Put three measures on the same scale",
+          "body": "Divide each measure by its maximum in the map. This gives F, W and B, all between 0 and 1. If a measure is zero for every idea, its contribution is zero."
+        },
+        {
+          "title": "Add the weighted contributions",
+          "body": "Multiply each ingredient by its weight, then add the results. The chart shows how much each ingredient actually contributes to P: the combined bar length is the idea’s importance."
+        },
+        {
+          "title": "Interpret the result",
+          "body": "A higher value gives the label greater priority when handling density and overlaps. The four bands describe this score relative to the current map."
+        }
+      ],
+      "definitions": [
+        [
+          "fₓ / F",
+          "Number of publications containing the idea, divided by the map’s maximum."
+        ],
+        [
+          "wₓ / W",
+          "Sum of the strengths aₓᵧ of every direct association in the interaction graph, then normalized."
+        ],
+        [
+          "bₓ / B",
+          "Betweenness centrality: how often the idea lies on shortest paths between other ideas, then normalized. Paths are computed by counting links, without weighting them."
+        ],
+        [
+          "σₛₜ",
+          "Number of shortest paths between s and t; σₛₜ(x) counts those passing through x. Disconnected pairs do not contribute."
+        ]
+      ],
+      "chart_caption": "The contributions add together; the remaining space up to 1 is not assigned to any ingredient.",
+      "reading": "For {tag}, P = {value}: {label} priority. This score controls label visibility; coordinates are determined by the semantic layout.",
+      "labels": {
+        "components": [
+          "Recurrence · F",
+          "Association strength · W",
+          "Bridge role · B"
+        ],
+        "inputs": "Three normalized ingredients",
+        "contributions": "Contributions to importance",
+        "result": "Importance P"
+      }
+    },
+    "traces": {
+      "title": "Traces",
+      "intro": "Traces count how many publications contain an idea. This is the most direct count of its presence in print(\"human\").",
+      "steps": [
+        {
+          "title": "Count distinct publications",
+          "body": "Collect publications assigned the idea’s tag and count each one once. Repeating the same idea in a text does not increase the count."
+        },
+        {
+          "title": "Compare the count with the corpus",
+          "body": "The chart divides the map’s publications into those containing the idea and those that do not. Coverage ρ is a percentage for context; the trace value remains the integer count T."
+        },
+        {
+          "title": "Understand what the count measures",
+          "body": "Traces measure presence in publications, without semantic or network weights. Two ideas with the same trace count can have different intensity and importance because they have different associations."
+        }
+      ],
+      "definitions": [
+        [
+          "Pₓ",
+          "Set of distinct publications containing idea x."
+        ],
+        [
+          "Tₓ",
+          "Number of items in Pₓ: the trace count."
+        ],
+        [
+          "N",
+          "Total publications included in the current map."
+        ]
+      ],
+      "chart_title": "The idea’s presence in publications",
+      "chart_caption": "The whole bar represents the current corpus; both segments count publications.",
+      "reading": "{tag} leaves {count} traces across {total} publications included in the map.",
+      "labels": {
+        "idea": "Idea",
+        "count": "Traces T",
+        "with": "Contain the idea",
+        "without": "Other publications",
+        "total": "Publications N",
+        "coverage": "Coverage ρ",
+        "publications": "Associated publications"
+      }
+    },
+    "pull": {
+      "title": "Associative pull",
+      "intro": "Associative pull measures how strongly two ideas tend to move closer. It starts from the meaning of the words and is reinforced by their use together in publications.",
+      "steps": [
+        {
+          "title": "Start from word meaning",
+          "body": "Each idea is represented by a vector: a sequence of numbers describing its linguistic relationships. Cosine similarity compares the directions of two GloVe vectors. The value is limited to 0–1, giving the baseline pull G."
+        },
+        {
+          "title": "Measure evidence in publications",
+          "body": "J measures the share of common publications among those containing either idea. C grows with the number of shared publications: a single coincidence carries less weight than a repeated association. The curve shows this growth slowing as it approaches 1."
+        },
+        {
+          "title": "Combine the two signals",
+          "body": "The publication contribution can only increase the linguistic baseline G. It is applied to the remaining space, 1 − G, keeping P between 0 and 1. A higher pull gives a smaller target distance d."
+        },
+        {
+          "title": "From aggregate pull to glow",
+          "body": "For one idea, sum the pull of its links in the layout graph to obtain H. Divide by the map’s maximum, then apply a perceptual exponent. The resulting V controls the label’s luminous treatment."
+        }
+      ],
+      "definitions_language": [
+        [
+          "vₐ, vᵦ",
+          "Vectors for the two ideas. When a word has no GloVe vector, use the context of ideas occurring with it, if available."
+        ],
+        [
+          "G",
+          "Linguistic similarity between 0 and 1. clip limits values to this interval; a missing vector gives a zero baseline."
+        ]
+      ],
+      "definitions_corpus": [
+        [
+          "A, B",
+          "Number of publications containing each idea."
+        ],
+        [
+          "S",
+          "Number of shared publications."
+        ],
+        [
+          "J",
+          "Jaccard overlap: S / (A + B − S)."
+        ],
+        [
+          "C",
+          "Confidence from repetition. When S = 0, C = 0; the denominator in the exponent controls how quickly it grows."
+        ]
+      ],
+      "definitions_result": [
+        [
+          "P",
+          "Final pairwise pull, between 0 and 1."
+        ],
+        [
+          "d",
+          "Target distance derived from P. The calculation keeps a positive minimum even when P = 1."
+        ]
+      ],
+      "definitions_glow": [
+        [
+          "Hₓ",
+          "Sum of the pull on the idea’s layout links, including links to other circuits."
+        ],
+        [
+          "Uₓ",
+          "Aggregate pull divided by the map’s maximum."
+        ],
+        [
+          "Vₓ",
+          "Visual signal after the perceptual transformation. If the maximum H is zero, the normalized value is zero."
+        ],
+        [
+          "Nₗ(x)",
+          "Neighbours of x in the layout graph, which may also belong to other circuits."
+        ]
+      ],
+      "confidence_caption": "The point marks the shared publications for the example pair. C expresses repetition in the corpus, not a statistical probability.",
+      "distance_caption": "The bar adds G and the publication contribution. The map must fit all pairs into two dimensions and separate overlaps, so visible distance can differ from d.",
+      "reading": "P contributes to the layout of ideas; V describes their glow. Selecting an idea highlights its relationships while keeping the map’s geography.",
+      "labels": {
+        "confidence": "How confidence C grows",
+        "shared": "Shared publications S",
+        "pull": "Final pull P",
+        "language": "Linguistic baseline G",
+        "bonus": "Publication contribution",
+        "distance": "Target distance d",
+        "glow": "Normalized pull and visual signal",
+        "maximum": "Maximum aggregate pull H"
+      }
+    },
+    "connections": {
+      "title": "Nearby associations",
+      "intro": "Nearby associations are the direct links in the interaction graph. They show which ideas connect to the selection and how strong those links are.",
+      "steps": [
+        {
+          "title": "Add context to the word",
+          "body": "The context vector c combines ideas appearing in the same publications, each weighted by Jaccard overlap. Combine this context with the linguistic vector v. normalize gives a vector length 1 while keeping its direction."
+        },
+        {
+          "title": "Calculate the pair’s strength",
+          "body": "Compare the enriched vectors u using cosine similarity S. Add the positive semantic part and publication overlap J. Kept links are given a minimum weight of 0.01."
+        },
+        {
+          "title": "Decide whether to keep the link",
+          "body": "A link enters the network if S is at least {threshold}, or if the pair shares at least one publication. Strength w then determines the order of the listed associations; the main list shows the top three."
+        },
+        {
+          "title": "Read the strength",
+          "body": "The scale interprets w between 0 and 1. Two pairs can have the same strength through different combinations of semantic similarity and shared publications."
+        }
+      ],
+      "definitions_vectors": [
+        [
+          "vₓ",
+          "The idea’s normalized linguistic vector."
+        ],
+        [
+          "cₓ",
+          "Context: the sum of normalized linguistic vectors for co-occurring ideas, weighted by Jₓᵧ, then normalized."
+        ],
+        [
+          "uₓ",
+          "Vector used for associations. Its coefficients give the weights of language and context."
+        ],
+        [
+          "C(x)",
+          "Set of ideas co-occurring with x that have an available linguistic vector."
+        ]
+      ],
+      "definitions_score": [
+        [
+          "S",
+          "Cosine similarity of enriched vectors. It can be negative, but the negative part contributes no strength."
+        ],
+        [
+          "J",
+          "Share of common publications: nₐᵦ / (nₐ + nᵦ − nₐᵦ), where nₐ and nᵦ count each idea’s publications and nₐᵦ counts shared publications."
+        ],
+        [
+          "w",
+          "Strength of the kept link. The minimum 0.01 avoids a zero weight."
+        ]
+      ],
+      "fallback": "If one vector is missing, use the available one. If both are missing, a link can still come from shared publications.",
+      "chart_caption": "The bar shows the two strength contributions before applying the minimum 0.01, using the current map’s coefficients.",
+      "reading": "Associations power links and flow exploration. Associative pull in the previous section instead uses the linguistic baseline and confidence in repetition to build the geography.",
+      "labels": {
+        "contributions": "Contributions to association strength",
+        "semantic": "Enriched similarity",
+        "corpus": "Publications in common",
+        "or": "or",
+        "shared": "Shared publications",
+        "kept": "Link kept",
+        "yes": "yes",
+        "no": "no"
+      }
+    },
+    "echoes": {
+      "title": "Echoes",
+      "intro": "An echo measures how closely the publications associated with two ideas overlap. It uses only their presence in the texts.",
+      "steps": [
+        {
+          "title": "Count what is shared",
+          "body": "Count publications containing the first idea, the second idea and both. The chart divides the combined set into three non-overlapping parts: only the first, both, only the second."
+        },
+        {
+          "title": "Divide the shared part by the total",
+          "body": "A + B − S counts publications containing either idea. Subtract S because A + B counted shared publications twice. The echo E is the shared part divided by this total."
+        },
+        {
+          "title": "Interpret the score and its evidence",
+          "body": "E = 0 means no shared publications; E = 1 means exactly the same publication set. Values in between describe partial overlap. The qualitative scale helps you read them."
+        }
+      ],
+      "definitions": [
+        [
+          "A",
+          "Publications containing the first idea."
+        ],
+        [
+          "B",
+          "Publications containing the second idea."
+        ],
+        [
+          "S",
+          "Publications shared by the two ideas."
+        ],
+        [
+          "E / J",
+          "Echo, equal to the Jaccard index. An empty combined set gives zero."
+        ]
+      ],
+      "chart_title": "How the publications are divided",
+      "chart_caption": "The whole bar is A + B − S. The shared segment determines the echo’s numerator.",
+      "reading": "Echo {value}: {shared} shared publications out of {union} containing either idea.",
+      "evidence": "Always read the shared count too: an echo of 1.00 can come from a single publication. The value describes overlap; confidence from repetition is calculated separately in associative pull.",
+      "labels": {
+        "only_a": "Only the first idea",
+        "shared": "Both ideas",
+        "only_b": "Only the second idea"
+      }
+    },
+    "flow": {
+      "title": "Thought flow",
+      "diagram_hint": "association path",
+      "intro": "Flow is an exploration path starting from the selected idea and building a tree of associations. Arrows follow its construction from the root towards other ideas.",
+      "steps": [
+        {
+          "title": "Rank candidate links",
+          "body": "Assign priority p to associations using strength, similarity and shared publications. Consider at most {candidates} ideas: the root and its highest-priority direct neighbours. p is a ranking score and can exceed 1."
+        },
+        {
+          "title": "Build the tree one step at a time",
+          "body": "The root can have at most {root} children; other ideas at most {children}; the maximum depth is {depth}. First choose root branches meeting threshold f. If none qualifies, keep the first available candidate. Then repeatedly add the valid attachment with the highest score a, avoiding cycles."
+        },
+        {
+          "title": "Quantify load and thickness",
+          "body": "A branch carries its own strength plus part of the load of branches continuing beyond it. Divide by the tree’s maximum and calculate thickness t. Direct strength and depth also affect thickness; load alone does not determine it."
+        },
+        {
+          "title": "Read the path",
+          "body": "The diagram reproduces the tree calculated for the selected idea. Its layout is schematic, and thicker lines indicate a larger normalized load. The main map keeps its semantic coordinates."
+        }
+      ],
+      "definitions_priority": [
+        [
+          "w",
+          "Association strength."
+        ],
+        [
+          "S",
+          "Enriched semantic similarity, limited to 0–1 for priority."
+        ],
+        [
+          "h",
+          "1 when at least one publication is shared, otherwise 0."
+        ],
+        [
+          "J",
+          "Jaccard overlap of publications."
+        ]
+      ],
+      "definitions_tree": [
+        [
+          "wₚ₁",
+          "Strength of the direct candidate with the highest priority p: the reference for the root threshold."
+        ],
+        [
+          "d",
+          "Parent’s depth in the tree; the root is at depth zero."
+        ],
+        [
+          "n",
+          "Number of children already attached to the parent. The small deductions favour shallower, less crowded paths."
+        ]
+      ],
+      "definitions_load": [
+        [
+          "Lᵦ",
+          "Branch b’s load: direct strength plus the recursive contribution of child branches."
+        ],
+        [
+          "Uᵦ",
+          "Load divided by the tree’s maximum, between 0 and 1."
+        ],
+        [
+          "D_d",
+          "Depth factor for thickness: 1.00, 0.74 and 0.56 at levels 1, 2 and 3."
+        ],
+        [
+          "t",
+          "Central line thickness in pixels. Strength w used here is limited to 0–1."
+        ],
+        [
+          "F(b)",
+          "Set of child branches continuing beyond branch b."
+        ]
+      ],
+      "chart_title": "Exploration tree for the selected idea",
+      "chart_caption": "Arrows indicate parent → child. This path is generated from the graph and carries no causal or chronological meaning.",
+      "load_caption": "The first six tree branches and their loads U are shown. In the schematic, thickness illustrates U; the main map also applies the full formula for t.",
+      "reading": "Follow the arrows to explore associations from the selection. A more prominent branch supports a larger part of the path; direction depends on the chosen root.",
+      "labels": {
+        "edge": "Example branch",
+        "floor": "Root threshold f",
+        "reached": "Ideas reached",
+        "loads": "Normalized branch loads",
+        "example_load": "Example load L",
+        "width": "Example thickness t",
+        "depth": "Depth factors"
+      }
+    }
+  },
+  "controls": {
+    "detail": "detail",
+    "links": "links"
+  }
+}

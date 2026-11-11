@@ -1,28 +1,45 @@
 import html
 import json
+import re
 from base64 import b64encode
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 import streamlit as st
 import streamlit.components.v1 as components
 
 from src.config import (
     ASSETS_DIR,
+    BASE,
     AUTHOR_NAME,
     SHARE_SITE_URL,
-    SITE_NAME,
-    SITE_TAGLINE
+    SITE_NAME
 )
+from src.i18n import format_date_for_language, ui
 from src.markdown_renderer import render_markdown
+from src.theme import THEMES, normalize_theme, theme_accent
 from src.posts import filter_posts
-from src.utils import format_date_it
 
 
-def tag_links(tags):
+def build_href(language="it", **params):
+    query = {}
+
+    current_theme = normalize_theme(st.query_params.get("theme"))
+    query["theme"] = current_theme
+
+    for key, value in params.items():
+        if value is None or value == "":
+            continue
+        query[key] = value
+
+    query["lang"] = language
+    return "?" + urlencode(query, doseq=True)
+
+
+def tag_links(tags, language="it"):
     return " ".join(
         (
             f'<a class="tag" '
-            f'href="?tag={quote(tag)}" '
+            f'href="{build_href(language, tag=tag)}" '
             f'target="_self">'
             f'{html.escape(tag)}'
             f'</a>'
@@ -31,55 +48,125 @@ def tag_links(tags):
     )
 
 
-def render_sidebar(tags):
+def _current_query_with_language(language):
+    query = {}
+
+    for key in st.query_params:
+        value = st.query_params.get(key)
+        if isinstance(value, list):
+            if value:
+                query[key] = value[0]
+        elif value is not None:
+            query[key] = value
+
+    query["lang"] = language
+    return "?" + urlencode(query, doseq=True)
+
+
+
+def _current_query_with_theme(theme):
+    query = {}
+
+    for key in st.query_params:
+        value = st.query_params.get(key)
+        if isinstance(value, list):
+            if value:
+                query[key] = value[0]
+        elif value is not None:
+            query[key] = value
+
+    query["theme"] = normalize_theme(theme)
+    if "lang" not in query:
+        query["lang"] = "it"
+    return "?" + urlencode(query, doseq=True)
+
+
+def render_page_chrome(language="it", theme="green", back_label=None):
+    """Render centered page navigation, language switch, and theme palette."""
+
+    theme = normalize_theme(theme)
+    back_html = (
+        f'<a class="page-back-link" href="{build_href(language)}" target="_self">{html.escape(back_label)}</a>'
+        if back_label
+        else '<span class="page-back-spacer" aria-hidden="true"></span>'
+    )
+
+    en_href = _current_query_with_language("en")
+    it_href = _current_query_with_language("it")
+
+    theme_buttons = []
+    for theme_key, theme_data in THEMES.items():
+        theme_buttons.append(
+            f'<a class="theme-dot {"is-active" if theme_key == theme else ""}" '
+            f'href="{_current_query_with_theme(theme_key)}" target="_self" '
+            f'aria-label="{html.escape(theme_data["label"])} theme" '
+            f'title="{html.escape(theme_data["label"])}" '
+            f'style="--dot-color:{theme_data["accent"]};"></a>'
+        )
+
+    st.html(
+        (
+            '<div class="page-chrome">'
+            f'{back_html}'
+            '<div class="page-preferences">'
+            '<div class="theme-palette" aria-label="Theme color">'
+            f'{"".join(theme_buttons)}'
+            '</div>'
+            '<div class="global-language-switch" aria-label="Site language preference">'
+            f'<a class="global-language-button {"is-active" if language == "en" else ""}" href="{en_href}" target="_self">EN</a>'
+            f'<a class="global-language-button {"is-active" if language == "it" else ""}" href="{it_href}" target="_self">IT</a>'
+            '</div>'
+            '</div>'
+            '</div>'
+        )
+    )
+
+def render_sidebar(tags, show_filters=True, language="it", theme="green"):
     st.sidebar.markdown(
         f'<div class="site-name">{html.escape(SITE_NAME)}</div>',
         unsafe_allow_html=True
     )
 
+    nav_html = (
+        '<div class="sidebar-nav">'
+        f'<a class="sidebar-nav-item" href="{build_href(language, page="about")}" target="_self">'
+        '<span class="sidebar-nav-link">__about__.py</span>'
+        f'<span class="sidebar-nav-desc">{html.escape(ui(language, "sidebar_about_desc"))}</span>'
+        '</a>'
+        f'<a class="sidebar-nav-item" href="{build_href(language, page="semantic-map")}" target="_self">'
+        '<span class="sidebar-nav-link">__semantic_map__.py</span>'
+        f'<span class="sidebar-nav-desc">{html.escape(ui(language, "sidebar_map_desc"))}</span>'
+        '</a>'
+        '</div>'
+    )
+
     image_path = ASSETS_DIR / "me.jpg"
 
     if image_path.exists():
-        encoded = b64encode(
-            image_path.read_bytes()
-        ).decode("ascii")
-
-        mime = (
-            "image/png"
-            if image_path.suffix.lower() == ".png"
-            else "image/jpeg"
-        )
+        encoded = b64encode(image_path.read_bytes()).decode("ascii")
+        mime = "image/png" if image_path.suffix.lower() == ".png" else "image/jpeg"
 
         st.sidebar.markdown(
             (
                 '<div class="author-profile">'
-                '<div class="author-image">'
+                f'<div class="author-image author-image-{normalize_theme(theme)}">'
                 f'<img src="data:{mime};base64,{encoded}">'
                 '</div>'
                 '<div class="author-name">'
                 f'<strong>{html.escape(AUTHOR_NAME)}</strong>'
-                '<div class="author-about">'
-                '<a href="?page=about" target="_self">'
-                '__about__.py'
-                '</a>'
-                '</div>'
+                f'{nav_html}'
                 '</div>'
                 '</div>'
             ),
             unsafe_allow_html=True
         )
-
     else:
         st.sidebar.markdown(
             (
                 '<div class="author-profile">'
                 '<div class="author-name">'
                 f'<strong>{html.escape(AUTHOR_NAME)}</strong>'
-                '<div class="author-about">'
-                '<a href="?page=about" target="_self">'
-                '__about__.py'
-                '</a>'
-                '</div>'
+                f'{nav_html}'
                 '</div>'
                 '</div>'
             ),
@@ -89,38 +176,37 @@ def render_sidebar(tags):
     st.sidebar.markdown(
         (
             '<div class="site-tagline">'
-            f'{html.escape(SITE_TAGLINE)}'
+            f'{html.escape(ui(language, "site_tagline"))}'
             '</div>'
         ),
         unsafe_allow_html=True
     )
 
-    search = st.sidebar.text_input(
-        "Cerca",
-        placeholder="parole, concetti, sintassi..."
-    )
+    search = ""
+    selected_tag = ui(language, "all_tags")
 
-    options = ["(tutti)"] + tags
-
-    query_tag = st.query_params.get("tag")
-
-    if isinstance(query_tag, list):
-        query_tag = (
-            query_tag[0]
-            if query_tag
-            else None
+    if show_filters:
+        search = st.sidebar.text_input(
+            ui(language, "search"),
+            placeholder=ui(language, "search_placeholder")
         )
 
-    selected_index = 0
+        options = [ui(language, "all_tags")] + tags
 
-    if query_tag in tags:
-        selected_index = options.index(query_tag)
+        query_tag = st.query_params.get("tag")
 
-    selected_tag = st.sidebar.selectbox(
-        "Tag",
-        options,
-        index=selected_index
-    )
+        if isinstance(query_tag, list):
+            query_tag = query_tag[0] if query_tag else None
+
+        selected_index = 0
+        if query_tag in tags:
+            selected_index = options.index(query_tag)
+
+        selected_tag = st.sidebar.selectbox(
+            ui(language, "tags"),
+            options,
+            index=selected_index
+        )
 
     st.sidebar.markdown("---")
 
@@ -137,27 +223,25 @@ def render_sidebar(tags):
     )
 
     return search, selected_tag
-
-
-def render_tags(tags):
+def render_tags(tags, language="it"):
     if not tags:
         return
 
     st.html(
         (
             '<div class="post-tags">'
-            f'{tag_links(tags)}'
+            f'{tag_links(tags, language=language)}'
             '</div>'
         )
     )
 
 
-def render_translation(translation):
+def render_translation(translation, language="it"):
     if not translation:
         return
 
     with st.expander(
-        "Note / traduzione",
+        ui(language, "translation_expander"),
         expanded=False
     ):
         st.markdown(translation)
@@ -186,7 +270,7 @@ def render_reflection(reflection):
     )
 
 
-def render_share_links(post):
+def render_share_links(post, language="it", theme="green"):
     meta = post["meta"]
 
     slug = meta["slug"]
@@ -232,7 +316,9 @@ def render_share_links(post):
         quote=True
     )
 
-    st.markdown("Condividi:")
+    st.markdown(ui(language, "share"))
+
+    accent = theme_accent(theme)
 
     components.html(
         f"""
@@ -260,7 +346,7 @@ def render_share_links(post):
                 class="share-button"
                 type="button"
             >
-                Condividi link
+                {html.escape(ui(language, "share_link"))}
             </button>
         </div>
 
@@ -274,13 +360,13 @@ def render_share_links(post):
                 await navigator.clipboard.writeText(url);
 
                 const originalText = button.textContent;
-                button.textContent = "Link copiato";
+                button.textContent = {json.dumps(ui(language, "link_copied"))};
 
                 setTimeout(() => {{
                     button.textContent = originalText;
                 }}, 1600);
             }} catch (error) {{
-                window.prompt("Copia questo link:", url);
+                window.prompt({json.dumps(ui(language, "copy_link_prompt"))}, url);
             }}
         }}
 
@@ -330,7 +416,7 @@ def render_share_links(post):
             border-radius: 8px;
 
             background: #161b22;
-            color: #71c7a6;
+            color: {accent};
 
             font-family:
                 ui-monospace,
@@ -352,7 +438,9 @@ def render_share_links(post):
         }}
 
         .share-button:hover {{
-            border-color: #71c7a6;
+            border-color: {accent};
+            color: {accent};
+            box-shadow: 0 0 0 1px {accent}22 inset;
         }}
 
         .share-button:active {{
@@ -364,7 +452,7 @@ def render_share_links(post):
     )
 
 
-def render_post_navigation(post, posts):
+def render_post_navigation(post, posts, language="it"):
     try:
         index = posts.index(post)
     except ValueError:
@@ -385,16 +473,12 @@ def render_post_navigation(post, posts):
     previous_html = ""
 
     if previous_post:
-        previous_slug = quote(
-            previous_post["meta"]["slug"]
-        )
-
+        previous_slug = previous_post["meta"]["slug"]
         previous_title = html.escape(
             previous_post["meta"]["title"]
         )
-
         previous_html = (
-            f'<a href="?p={previous_slug}" '
+            f'<a href="{build_href(language, p=previous_slug)}" '
             'target="_self">'
             f'← {previous_title}'
             '</a>'
@@ -403,16 +487,12 @@ def render_post_navigation(post, posts):
     next_html = ""
 
     if next_post:
-        next_slug = quote(
-            next_post["meta"]["slug"]
-        )
-
+        next_slug = next_post["meta"]["slug"]
         next_title = html.escape(
             next_post["meta"]["title"]
         )
-
         next_html = (
-            f'<a href="?p={next_slug}" '
+            f'<a href="{build_href(language, p=next_slug)}" '
             'target="_self">'
             f'{next_title} →'
             '</a>'
@@ -421,30 +501,21 @@ def render_post_navigation(post, posts):
     st.html(
         (
             '<div class="post-navigation">'
-
-            '<div class="post-navigation-cell '
-            'post-navigation-prev">'
+            '<div class="post-navigation-cell post-navigation-prev">'
             f'{previous_html}'
             '</div>'
-
-            '<div class="post-navigation-cell '
-            'post-navigation-home">'
-            '<a href="?" target="_self">'
-            'home'
-            '</a>'
+            '<div class="post-navigation-cell post-navigation-home">'
+            f'<a href="{build_href(language)}" target="_self">{html.escape(ui(language, "post_home"))}</a>'
             '</div>'
-
-            '<div class="post-navigation-cell '
-            'post-navigation-next">'
+            '<div class="post-navigation-cell post-navigation-next">'
             f'{next_html}'
             '</div>'
-
             '</div>'
         )
     )
 
 
-def render_post(post, posts):
+def render_post(post, posts, language="it", theme="green"):
     meta = post["meta"]
 
     st.title(
@@ -454,7 +525,7 @@ def render_post(post, posts):
     st.markdown(
         (
             '<span class="muted">'
-            f'{format_date_it(meta["date"])}'
+            f'{format_date_for_language(meta["date"], language)}'
             '</span>'
         ),
         unsafe_allow_html=True
@@ -465,52 +536,97 @@ def render_post(post, posts):
     )
 
     render_translation(
-        meta.get(
-            "translation",
-            ""
-        )
+        meta.get("translation", ""),
+        language=language
     )
 
     render_reflection(
-        meta.get(
-            "reflection",
-            ""
-        )
+        meta.get("reflection", "")
     )
 
     render_tags(
         meta.get(
             "tags",
             []
-        )
+        ),
+        language=language
     )
 
     render_share_links(
-        post
+        post,
+        language=language,
+        theme=theme
     )
 
     render_post_navigation(
         post,
-        posts
+        posts,
+        language=language
     )
 
+
+
+def render_semantic_map_preview(language="it", theme="green"):
+    """Render a lightweight home teaser without loading Plotly."""
+
+    brain_path = ASSETS_DIR / "brain.svg"
+
+    if not brain_path.exists():
+        return
+
+    brain_svg = brain_path.read_text(encoding="utf-8")
+    accent = theme_accent(theme)
+
+    def colored_brain(color):
+        svg = brain_svg.replace('fill="#000000"', f'fill="{color}"')
+        encoded = b64encode(svg.encode("utf-8")).decode("ascii")
+        return f'data:image/svg+xml;base64,{encoded}'
+
+    base_src = colored_brain("#C8CDD2")
+    activity_src = colored_brain(accent)
+
+    st.html(
+        (
+            f'<a class="semantic-preview-card" href="{build_href(language, page="semantic-map")}" target="_self">'
+            '<div class="semantic-preview-visual" aria-hidden="true">'
+            f'<img class="semantic-preview-brain semantic-preview-brain-base" src="{base_src}" alt="">'
+            f'<img class="semantic-preview-brain semantic-preview-brain-activity semantic-preview-brain-activity-a" src="{activity_src}" alt="">'
+            f'<img class="semantic-preview-brain semantic-preview-brain-activity semantic-preview-brain-activity-b" src="{activity_src}" alt="">'
+            f'<img class="semantic-preview-brain semantic-preview-brain-activity semantic-preview-brain-activity-c" src="{activity_src}" alt="">'
+            f'<img class="semantic-preview-brain semantic-preview-brain-activity semantic-preview-brain-activity-d" src="{activity_src}" alt="">'
+            '</div>'
+            '<div class="semantic-preview-copy">'
+            '<div class="semantic-preview-kicker">semantic_map.py</div>'
+            f'<p>{html.escape(ui(language, "preview_body"))}</p>'
+            f'<span class="semantic-preview-cta">{html.escape(ui(language, "preview_cta"))}</span>'
+            '</div>'
+            '</a>'
+        )
+    )
 
 def render_home(
     posts,
     search,
-    selected_tag
+    selected_tag,
+    language="it",
+    theme="green"
 ):
+    render_semantic_map_preview(language=language, theme=theme)
+
     filtered = filter_posts(
         posts,
         search,
-        selected_tag
+        selected_tag,
+        language=language
     )
 
     if not filtered:
         st.html(
-            '<div class="empty-posts">'
-            'Nessun post trovato.'
-            '</div>'
+            (
+                '<div class="empty-posts">'
+                f'{html.escape(ui(language, "empty_posts"))}'
+                '</div>'
+            )
         )
 
         return
@@ -540,15 +656,17 @@ def render_home(
             )
         )
 
-        date_text = format_date_it(
-            meta["date"]
+        date_text = format_date_for_language(
+            meta["date"],
+            language
         )
 
         tags = tag_links(
             meta.get(
                 "tags",
                 []
-            )
+            ),
+            language=language
         )
 
         summary_html = ""
@@ -580,7 +698,7 @@ def render_home(
             (
                 '<div class="post-card">'
                 '<div class="post-card-title">'
-                f'<a href="?p={slug}" '
+                f'<a href="{build_href(language, p=slug)}" '
                 'target="_self">'
                 f'{title}'
                 '</a>'

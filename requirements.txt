@@ -4,3 +4,7 @@ markdown==3.6
 Pygments==2.18.0
 babel>=2.16.0,<3.0
 Pillow>=10.4.0,<11.0
+numpy>=1.26.0,<3.0
+gensim==4.4.0
+networkx>=3.3,<4.0
+plotly>=5.24.0,<6.0

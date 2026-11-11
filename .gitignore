@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Generated GitHub Pages site
+# GitHub Pages output
 _site/
 
 # Environment files

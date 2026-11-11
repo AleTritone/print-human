@@ -1,0 +1,22 @@
+{
+  "back_home": "← Torna alla home",
+  "search": "Cerca",
+  "search_placeholder": "parole, idee, sintassi...",
+  "tags": "Idee",
+  "all_tags": "(tutte)",
+  "sidebar_about_desc": "chi scrive · perché esiste",
+  "sidebar_map_desc": "idee · associazioni · ricorrenze",
+  "translation_expander": "Note / traduzione",
+  "post_home": "home",
+  "empty_posts": "Nessun post trovato.",
+  "preview_body": "Una mappa semantica interattiva del progetto: il cervello come ingresso visivo alle idee, alle associazioni e alle ricorrenze che attraversano print(\"human\").",
+  "preview_cta": "esplora la mappa →",
+  "site_tagline": "Ogni riga un esperimento di umanità.",
+  "share": "Condividi:",
+  "share_link": "Condividi link",
+  "link_copied": "Link copiato",
+  "copy_link_prompt": "Copia questo link:",
+  "post_not_found": "Post non trovato.",
+  "preview_mode": "PREVIEW MODE — sono visibili anche i post futuri",
+  "map_missing": "Anteprima della mappa semantica non trovata. Esegui `python scripts/preview_semantic_map.py`."
+}

@@ -9,7 +9,8 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.config import SITE_NAME, SITE_TAGLINE, SITE_URL
+from src.config import SITE_NAME, SITE_URL
+from src.i18n import ui
 from src.posts import load_posts
 from src.social_cards import ensure_social_cards, social_card_path
 
@@ -44,7 +45,7 @@ def build_share_page(post: dict) -> str:
     slug = meta["slug"]
     summary = (
         meta.get("summary", "").strip()
-        or SITE_TAGLINE
+        or ui("it", "site_tagline")
     )
 
     card = social_card_path(post)
@@ -105,7 +106,7 @@ def build_root_page() -> str:
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{escape(SITE_NAME)}</title>
-    <meta name="description" content="{escape(SITE_TAGLINE)}">
+    <meta name="description" content="{escape(ui("it", "site_tagline"))}">
 
     <script>
         window.location.replace({SITE_URL!r});

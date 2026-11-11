@@ -6,6 +6,7 @@ from uuid import uuid4
 from PIL import Image, ImageDraw, ImageFont
 
 from src.config import SOCIAL_DIR
+from src.theme import THEME_ACCENT
 from src.utils import format_date_it
 
 
@@ -17,7 +18,7 @@ SURFACE = "#10161F"
 BORDER = "#29313A"
 TEXT = "#E6EDF3"
 MUTED = "#8B949E"
-PRIMARY = "#71C7A6"
+PRIMARY = THEME_ACCENT
 CODE_BG = "#161B22"
 
 
@@ -138,10 +139,11 @@ def card_needs_update(post: dict, output: Path) -> bool:
         return True
 
     generator_mtime = Path(__file__).stat().st_mtime
+    theme_mtime = (Path(__file__).resolve().parent / "theme.py").stat().st_mtime
     post_mtime = post["path"].stat().st_mtime
     output_mtime = output.stat().st_mtime
 
-    return max(generator_mtime, post_mtime) > output_mtime
+    return max(generator_mtime, theme_mtime, post_mtime) > output_mtime
 
 
 def save_image(image: Image.Image, output: Path) -> None:

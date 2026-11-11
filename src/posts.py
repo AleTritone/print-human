@@ -3,6 +3,7 @@ from datetime import datetime
 import frontmatter
 
 from src.config import POSTS_DIR, ROME
+from src.i18n import normalize_language, ui
 from src.utils import (
     normalize_published,
     normalize_tags,
@@ -11,13 +12,41 @@ from src.utils import (
 )
 
 
-def load_posts(include_future: bool = False) -> list[dict]:
+def _post_paths(language: str) -> list:
+    """Return localized post paths, falling back to Italian per filename."""
+
+    language = normalize_language(language)
+    fallback_dir = POSTS_DIR / "it"
+    language_dir = POSTS_DIR / language
+
+    paths_by_name = {}
+
+    if fallback_dir.exists():
+        for path in fallback_dir.glob("*.md"):
+            paths_by_name[path.name] = path
+
+    if language_dir.exists():
+        for path in language_dir.glob("*.md"):
+            paths_by_name[path.name] = path
+
+    return [
+        paths_by_name[name]
+        for name in sorted(paths_by_name)
+    ]
+
+
+def load_posts(
+    include_future: bool = False,
+    language: str = "it"
+) -> list[dict]:
     posts = []
 
     if not POSTS_DIR.exists():
         return posts
 
-    for path in sorted(POSTS_DIR.glob("*.md")):
+    language = normalize_language(language)
+
+    for path in _post_paths(language):
         try:
             post = frontmatter.loads(
                 read_text_any(path)
@@ -83,7 +112,8 @@ def load_posts(include_future: bool = False) -> list[dict]:
             posts.append({
                 "meta": meta,
                 "body": post.content,
-                "path": path
+                "path": path,
+                "language": language,
             })
 
         except Exception:
@@ -137,12 +167,13 @@ def find_post_by_slug(
 def filter_posts(
     posts: list[dict],
     search: str | None = None,
-    tag: str | None = None
+    tag: str | None = None,
+    language: str = "it"
 ) -> list[dict]:
 
     result = posts
 
-    if tag and tag != "(tutti)":
+    if tag and tag not in {ui(language, "all_tags"), "(tutti)", "(all)"}:
         result = [
             post
             for post in result
@@ -156,12 +187,12 @@ def filter_posts(
             post
             for post in result
             if (
-                query in post["meta"]["title"].casefold()
-                or query in post["body"].casefold()
-                or query in post["meta"]["summary"].casefold()
-                or query in post["meta"]["featured_line"].casefold()
-                or query in post["meta"]["translation"].casefold()
-                or query in post["meta"]["reflection"].casefold()
+                query in str(post["meta"].get("title", "")).casefold()
+                or query in str(post.get("body", "")).casefold()
+                or query in str(post["meta"].get("summary", "")).casefold()
+                or query in str(post["meta"].get("featured_line", "")).casefold()
+                or query in str(post["meta"].get("translation", "")).casefold()
+                or query in str(post["meta"].get("reflection", "")).casefold()
                 or any(
                     query in item.casefold()
                     for item in post["meta"]["tags"]

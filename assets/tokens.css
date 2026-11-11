@@ -1,7 +1,10 @@
 :root {
+  --theme-accent: __THEME_ACCENT__;
+  --portrait-filter: __PORTRAIT_FILTER__;
+
   --color-bg: #0D1117;
   --color-text: #E6EDF3;
-  --color-primary: #71C7A6;
+  --color-primary: var(--theme-accent);
   --color-muted: #8B949E;
 
   --color-code-bg: #161B22;
@@ -10,23 +13,25 @@
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.12);
 
-  --color-primary-soft: rgba(113, 199, 166, 0.08);
-  --color-primary-hover: rgba(113, 199, 166, 0.26);
-  --color-primary-border: rgba(113, 199, 166, 0.40);
+  --color-primary-soft: color-mix(in srgb, var(--theme-accent) 8%, transparent);
+  --color-primary-hover: color-mix(in srgb, var(--theme-accent) 42%, transparent);
+  --color-primary-border: color-mix(in srgb, var(--theme-accent) 58%, transparent);
+  --color-primary-hover-text: color-mix(in srgb, var(--theme-accent) 70%, white);
 
   --color-shadow: rgba(0, 0, 0, 0.25);
 
   --color-gradient-start: rgba(13, 17, 23, 1);
   --color-gradient-end: rgba(13, 17, 23, 0);
 
+  /* Syntax palette: every chromatic token derives from the selected accent. */
   --syntax-text: #E6EDF3;
   --syntax-comment: #7D8590;
-  --syntax-keyword: #71C7A6;
-  --syntax-string: #A8D5C2;
-  --syntax-number: #C7D1CC;
-  --syntax-function: #D5DDD9;
-  --syntax-class: #B7C9C1;
-  --syntax-builtin: #91BFAE;
-  --syntax-operator: #C9D1D9;
-  --syntax-error: #D98686;
+  --syntax-keyword: var(--theme-accent);
+  --syntax-string: color-mix(in srgb, var(--theme-accent) 58%, white);
+  --syntax-number: color-mix(in srgb, var(--theme-accent) 38%, white);
+  --syntax-function: color-mix(in srgb, var(--theme-accent) 24%, white);
+  --syntax-class: color-mix(in srgb, var(--theme-accent) 48%, white);
+  --syntax-builtin: color-mix(in srgb, var(--theme-accent) 72%, white);
+  --syntax-operator: color-mix(in srgb, var(--theme-accent) 18%, white);
+  --syntax-error: color-mix(in srgb, var(--theme-accent) 72%, #FF6B81);
 }
