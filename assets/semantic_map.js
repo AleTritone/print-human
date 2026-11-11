@@ -3507,32 +3507,6 @@
     }
 
 
-    function scrollSelectedInfoIntoView() {
-        const info = document.getElementById(
-            "semantic-map-info"
-        );
-
-        if (!info) {
-            return;
-        }
-
-        const reducedMotion =
-            window.matchMedia
-            &&
-            window.matchMedia(
-                "(prefers-reduced-motion: reduce)"
-            ).matches;
-
-        window.requestAnimationFrame(() => {
-            info.scrollIntoView({
-                behavior: reducedMotion ? "auto" : "smooth",
-                block: "start",
-                inline: "nearest",
-            });
-        });
-    }
-
-
     function selectTag(node) {
         selectedTag =
             node.tag;
@@ -3549,7 +3523,6 @@
         );
 
         updateLabels();
-        scrollSelectedInfoIntoView();
     }
 
 
