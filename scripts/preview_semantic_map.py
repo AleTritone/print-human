@@ -64,9 +64,9 @@ AXIS_COLOR = accent_rgba(0.06)
 ANCHOR_EDGE_COLOR = accent_rgba(0.12)
 
 TAG_EDGE_COLORS = {
-    "weak": "rgba(139, 148, 158, 0.06)",
-    "medium": "rgba(139, 148, 158, 0.11)",
-    "strong": "rgba(139, 148, 158, 0.18)",
+    "weak": "rgba(201, 209, 217, 0.32)",
+    "medium": "rgba(201, 209, 217, 0.50)",
+    "strong": "rgba(201, 209, 217, 0.74)",
 }
 
 
@@ -1316,9 +1316,9 @@ def add_tag_edges(
         ])
 
     widths = {
-        "weak": 0.7,
-        "medium": 1.1,
-        "strong": 1.6,
+        "weak": 1.1,
+        "medium": 1.6,
+        "strong": 2.2,
     }
 
     for name in (
