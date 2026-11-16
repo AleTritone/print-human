@@ -25,6 +25,7 @@ const close = (actual, expected, tolerance = 0.00015) => assert(Math.abs(actual 
 test("the rendered map stays synchronized with generated publication data", () => {
     const data = JSON.parse(fs.readFileSync(path.join(dataDir, "semantic_map.json"), "utf8"));
     assert.equal(config.postCount, data.post_count);
+    assert.equal(config.sourceSignature, data.source_signature);
     assert.deepEqual(config.nodes.map((node) => node.tag).sort(), data.nodes.map((node) => node.tag).sort());
     assert.deepEqual(config.layoutEdges, data.layout_edges);
     for (const node of config.nodes) {

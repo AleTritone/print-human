@@ -18,5 +18,8 @@
   "copy_link_prompt": "Copia questo link:",
   "post_not_found": "Post non trovato.",
   "preview_mode": "PREVIEW MODE — sono visibili anche i post futuri",
-  "map_missing": "Anteprima della mappa semantica non trovata. Esegui `python scripts/preview_semantic_map.py`."
+  "map_missing": "Anteprima della mappa semantica non trovata. Esegui `python scripts/preview_semantic_map.py`.",
+  "map_updating": "Aggiornamento della mappa…",
+  "map_update_failed": "Non è stato possibile aggiornare la mappa. Riproviamo automaticamente tra un minuto.",
+  "map_retry": "Riprova ora"
 }

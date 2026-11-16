@@ -8,6 +8,7 @@ from unittest.mock import patch
 from src.config import BASE, ROME
 from src.map_anchors import MAP_EXCLUDED_TAGS
 from src.posts import load_posts
+from src.semantic_map_state import source_signature, tag_usage
 
 
 class SemanticMapPublicationTests(unittest.TestCase):
@@ -22,11 +23,16 @@ class SemanticMapPublicationTests(unittest.TestCase):
                     expected.setdefault(tag, set()).add(post["meta"]["slug"])
 
         self.assertEqual(data["post_count"], len(posts), "Rebuild the semantic map after changing posts.")
+        self.assertEqual(data.get("source_signature"), source_signature(posts))
         self.assertEqual(
             {node["tag"]: set(node["posts"]) for node in data["nodes"]},
             expected,
             "The map must contain exactly the tags and references of published posts.",
         )
+
+    def test_vectors_are_prepared_for_all_scheduled_publications(self):
+        cache = json.loads((BASE / "data" / "semantic_map_vectors.json").read_text(encoding="utf-8"))
+        self.assertTrue(set(tag_usage(load_posts(include_future=True))) <= cache["terms"].keys())
 
     def test_scheduled_posts_enter_the_build_only_when_their_date_arrives(self):
         today = datetime.now(ROME).date()

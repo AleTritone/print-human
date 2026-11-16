@@ -1,18 +1,28 @@
-from pathlib import Path
+import logging
 import re
+import time
 
 import streamlit as st
 import streamlit.components.v1 as components
 
-from src.config import BASE
 from src.i18n import content_text, ui
+from src.semantic_map_state import current_source_signature, load_current_map
 from src.theme import accent_rgb, semantic_theme_replacements, theme_accent
 
 
-SEMANTIC_PREVIEW = BASE / "data" / "semantic_map_preview.html"
+logger = logging.getLogger(__name__)
 
 
-def render_semantic_map(language="it", theme="green"):
+@st.fragment(run_every=60)
+def watch_publications(signature, include_future=False, retry_at=None):
+    if retry_at is not None:
+        if time.monotonic() >= retry_at:
+            st.rerun()
+    elif current_source_signature(include_future) != signature:
+        st.rerun()
+
+
+def render_semantic_map(language="it", theme="green", include_future=False):
     """Render the semantic-map page."""
 
     source = content_text(language, "semantic_map.md").strip()
@@ -73,11 +83,19 @@ def render_semantic_map(language="it", theme="green"):
         """
     )
 
-    if not SEMANTIC_PREVIEW.exists():
-        st.warning(ui(language, "map_missing"))
+    try:
+        with st.spinner(ui(language, "map_updating")):
+            snapshot = load_current_map(include_future=include_future)
+    except Exception:
+        logger.exception("Could not refresh the semantic map")
+        st.error(ui(language, "map_update_failed"))
+        if st.button(ui(language, "map_retry"), key="retry-semantic-map"):
+            st.rerun()
+        watch_publications(None, include_future, retry_at=time.monotonic() + 60)
         return
 
-    preview_html = SEMANTIC_PREVIEW.read_text(encoding="utf-8")
+    watch_publications(snapshot.signature, include_future)
+    preview_html = snapshot.html
 
     # Preview palette
     primary_match = re.search(r'"primary"\s*:\s*"(#[0-9A-Fa-f]{6})"', preview_html)

@@ -70,7 +70,7 @@ if page == "about":
 
 elif page == "semantic-map":
     render_page_chrome(language=language, theme=theme, back_label=ui(language, "back_home"))
-    render_semantic_map(language=language, theme=theme)
+    render_semantic_map(language=language, theme=theme, include_future=preview_mode)
 
 elif slug:
     post = find_post_by_slug(

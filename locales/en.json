@@ -18,5 +18,8 @@
   "copy_link_prompt": "Copy this link:",
   "post_not_found": "Post not found.",
   "preview_mode": "PREVIEW MODE — future posts are visible too",
-  "map_missing": "Semantic map preview not found. Run `python scripts/preview_semantic_map.py`."
+  "map_missing": "Semantic map preview not found. Run `python scripts/preview_semantic_map.py`.",
+  "map_updating": "Updating the map…",
+  "map_update_failed": "The map could not be updated. We will retry automatically in one minute.",
+  "map_retry": "Retry now"
 }

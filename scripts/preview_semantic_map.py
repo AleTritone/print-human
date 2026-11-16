@@ -1905,6 +1905,7 @@ def build_javascript_config(
 
     return {
         "postCount": data.get("post_count", 0),
+        "sourceSignature": data.get("source_signature", ""),
         "layoutEdges": data.get("layout_edges", []),
         "siteUrl": (
             SITE_URL.rstrip(
@@ -2239,21 +2240,7 @@ def build_figure(
 # Main
 
 
-def main():
-    args = parse_args()
-
-    input_path = (
-        args.input.resolve()
-    )
-
-    output_path = (
-        args.output.resolve()
-    )
-
-    data = load_map(
-        input_path
-    )
-
+def render_preview(data):
     brain_asset = (
         load_brain_asset()
     )
@@ -2263,27 +2250,14 @@ def main():
         brain_asset,
     )
 
-    output_path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    pio.write_html(
+    return pio.to_html(
         figure,
-
-        file=str(
-            output_path
-        ),
 
         include_plotlyjs="cdn",
 
         div_id="semantic-map",
 
         full_html=True,
-
-        auto_open=(
-            args.open
-        ),
 
         post_script=(
             build_post_script(
@@ -2302,6 +2276,18 @@ def main():
             "showTips": False,
         },
     )
+
+
+def main():
+    args = parse_args()
+    output_path = args.output.resolve()
+    data = load_map(args.input.resolve())
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(render_preview(data), encoding="utf-8")
+    if args.open:
+        import webbrowser
+
+        webbrowser.open(output_path.as_uri())
 
     print()
 

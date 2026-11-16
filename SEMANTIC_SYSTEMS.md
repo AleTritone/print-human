@@ -90,6 +90,20 @@ same Italian source and Europe/Rome date filter as the blog. Changed map files
 are committed back to `main` so Streamlit can display them. Word vectors are
 cached between runs; unchanged maps do not create a commit.
 
+The app independently compares the published post slugs, tags and map source
+files with the signature embedded in both generated artifacts on every visit.
+If GitHub Actions is delayed or fails, the app rebuilds the map and stores it
+atomically in an ignored local cache. Concurrent sessions share a rebuild lock.
+An open map checks publication changes every 60 seconds and reloads only when
+the signature changes, preserving interaction while the data is unchanged.
+Dates use Europe/Rome, including midnight and daylight saving changes.
+
+`data/semantic_map_vectors.json` contains the GloVe vectors for tags in both
+current and scheduled posts, allowing publication-day rebuilds without loading
+the full model. A new tag absent from the cache loads the original model once
+to extract the missing vectors. The app never silently serves an outdated map
+if rebuilding fails: it reports the failure and retries after 60 seconds.
+
 With the project requirements and GloVe model available:
 
 ```bash

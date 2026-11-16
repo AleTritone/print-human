@@ -1,6 +1,5 @@
 import re
 
-import gensim.downloader as api
 import numpy as np
 
 
@@ -8,6 +7,8 @@ MODEL_NAME = "glove-wiki-gigaword-50"
 
 
 def load_embedding_model():
+    import gensim.downloader as api
+
     return api.load(MODEL_NAME)
 
 

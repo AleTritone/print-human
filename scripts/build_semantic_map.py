@@ -12,10 +12,9 @@ if str(ROOT) not in sys.path:
 
 from src.map_embeddings import (
     MODEL_NAME,
-    load_embedding_model,
 )
-from src.map_graph import build_semantic_map
 from src.posts import load_posts
+from src.semantic_map_state import build_map_data, vectors_for_posts
 
 
 DEFAULT_OUTPUT = ROOT / "data" / "semantic_map.json"
@@ -184,12 +183,12 @@ def main():
         include_future=args.include_future
     )
 
-    print(f"Loading model {MODEL_NAME}...")
-    model = load_embedding_model()
+    print(f"Preparing tag vectors from {MODEL_NAME}...")
+    vectors = vectors_for_posts(load_posts(include_future=True), args.output.resolve().parent)
 
-    data = build_semantic_map(
+    data = build_map_data(
         posts,
-        model,
+        vectors,
     )
 
     output_path = args.output.resolve()

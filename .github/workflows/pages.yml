@@ -57,7 +57,7 @@ jobs:
 
       - name: Save updated semantic map for Streamlit
         run: |
-          git add data/semantic_map.json data/semantic_map_preview.html
+          git add data/semantic_map.json data/semantic_map_preview.html data/semantic_map_vectors.json
           if ! git diff --cached --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

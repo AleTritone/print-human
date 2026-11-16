@@ -23,6 +23,7 @@ for (const lang of ["it", "en"]) {
     config.copy[lang] = JSON.parse(fs.readFileSync(path.join(root, "locales", `semantic_map_${lang}.json`), "utf8"));
 }
 config.postCount = data.post_count;
+config.sourceSignature = data.source_signature || "";
 config.layoutEdges = data.layout_edges || [];
 
 const plotMatch = original.match(/Plotly\.newPlot\(\s*["']([^"']+)["']/);
