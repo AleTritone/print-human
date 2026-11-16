@@ -5,7 +5,8 @@ const path = require("node:path");
 const vm = require("node:vm");
 
 const root = path.resolve(__dirname, "..");
-const preview = fs.readFileSync(path.join(root, "data/semantic_map_preview.html"), "utf8");
+const dataDir = process.env.SEMANTIC_MAP_DATA_DIR || path.join(root, "data");
+const preview = fs.readFileSync(path.join(dataDir, "semantic_map_preview.html"), "utf8");
 const config = JSON.parse(preview.match(/window\.__PRINT_HUMAN_MAP_CONFIG__ = (\{[^\r\n]+\});/)[1]);
 const locales = Object.fromEntries(["it", "en"].map((lang) => [lang,
     JSON.parse(fs.readFileSync(path.join(root, `locales/semantic_map_${lang}.json`), "utf8"))]));
@@ -22,7 +23,7 @@ const close = (actual, expected, tolerance = 0.00015) => assert(Math.abs(actual 
     `${actual} differs from expected ${expected}`);
 
 test("the rendered map stays synchronized with generated publication data", () => {
-    const data = JSON.parse(fs.readFileSync(path.join(root, "data/semantic_map.json"), "utf8"));
+    const data = JSON.parse(fs.readFileSync(path.join(dataDir, "semantic_map.json"), "utf8"));
     assert.equal(config.postCount, data.post_count);
     assert.deepEqual(config.nodes.map((node) => node.tag).sort(), data.nodes.map((node) => node.tag).sort());
     assert.deepEqual(config.layoutEdges, data.layout_edges);
@@ -104,13 +105,42 @@ test("published pair scores agree with the documented formulas", () => {
 });
 
 test("legacy layout edges are accepted only when their full degrees and weight sums match", () => {
-    const edges = explanations.collectLayoutEdges(config.nodes, []);
-    assert(edges && edges.length > 0);
-    const incomplete = structuredClone(config.nodes);
-    const first = edges[0];
-    for (const node of incomplete) node.semanticNeighbors = node.semanticNeighbors.filter((item) =>
-        !((node.tag === first.source && item.tag === first.target) || (node.tag === first.target && item.tag === first.source)));
+    const nodes = [
+        {tag:"a", attractionComponents:{neighbor_count:2,raw:1.1},
+            semanticNeighbors:[{tag:"b",affinity:0.8},{tag:"c",affinity:0.3}]},
+        {tag:"b", attractionComponents:{neighbor_count:2,raw:1.3},
+            semanticNeighbors:[{tag:"a",affinity:0.8},{tag:"c",affinity:0.5}]},
+        {tag:"c", attractionComponents:{neighbor_count:2,raw:0.8},
+            semanticNeighbors:[{tag:"a",affinity:0.3},{tag:"b",affinity:0.5}]},
+    ];
+    const edges = explanations.collectLayoutEdges(nodes, []);
+    assert.deepEqual(plain(edges.map((edge) => ({
+        pair:[edge.source,edge.target].sort().join("|"),weight:edge.weight,
+    })).sort((a,b) => a.pair.localeCompare(b.pair))), [
+        {pair:"a|b",weight:0.8},{pair:"a|c",weight:0.3},{pair:"b|c",weight:0.5},
+    ]);
+    const incomplete = structuredClone(nodes);
+    incomplete[0].semanticNeighbors = incomplete[0].semanticNeighbors.filter((item) => item.tag !== "c");
+    incomplete[2].semanticNeighbors = incomplete[2].semanticNeighbors.filter((item) => item.tag !== "a");
     assert.equal(explanations.collectLayoutEdges(incomplete, []), null);
+    const wrongWeight = structuredClone(nodes);
+    wrongWeight[0].attractionComponents.raw += 0.01;
+    assert.equal(explanations.collectLayoutEdges(wrongWeight, []), null);
+});
+
+test("the full layout graph remains usable when neighbour lists omit connections", () => {
+    const nodes = structuredClone(config.nodes);
+    for (const node of nodes) node.semanticNeighbors = [];
+    assert.equal(explanations.collectLayoutEdges(nodes, []), null);
+    const edges = explanations.collectLayoutEdges(nodes, config.layoutEdges);
+    assert.strictEqual(edges, config.layoutEdges);
+    for (const node of nodes) {
+        const metrics = explanations.circuitMetrics(node, nodes, edges);
+        if (metrics.members.length > 1) {
+            assert.equal(metrics.rows.length, metrics.members.length);
+            assert(metrics.rows.every((row) => Number.isFinite(row.score)));
+        }
+    }
 });
 
 test("core score calculation matches a known graph and reproduces the cached core selections", () => {
