@@ -552,6 +552,12 @@
     }
   },
   "controls": {
+    "navigation": "Navigazione della mappa",
+    "zoom_in": "Ingrandisci la mappa",
+    "zoom_out": "Riduci la mappa",
+    "fit": "Adatta",
+    "fit_description": "Mostra tutta la mappa",
+    "touch_hint": "Un dito per scorrere la pagina · due dita per ingrandire e spostare la mappa",
     "detail": "dettaglio",
     "links": "collegamenti"
   }

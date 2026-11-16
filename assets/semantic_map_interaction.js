@@ -13,6 +13,7 @@
     const MAX_X_SPAN = INITIAL_WIDTH / MAX_ZOOM_OUT_SCALE;
     const MIN_VISUAL_SCALE = MAX_ZOOM_OUT_SCALE;
     const CLICK_TOLERANCE = 7;
+    const MIN_X_SPAN = INITIAL_WIDTH / 16;
 
     const ANCHOR_ICON_DATA_SIZE = 0.14;
     const ANCHOR_LABEL_PADDING_PX = 0.5;
@@ -45,6 +46,251 @@
     let enforcingZoom = false;
     let configuringAxes = false;
     let configuringAnchors = false;
+    let viewIsFitted = true;
+    let fittingView = false;
+    let touchGesture = null;
+    let touchStart = null;
+    let touchMoved = false;
+    let suppressClickUntil = 0;
+    let touchFrame = null;
+    let pendingTouchRanges = null;
+    let updatingTouch = false;
+
+
+    // Keep browser scrolling with one finger; own only two-finger gestures.
+    // Capture touch events before Plotly's drag handlers can cancel scrolling.
+    function plotGeometry() {
+        const layout = gd._fullLayout;
+        if (!layout || !layout.xaxis || !layout.yaxis) return null;
+        const rect = gd.getBoundingClientRect();
+        return {
+            left: rect.left + layout.xaxis._offset,
+            top: rect.top + layout.yaxis._offset,
+            width: layout.xaxis._length,
+            height: layout.yaxis._length,
+            x: layout.xaxis.range.slice(),
+            y: layout.yaxis.range.slice(),
+        };
+    }
+
+    function applyRanges(x, y) {
+        return Plotly.relayout(gd, {
+            "xaxis.range": x,
+            "yaxis.range": y,
+            "xaxis.autorange": false,
+            "yaxis.autorange": false,
+        });
+    }
+
+    function fitMap() {
+        const geometry = plotGeometry();
+        if (!geometry || !geometry.width || !geometry.height) return Promise.resolve();
+        const bounds = CONFIG.brainBounds || {xRadius: 1.08, yRadius: 0.86};
+        const points = [...(CONFIG.nodes || []), ...(CONFIG.anchors || [])];
+        const xs = [-bounds.xRadius, bounds.xRadius, ...points.map((node) => node.x)];
+        const ys = [-bounds.yRadius, bounds.yRadius, ...points.map((node) => node.y)];
+        const minX = Math.min(...xs), maxX = Math.max(...xs);
+        const minY = Math.min(...ys), maxY = Math.max(...ys);
+        const centerX = (minX + maxX) / 2, centerY = (minY + maxY) / 2;
+        const width = Math.max((maxX - minX) * 1.18,
+            (maxY - minY) * 1.18 * geometry.width / geometry.height);
+        const height = width * geometry.height / geometry.width;
+        viewIsFitted = true;
+        fittingView = true;
+        return applyRanges([centerX - width / 2, centerX + width / 2],
+            [centerY - height / 2, centerY + height / 2])
+            .finally(() => { fittingView = false; });
+    }
+
+    function zoomMap(factor) {
+        const geometry = plotGeometry();
+        if (!geometry) return;
+        const currentWidth = geometry.x[1] - geometry.x[0];
+        const width = Math.max(MIN_X_SPAN, Math.min(MAX_X_SPAN, currentWidth * factor));
+        const height = width * geometry.height / geometry.width;
+        const x = (geometry.x[0] + geometry.x[1]) / 2;
+        const y = (geometry.y[0] + geometry.y[1]) / 2;
+        viewIsFitted = false;
+        applyRanges([x - width / 2, x + width / 2], [y - height / 2, y + height / 2]);
+    }
+
+    function createNavigation() {
+        const style = document.createElement("style");
+        style.textContent = `
+            #${gd.id}, #${gd.id} .svg-container, #${gd.id} .main-svg,
+            #${gd.id} .draglayer, #${gd.id} .draglayer * {
+                touch-action:pan-y !important;
+            }
+            #semantic-map-navigation {
+                position:sticky; top:0; z-index:120;
+                display:flex; align-items:center; flex-wrap:wrap; gap:8px;
+                padding:8px 10px; box-sizing:border-box;
+                background:${CONFIG.colors.background};
+                border-bottom:1px solid ${CONFIG.colors.border};
+                font:12px/1.5 JetBrains Mono, Fira Code, monospace;
+            }
+            #semantic-map-navigation button {
+                min-width:44px; min-height:44px; padding:8px 12px;
+                border:1px solid ${CONFIG.colors.primary}; border-radius:8px;
+                background:${CONFIG.colors.surface}; color:${CONFIG.colors.text};
+                font:inherit; font-weight:600; cursor:pointer; touch-action:manipulation;
+            }
+            #semantic-map-navigation button:hover { background:${CONFIG.colors.border}; }
+            #semantic-map-navigation button:focus-visible {
+                outline:2px solid ${CONFIG.colors.primary}; outline-offset:3px;
+            }
+            #semantic-map-touch-hint { display:none; margin:0; color:${CONFIG.colors.text}; }
+            @media (pointer:coarse), (hover:none) {
+                #semantic-map-touch-hint { display:block; flex:1 1 220px; }
+            }
+            @media (max-width:760px) {
+                #semantic-map-search { font-size:16px !important; min-height:44px; }
+                #semantic-map-controls label { min-height:44px; }
+                #semantic-map-controls input[type=checkbox] { width:20px; height:20px; }
+            }
+        `;
+        document.head.appendChild(style);
+        const navigation = document.createElement("div");
+        navigation.id = "semantic-map-navigation";
+        navigation.setAttribute("role", "group");
+        navigation.innerHTML = `
+            <button type="button" id="semantic-map-zoom-in">+</button>
+            <button type="button" id="semantic-map-zoom-out">−</button>
+            <button type="button" id="semantic-map-fit"></button>
+            <p id="semantic-map-touch-hint"></p>
+        `;
+        gd.insertAdjacentElement("beforebegin", navigation);
+        navigation.querySelector("#semantic-map-zoom-in").addEventListener("click", () => zoomMap(1 / 1.4));
+        navigation.querySelector("#semantic-map-zoom-out").addEventListener("click", () => zoomMap(1.4));
+        navigation.querySelector("#semantic-map-fit").addEventListener("click", fitMap);
+        function translate(language) {
+            const copy = ((CONFIG.copy || {})[language] || (CONFIG.copy || {}).en || {}).controls || {};
+            navigation.setAttribute("aria-label", copy.navigation || "Map navigation");
+            for (const [id, key] of [["zoom-in", "zoom_in"], ["zoom-out", "zoom_out"], ["fit", "fit_description"]]) {
+                const button = navigation.querySelector(`#semantic-map-${id}`);
+                button.setAttribute("aria-label", copy[key] || key);
+                button.title = copy[key] || key;
+            }
+            navigation.querySelector("#semantic-map-fit").textContent = copy.fit || "Fit";
+            navigation.querySelector("#semantic-map-touch-hint").textContent = copy.touch_hint || "";
+        }
+        let language = "en";
+        try { language = localStorage.getItem("print-human-map-language") || "en"; } catch (error) {}
+        translate(language);
+        window.addEventListener("print-human-languagechange", (event) => translate(event.detail.language));
+        window.addEventListener("storage", (event) => {
+            if (event.key === "print-human-map-language") translate(event.newValue);
+        });
+
+        // Expand the same-origin Streamlit frame with its content so page scrolling
+        // also reaches controls and explanations without a second scroll area.
+        if (window.frameElement && typeof ResizeObserver === "function") {
+            const observer = new ResizeObserver(() => {
+                const height = Math.ceil(document.body.getBoundingClientRect().height);
+                if (height > 0) window.frameElement.style.height = `${height}px`;
+            });
+            observer.observe(document.body);
+        }
+    }
+
+    function touchPair(touches) {
+        const [a, b] = touches;
+        return {
+            x: (a.clientX + b.clientX) / 2,
+            y: (a.clientY + b.clientY) / 2,
+            distance: Math.max(1, Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY)),
+        };
+    }
+
+    function flushTouchRanges() {
+        touchFrame = null;
+        if (updatingTouch || !pendingTouchRanges) return;
+        const ranges = pendingTouchRanges;
+        pendingTouchRanges = null;
+        updatingTouch = true;
+        applyRanges(ranges.x, ranges.y).finally(() => {
+            updatingTouch = false;
+            if (pendingTouchRanges) touchFrame = requestAnimationFrame(flushTouchRanges);
+        });
+    }
+
+    function handleTouchStart(event) {
+        event.stopImmediatePropagation();
+        if (event.touches.length === 1) {
+            touchStart = event.touches[0];
+            touchMoved = false;
+        }
+        const touches = Array.from(event.touches).filter((touch) => gd.contains(touch.target));
+        if (touches.length !== 2) {
+            touchGesture = null;
+            return;
+        }
+        const geometry = plotGeometry();
+        if (!geometry) return;
+        if (event.cancelable) event.preventDefault();
+        const pair = touchPair(touches);
+        touchGesture = {...geometry, distance: pair.distance,
+            anchorX: geometry.x[0] + (pair.x - geometry.left) / geometry.width * (geometry.x[1] - geometry.x[0]),
+            anchorY: geometry.y[1] - (pair.y - geometry.top) / geometry.height * (geometry.y[1] - geometry.y[0]),
+        };
+        touchMoved = true;
+        viewIsFitted = false;
+        suppressClickUntil = Date.now() + 800;
+    }
+
+    function handleTouchMove(event) {
+        event.stopImmediatePropagation();
+        if (touchStart && Array.from(event.touches).some((touch) =>
+            touch.identifier === touchStart.identifier
+            && Math.hypot(touch.clientX - touchStart.clientX, touch.clientY - touchStart.clientY) > CLICK_TOLERANCE)) {
+            touchMoved = true;
+        }
+        if (!touchGesture || event.touches.length !== 2) return;
+        if (event.cancelable) event.preventDefault();
+        const pair = touchPair(event.touches);
+        const startWidth = touchGesture.x[1] - touchGesture.x[0];
+        const width = Math.max(MIN_X_SPAN, Math.min(MAX_X_SPAN,
+            startWidth * touchGesture.distance / pair.distance));
+        const height = width * touchGesture.height / touchGesture.width;
+        const left = touchGesture.anchorX - (pair.x - touchGesture.left) / touchGesture.width * width;
+        const top = touchGesture.anchorY + (pair.y - touchGesture.top) / touchGesture.height * height;
+        pendingTouchRanges = {x: [left, left + width], y: [top - height, top]};
+        if (!touchFrame && !updatingTouch) touchFrame = requestAnimationFrame(flushTouchRanges);
+        suppressClickUntil = Date.now() + 800;
+    }
+
+    function handleTouchEnd(event) {
+        event.stopImmediatePropagation();
+        if (touchGesture) {
+            if (event.cancelable) event.preventDefault();
+            suppressClickUntil = Date.now() + 800;
+            touchGesture = null;
+        }
+        if (event.touches.length === 0) {
+            if (!touchMoved && touchStart && event.type !== "touchcancel") {
+                // Plotly's touch handlers are bypassed, so select a tapped node
+                // through the map's existing selection path.
+                gd.dispatchEvent(new CustomEvent("print-human-maptap", {detail: {
+                    clientX: touchStart.clientX, clientY: touchStart.clientY, target: touchStart.target,
+                }}));
+                suppressClickUntil = Date.now() + 500;
+            }
+            touchStart = null;
+        }
+    }
+
+    function bindTouchNavigation() {
+        for (const [type, handler] of [["touchstart", handleTouchStart], ["touchmove", handleTouchMove],
+            ["touchend", handleTouchEnd], ["touchcancel", handleTouchEnd]]) {
+            gd.addEventListener(type, handler, {capture: true, passive: false});
+        }
+        gd.addEventListener("click", (event) => {
+            if (Date.now() < suppressClickUntil) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+        }, true);
+    }
 
 
     // Plot geometry
@@ -984,6 +1230,7 @@
 
 
     function handleMapClick(event) {
+        if (Date.now() < suppressClickUntil) return;
         const path =
             eventPath(
                 event
@@ -1171,7 +1418,13 @@
 
         gd.on(
             "plotly_relayout",
-            () => {
+            (event) => {
+                if (!fittingView && !configuringAxes && Object.keys(event).some((key) => /[xy]axis\.range/.test(key))) {
+                    viewIsFitted = false;
+                }
+                if (viewIsFitted && ("height" in event || "width" in event || "autosize" in event)) {
+                    requestAnimationFrame(fitMap);
+                }
                 enforceZoomOutLimit();
 
                 scheduleVisualScale();
@@ -1273,6 +1526,10 @@
 
     captureTraceGeometry();
 
+    createNavigation();
+
+    bindTouchNavigation();
+
     bindPlotBackgrounds();
 
     bindPlotlyLifecycle();
@@ -1286,6 +1543,7 @@
         ])
         .finally(
             () => {
+                fitMap();
                 enforceZoomOutLimit();
 
                 scheduleVisualScale();

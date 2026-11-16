@@ -3875,23 +3875,29 @@
                     }
 
                     if (isMobile()) {
+                        let viewportHeight = window.innerHeight;
+                        try { viewportHeight = window.parent.innerHeight; } catch (error) {}
                         const height =
                             Math.max(
-                                640,
+                                320,
 
                                 Math.min(
-                                    820,
+                                    540,
 
-                                    window.innerHeight
+                                    viewportHeight * 0.68,
+
+                                    gd.clientWidth
                                     *
-                                    0.82
+                                    1.15
                                 )
                             );
 
+                        gd.style.height = `${height}px`;
                         Plotly.relayout(
                             gd,
                             {
                                 height,
+                                width: gd.clientWidth,
 
                                 "margin.l":
                                     18,
@@ -3900,24 +3906,26 @@
                                     18,
 
                                 "margin.t":
-                                    62,
-
-                                "margin.b":
                                     46,
 
+                                "margin.b":
+                                    20,
+
                                 "title.font.size":
-                                    17,
+                                    14,
                             }
                         ).then(
                             scheduleOverlayUpdate
                         );
 
                     } else {
+                        gd.style.height = "860px";
                         Plotly.relayout(
                             gd,
                             {
                                 height:
                                     860,
+                                width: gd.clientWidth,
 
                                 "margin.l":
                                     48,
@@ -3950,6 +3958,33 @@
     injectResponsiveStyles();
 
     createControls();
+
+    gd.addEventListener("print-human-maptap", (event) => {
+        const {clientX, clientY, target} = event.detail;
+        const label = target.closest && target.closest(".semantic-map-label");
+        if (label) {
+            const node = nodesByTag.get(label.dataset.tag);
+            if (node) selectTag(node);
+            return;
+        }
+        const rect = gd.getBoundingClientRect();
+        const {xaxis, yaxis} = gd._fullLayout;
+        let nearest = null;
+        let nearestDistance = 22;
+        for (const node of nodesInView()) {
+            if (Number(node.level || 0) > state.detail) continue;
+            const distance = Math.hypot(
+                rect.left + xaxis._offset + xaxis.l2p(node.x) - clientX,
+                rect.top + yaxis._offset + yaxis.l2p(node.y) - clientY
+            );
+            if (distance < nearestDistance) {
+                nearest = node;
+                nearestDistance = distance;
+            }
+        }
+        if (nearest) selectTag(nearest);
+        else clearSelection();
+    });
 
     bindBackgroundDeselect();
 

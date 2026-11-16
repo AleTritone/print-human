@@ -39,7 +39,7 @@ PRIMARY = THEME_ACCENT
 BORDER = "#30363D"
 
 BRAIN_COLOR = THEME_ACCENT
-BRAIN_OPACITY = 0.13
+BRAIN_OPACITY = 0.72
 
 THEME_VARIANTS = theme_variants()
 NODE_BASE = THEME_VARIANTS["accent"]
@@ -2271,7 +2271,9 @@ def render_preview(data):
 
             "responsive": True,
 
-            "scrollZoom": True,
+            "scrollZoom": False,
+
+            "displayModeBar": False,
 
             "showTips": False,
         },

@@ -552,6 +552,12 @@
     }
   },
   "controls": {
+    "navigation": "Map navigation",
+    "zoom_in": "Zoom in on the map",
+    "zoom_out": "Zoom out of the map",
+    "fit": "Fit",
+    "fit_description": "Show the whole map",
+    "touch_hint": "One finger to scroll the page · two fingers to zoom and move the map",
     "detail": "detail",
     "links": "links"
   }
