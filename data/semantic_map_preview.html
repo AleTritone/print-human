@@ -5616,7 +5616,7 @@
     window.PrintHumanNeural = {
         create:
             createManager,
-        // Tree and load calculations shared by the map and explanations.
+        // Shared flow calculations
         explain(rootTag, nodes, edges) {
             const graphEdges = buildGraphEdges(nodes, edges);
             const options = {...DEFAULTS};
@@ -6033,7 +6033,7 @@
             new Set();
 
 
-        // Position over Plotly brain
+        // Plotly alignment
 
 
         function updateBounds() {
@@ -6971,6 +6971,7 @@
     };
 })();
 
+
 /* =====================================================
    semantic_map_explanations.js
    ===================================================== */
@@ -7103,7 +7104,6 @@
         return {item, other, a, b, shared, union, jaccard: union > 0 ? shared / union : 0};
     }
 
-    // Validate the neighbour union against node degrees and total edge weights.
     function collectLayoutEdges(nodes, provided) {
         if (Array.isArray(provided) && provided.length) return provided;
         const found = new Map();
@@ -7375,7 +7375,6 @@
 
     function renderEchoes(node, e) {
         const c = e.topic;
-        // Zero-overlap pairs provide examples for ideas without listed echoes.
         const candidates = node.context?.length ? node.context
             : e.nodes.filter((other) => other.tag !== node.tag).slice(0, 1);
         const pair = pairFor(node, candidates, e);
@@ -8017,13 +8016,11 @@
                 });
             });
         });
-        // Recompute the open explanation when the selection or language changes.
         if (activeMethodologyTopic) renderMethodologyBox(info, node, activeMethodologyTopic);
     }
 
 
     function intensityLabel(value) {
-        // Classification uses the displayed two-decimal value.
         const intensity = Number(numberOr(value, 1).toFixed(2));
 
         if (intensity < 2) {
@@ -9099,7 +9096,6 @@
                         )
                 );
 
-            // Small maps display all labels; larger maps filter collisions.
             const allowCollisionSuppression =
                 nodes.length > 14;
 
@@ -9466,7 +9462,6 @@
                 auto;
         `;
 
-        // Place selected-idea details between the map and controls.
         uiHost.insertBefore(
             info,
             controls

@@ -1,4 +1,4 @@
-// Update the preview's UI bundle and translations while retaining its figure.
+// Semantic-map preview UI and translations
 const fs = require("node:fs");
 const path = require("node:path");
 const assert = require("node:assert/strict");

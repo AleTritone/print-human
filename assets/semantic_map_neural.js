@@ -5606,7 +5606,7 @@
     window.PrintHumanNeural = {
         create:
             createManager,
-        // Tree and load calculations shared by the map and explanations.
+        // Shared flow calculations
         explain(rootTag, nodes, edges) {
             const graphEdges = buildGraphEdges(nodes, edges);
             const options = {...DEFAULTS};

@@ -48,11 +48,11 @@ NODE_LIGHT = THEME_VARIANTS["light"]
 NODE_BRIGHT = THEME_VARIANTS["bright"]
 NODE_WHITE = "#F8FBFF"
 
-# Connection gradients use theme-colored light tones and white.
+# Connection gradients
 NEURAL_COLOR = THEME_VARIANTS["neural"]
 NEURAL_PULSE = "#F8FBFF"
 
-# Ambient node colors use multiple tonal levels from the theme palette.
+# Ambient node colors
 AMBIENT_PALETTE = [
     THEME_VARIANTS["soft"],
     THEME_VARIANTS["accent"],
@@ -84,13 +84,7 @@ INITIAL_Y_RANGE = [
 ]
 
 
-# =========================================================
 # Maximum zoom-out
-#
-# 1.00 = initial scale
-# 0.50 = twice the visible width
-# 0.25 = four times the visible width
-# =========================================================
 
 
 MAX_ZOOM_OUT_SCALE = 0.25
@@ -271,15 +265,7 @@ def read_javascript(
 
 
 def load_javascript_bundle():
-    """
-    JavaScript loading order:
-
-    1. semantic_map_neural.js
-    2. semantic_map_ambient.js
-    3. semantic_map_explanations.js
-    4. semantic_map.js
-    5. semantic_map_interaction.js
-    """
+    """Load semantic-map modules in dependency order."""
 
     parts = [
         read_javascript(
@@ -469,18 +455,12 @@ def node_marker_color(
     minimum,
     maximum,
 ):
-    """Theme-derived discrete ramp: accent -> pale accent -> near white.
-
-    Keep every emitted color on the named theme palette.  The semantic-map
-    page can then replace the complete green palette with blue/rose/violet
-    without leaving interpolated green RGB values behind.
-    """
+    """Map node weights to discrete theme colors."""
     if maximum <= minimum:
         return NODE_BASE
 
     t = (float(weight) - minimum) / (maximum - minimum)
     t = max(0.0, min(1.0, t))
-    # Expand lower attraction values to retain visible tonal differences.
     t = t ** 0.35
 
     if t < 0.20:
@@ -2295,11 +2275,8 @@ def main():
             output_path
         ),
 
-        # Load the versioned library over HTTP, where the browser can cache it,
-        # rather than sending it inside Streamlit's WebSocket on every visit.
         include_plotlyjs="cdn",
 
-        # Stable output avoids an automatic commit when the data is unchanged.
         div_id="semantic-map",
 
         full_html=True,

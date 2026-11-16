@@ -567,7 +567,7 @@ def render_post(post, posts, language="it", theme="green"):
 
 
 def render_semantic_map_preview(language="it", theme="green"):
-    """Render a lightweight home teaser without loading Plotly."""
+    """Render the semantic-map teaser on the home page."""
 
     brain_path = ASSETS_DIR / "brain.svg"
 

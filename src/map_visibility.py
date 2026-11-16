@@ -93,7 +93,6 @@ def assign_base_visibility_levels(priorities):
     if total == 0:
         return {}
 
-    # Display every label at the initial zoom level on small maps.
     if total <= SMALL_MAP_ALL_LABELS_THRESHOLD:
         return {tag: 0 for tag in ordered}
 

@@ -23,7 +23,7 @@ from src.map_visibility import (
 )
 
 
-# Interaction vectors combine word semantics and publication context.
+# Interaction parameters
 BASE_VECTOR_WEIGHT = 0.70
 CONTEXT_VECTOR_WEIGHT = 0.30
 SEMANTIC_WEIGHT = 0.80
@@ -32,7 +32,7 @@ SEMANTIC_EDGE_THRESHOLD = 0.35
 INTENSITY_SCALE_MIN = 1.0
 INTENSITY_SCALE_RANGE = 4.0
 
-# Layout affinity combines GloVe similarity with evidence-weighted co-occurrence.
+# Layout parameters
 LAYOUT_KNN_MIN = 2
 LAYOUT_KNN_MAX = 6
 LAYOUT_CORPUS_MAX_BOOST = 0.65
@@ -363,9 +363,7 @@ def build_layout_vectors(
     base_vectors,
     context_vectors,
 ):
-    """
-    Use word vectors for placement, or publication context for vocabulary gaps.
-    """
+    """Build layout vectors with publication-context fallback."""
     result = {}
 
     for tag in base_vectors:
@@ -391,8 +389,6 @@ def semantic_distance(a, b):
     if a is None or b is None:
         return None
 
-    # Euclidean distance between unit vectors. It is monotonic with cosine
-    # distance but is directly suitable for classical metric MDS.
     return float(
         np.linalg.norm(a - b)
     )
@@ -420,10 +416,7 @@ def hybrid_layout_affinity(
     cooccurrence_score,
     cooccurrence_count,
 ):
-    """
-    Increase linguistic affinity according to normalized co-occurrence
-    and confidence from repeated shared publications.
-    """
+    """Combine linguistic similarity and publication co-occurrence."""
     semantic = float(
         np.clip(
             semantic_similarity or 0.0,
@@ -779,7 +772,6 @@ def layout_matrices_for_tags(
         nan=fallback_distance,
     )
 
-    # Pairs with missing vectors receive a low projection weight.
     missing_mask = (
         (weights == 0.0)
         & (~np.eye(count, dtype=bool))
@@ -981,7 +973,6 @@ def weighted_smacof(
             previous_stress - current_stress
         )
 
-        # Stop at the last non-increasing stress value to avoid numerical drift.
         if improvement < -1e-10:
             break
 
@@ -1276,10 +1267,7 @@ def separate_overlapping_systems(
     tags,
     communities,
 ):
-    """
-    Separate overlapping systems with bounded translations that preserve
-    the relative coordinates within each system.
-    """
+    """Separate overlapping systems with bounded translations."""
     coordinates = np.asarray(
         coordinates,
         dtype=float,
@@ -1455,7 +1443,7 @@ def calculate_semantic_system_layout(
         tags,
     )
 
-    # Separate overlapping community regions with bounded translations.
+    # Community separation
     coordinates = separate_overlapping_systems(
         coordinates,
         tags,
@@ -1488,7 +1476,6 @@ def calculate_semantic_system_layout(
             dtype=float,
         )
 
-        # Uniform scaling controls the occupied area and preserves geometry.
         candidate *= LAYOUT_COMPACTNESS
 
         candidate += deterministic_jitter(
@@ -1636,9 +1623,7 @@ def calculate_tag_weights(
 
 
 def calculate_attraction_strength(layout_graph):
-    """
-    Normalize weighted layout degrees to control label brightness and glow.
-    """
+    """Normalize weighted layout degrees for label brightness."""
     if layout_graph.number_of_nodes() == 0:
         return {}
 
@@ -1780,7 +1765,7 @@ def build_semantic_map(posts, model):
         cooccurrences,
     )
 
-    # Enriched vectors determine interaction links and flow paths.
+    # Interaction graph
     interaction_vectors = combine_map_vectors(
         base_vectors,
         context_vectors,
@@ -1792,7 +1777,7 @@ def build_semantic_map(posts, model):
         cooccurrences,
     )
 
-    # Hybrid affinities determine layout distances and communities.
+    # Layout graph
     layout_vectors = build_layout_vectors(
         base_vectors,
         context_vectors,
@@ -2033,7 +2018,6 @@ def build_semantic_map(posts, model):
                 }
                 for item in context_sources[tag]
             ],
-            # Anchor fields are empty in the semantic layout.
             "anchors": [],
             "anchor_scores": [],
             "anchor_target_x": 0.0,
@@ -2186,7 +2170,6 @@ def build_semantic_map(posts, model):
         "systems": systems,
         "nodes": nodes,
         "edges": edges,
-        # Full layout graph for circuit inspection; node lists contain top neighbours.
         "layout_edges": [
             {
                 "source": a,

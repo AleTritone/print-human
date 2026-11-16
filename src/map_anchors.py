@@ -1,4 +1,4 @@
-# Publication tags excluded from the semantic map.
+# Excluded publication tags
 
 MAP_EXCLUDED_TAGS = {
     "python",

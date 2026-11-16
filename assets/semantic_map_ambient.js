@@ -391,7 +391,7 @@
             new Set();
 
 
-        // Position over Plotly brain
+        // Plotly alignment
 
 
         function updateBounds() {

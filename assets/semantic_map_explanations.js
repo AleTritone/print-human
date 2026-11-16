@@ -127,7 +127,6 @@
         return {item, other, a, b, shared, union, jaccard: union > 0 ? shared / union : 0};
     }
 
-    // Validate the neighbour union against node degrees and total edge weights.
     function collectLayoutEdges(nodes, provided) {
         if (Array.isArray(provided) && provided.length) return provided;
         const found = new Map();
@@ -399,7 +398,6 @@
 
     function renderEchoes(node, e) {
         const c = e.topic;
-        // Zero-overlap pairs provide examples for ideas without listed echoes.
         const candidates = node.context?.length ? node.context
             : e.nodes.filter((other) => other.tag !== node.tag).slice(0, 1);
         const pair = pairFor(node, candidates, e);

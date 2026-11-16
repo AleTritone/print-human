@@ -79,7 +79,7 @@ def render_semantic_map(language="it", theme="green"):
 
     preview_html = SEMANTIC_PREVIEW.read_text(encoding="utf-8")
 
-    # Apply the selected palette to the stored preview.
+    # Preview palette
     primary_match = re.search(r'"primary"\s*:\s*"(#[0-9A-Fa-f]{6})"', preview_html)
     if primary_match:
         generated_accent = primary_match.group(1)
@@ -107,7 +107,7 @@ def render_semantic_map(language="it", theme="green"):
             f"%23{selected_accent.lstrip('#').lower()}",
         )
 
-        # Recolor tonal variants to keep node and connection gradients consistent.
+        # Tonal variants
         for source_color, target_color in semantic_theme_replacements("green", theme).items():
             source_hex = source_color.lstrip("#")
             target_hex = target_color.lstrip("#")

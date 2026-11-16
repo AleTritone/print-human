@@ -23,7 +23,7 @@
   --color-gradient-start: rgba(13, 17, 23, 1);
   --color-gradient-end: rgba(13, 17, 23, 0);
 
-  /* Syntax palette: every chromatic token derives from the selected accent. */
+  /* Syntax palette */
   --syntax-text: #E6EDF3;
   --syntax-comment: #7D8590;
   --syntax-keyword: var(--theme-accent);

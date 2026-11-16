@@ -501,13 +501,11 @@
                 });
             });
         });
-        // Recompute the open explanation when the selection or language changes.
         if (activeMethodologyTopic) renderMethodologyBox(info, node, activeMethodologyTopic);
     }
 
 
     function intensityLabel(value) {
-        // Classification uses the displayed two-decimal value.
         const intensity = Number(numberOr(value, 1).toFixed(2));
 
         if (intensity < 2) {
@@ -1583,7 +1581,6 @@
                         )
                 );
 
-            // Small maps display all labels; larger maps filter collisions.
             const allowCollisionSuppression =
                 nodes.length > 14;
 
@@ -1950,7 +1947,6 @@
                 auto;
         `;
 
-        // Place selected-idea details between the map and controls.
         uiHost.insertBefore(
             info,
             controls
