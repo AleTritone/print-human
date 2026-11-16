@@ -132,7 +132,7 @@
 
     const state = {
         detail: 3,
-        tagEdges: true,
+        neuralLinks: true,
         anchorEdges: false,
         axes: false,
     };
@@ -1687,7 +1687,7 @@
             return null;
         }
 
-        if (!selectedTag) {
+        if (!selectedTag || !state.neuralLinks) {
             neuralManager.clear();
             return null;
         }
@@ -1834,9 +1834,9 @@
 
             <label>
                 <input
-                    id="semantic-map-tag-edges"
+                    id="semantic-map-neural-links"
                     type="checkbox"
-                    ${state.tagEdges ? "checked" : ""}
+                    ${state.neuralLinks ? "checked" : ""}
                 >
                 ${escapeHtml(mapCopy("controls.links"))}
             </label>
@@ -1955,15 +1955,16 @@
 
         document
             .getElementById(
-                "semantic-map-tag-edges"
+                "semantic-map-neural-links"
             )
             .addEventListener(
                 "change",
                 (event) => {
-                    state.tagEdges =
+                    state.neuralLinks =
                         event.target.checked;
 
-                    applyVisibility();
+                    drawSelectedNeuralNetwork();
+                    refreshSelectedInfo();
                 }
             );
 
@@ -3727,15 +3728,9 @@
                     ===
                     "tag-edge"
                 ) {
-                    (
-                        state.tagEdges
-                        &&
-                        detail >= 1
-                            ? show
-                            : hide
-                    ).push(
-                        index
-                    );
+                    // Never expose the complete interaction graph, including
+                    // when loading an older preview that still has these traces.
+                    hide.push(index);
 
                 } else if (
                     layer

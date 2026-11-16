@@ -63,13 +63,6 @@ AMBIENT_PALETTE = [
 AXIS_COLOR = accent_rgba(0.06)
 ANCHOR_EDGE_COLOR = accent_rgba(0.12)
 
-TAG_EDGE_COLORS = {
-    "weak": "rgba(201, 209, 217, 0.32)",
-    "medium": "rgba(201, 209, 217, 0.50)",
-    "strong": "rgba(201, 209, 217, 0.74)",
-}
-
-
 # Initial viewport
 
 
@@ -1237,149 +1230,6 @@ def add_axis_lines(
         )
 
 
-# Tag edges
-
-
-def edge_bucket(strength):
-    strength = float(
-        strength
-    )
-
-    if strength < 0.45:
-        return "weak"
-
-    if strength < 0.65:
-        return "medium"
-
-    return "strong"
-
-
-def add_tag_edges(
-    figure,
-    data,
-    node_lookup,
-):
-    buckets = {
-        name: {
-            "x": [],
-            "y": [],
-        }
-        for name in (
-            TAG_EDGE_COLORS
-        )
-    }
-
-    for edge in data.get(
-        "edges",
-        [],
-    ):
-        source = (
-            node_lookup.get(
-                edge["source"]
-            )
-        )
-
-        target = (
-            node_lookup.get(
-                edge["target"]
-            )
-        )
-
-        if (
-            source is None
-            or
-            target is None
-        ):
-            continue
-
-        bucket = edge_bucket(
-            edge.get(
-                "strength",
-                0.0,
-            )
-        )
-
-        buckets[
-            bucket
-        ]["x"].extend([
-            source["x"],
-            target["x"],
-            None,
-        ])
-
-        buckets[
-            bucket
-        ]["y"].extend([
-            source["y"],
-            target["y"],
-            None,
-        ])
-
-    widths = {
-        "weak": 1.1,
-        "medium": 1.6,
-        "strong": 2.2,
-    }
-
-    for name in (
-        "weak",
-        "medium",
-        "strong",
-    ):
-        if not buckets[
-            name
-        ]["x"]:
-            continue
-
-        figure.add_trace(
-            go.Scatter(
-                x=(
-                    buckets[
-                        name
-                    ]["x"]
-                ),
-
-                y=(
-                    buckets[
-                        name
-                    ]["y"]
-                ),
-
-                mode="lines",
-
-                line={
-                    "width": (
-                        widths[
-                            name
-                        ]
-                    ),
-
-                    "color": (
-                        TAG_EDGE_COLORS[
-                            name
-                        ]
-                    ),
-                },
-
-                hoverinfo="skip",
-
-                showlegend=False,
-
-                visible=False,
-
-                meta={
-                    "layer": (
-                        "tag-edge"
-                    ),
-
-                    "strengthBucket": (
-                        name
-                    ),
-                },
-            )
-        )
-
-
 # Anchor edges
 
 
@@ -2100,12 +1950,6 @@ def build_figure(
         )
     )
 
-    node_lookup = (
-        build_node_lookup(
-            data
-        )
-    )
-
     anchor_lookup = (
         build_anchor_lookup(
             data
@@ -2117,12 +1961,6 @@ def build_figure(
     add_background_layers(
         figure,
         brain_asset,
-    )
-
-    add_tag_edges(
-        figure,
-        data,
-        node_lookup,
     )
 
     add_tag_nodes(

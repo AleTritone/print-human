@@ -28,7 +28,7 @@
         maxAmplitude: 30,
         amplitudeFactor: 0.040,
 
-        mainCoreWidth: 1.30,
+        mainCoreWidth: 1.60,
         mainStrengthWidth: 1.20,
         mainCoreOpacity: 0.98,
 
@@ -55,12 +55,12 @@
         angleGapWeightMax: 2.10,
         angleGapExponent: 1.35,
 
-        branchCoreWidth: 0.82,
+        branchCoreWidth: 1.00,
         branchHaloWidth: 3.2,
 
-        branchCoreOpacityNear: 0.66,
-        branchCoreOpacityMid: 0.48,
-        branchCoreOpacityFar: 0.28,
+        branchCoreOpacityNear: 0.78,
+        branchCoreOpacityMid: 0.64,
+        branchCoreOpacityFar: 0.44,
 
         branchHaloOpacityNear: 0.10,
         branchHaloOpacityMid: 0.055,
@@ -76,12 +76,12 @@
         terminalAngleMin: 0.26,
         terminalAngleMax: 0.66,
 
-        terminalCoreWidth: 0.54,
+        terminalCoreWidth: 0.70,
         terminalHaloWidth: 2.1,
 
-        terminalCoreOpacityNear: 0.40,
-        terminalCoreOpacityMid: 0.24,
-        terminalCoreOpacityFar: 0.045,
+        terminalCoreOpacityNear: 0.58,
+        terminalCoreOpacityMid: 0.42,
+        terminalCoreOpacityFar: 0.22,
 
         terminalHaloOpacityNear: 0.055,
         terminalHaloOpacityMid: 0.024,
@@ -117,11 +117,11 @@
             },
 
             2: {
-                lineOpacity: 0.64,
-                lineWidth: 0.74,
+                lineOpacity: 0.80,
+                lineWidth: 0.85,
                 glow: 0.52,
 
-                arborOpacity: 0.60,
+                arborOpacity: 0.72,
                 arborLength: 0.72,
                 arborCount: 0.72,
 
@@ -133,11 +133,11 @@
             },
 
             3: {
-                lineOpacity: 0.38,
-                lineWidth: 0.56,
+                lineOpacity: 0.62,
+                lineWidth: 0.72,
                 glow: 0.27,
 
-                arborOpacity: 0.38,
+                arborOpacity: 0.56,
                 arborLength: 0.54,
                 arborCount: 0.54,
 

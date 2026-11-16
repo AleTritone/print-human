@@ -60,6 +60,11 @@ A link is retained when enriched cosine similarity is at least 0.35 or the pair
 shares a publication. Selecting an idea builds an exploration tree from these
 links and leaves the layout coordinates fixed.
 
+The map renders that tree as organic neural curves and branching arbors. The
+"neural tree" checkbox is enabled by default and controls the selected idea's
+tree. The complete interaction graph is available to the tree algorithm but is
+never plotted as a mesh of straight connections.
+
 ## Labels and explanations
 
 Intensity combines normalized publication recurrence and direct connection
