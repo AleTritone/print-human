@@ -132,7 +132,7 @@
 
     const state = {
         detail: 3,
-        tagEdges: false,
+        tagEdges: true,
         anchorEdges: false,
         axes: false,
     };
@@ -1836,6 +1836,7 @@
                 <input
                     id="semantic-map-tag-edges"
                     type="checkbox"
+                    ${state.tagEdges ? "checked" : ""}
                 >
                 ${escapeHtml(mapCopy("controls.links"))}
             </label>
