@@ -1105,170 +1105,11 @@
     }
 
 
-    function pathMatches(
-        path,
-        selector
-    ) {
-        return path.some(
-            (element) => {
-                if (
-                    !element
-                    ||
-                    element.nodeType !== 1
-                    ||
-                    typeof element.matches
-                    !==
-                    "function"
-                ) {
-                    return false;
-                }
-
-                try {
-                    return element.matches(
-                        selector
-                    );
-
-                } catch (error) {
-                    return false;
-                }
-            }
-        );
-    }
-
-
-    function isUiClick(path) {
-        return (
-            pathMatches(
-                path,
-                "#semantic-map-controls"
-            )
-            ||
-            pathMatches(
-                path,
-                "#semantic-map-controls *"
-            )
-            ||
-            pathMatches(
-                path,
-                "#semantic-map-info"
-            )
-            ||
-            pathMatches(
-                path,
-                "#semantic-map-info *"
-            )
-            ||
-            pathMatches(
-                path,
-                ".semantic-map-label"
-            )
-            ||
-            pathMatches(
-                path,
-                ".semantic-map-label *"
-            )
-        );
-    }
-
-
-    function isNodeClick(path) {
-        return (
-            pathMatches(
-                path,
-                "path.point"
-            )
-            ||
-            pathMatches(
-                path,
-                ".point"
-            )
-        );
-    }
-
-
-    // Selection
-
-
-    function sendEscape() {
-        const event =
-            new KeyboardEvent(
-                "keydown",
-                {
-                    key:
-                        "Escape",
-
-                    code:
-                        "Escape",
-
-                    keyCode:
-                        27,
-
-                    which:
-                        27,
-
-                    bubbles:
-                        true,
-
-                    cancelable:
-                        true,
-                }
-            );
-
-        if (
-            document.body
-        ) {
-            document.body.dispatchEvent(
-                event
-            );
-
-        } else {
-            document.dispatchEvent(
-                event
-            );
-        }
-    }
-
-
-    function handleMapClick(event) {
-        if (Date.now() < suppressClickUntil) return;
-        const path =
-            eventPath(
-                event
-            );
-
-        if (
-            !pathContains(
-                path,
-                gd
-            )
-        ) {
-            return;
-        }
-
-        if (
-            isUiClick(
-                path
-            )
-        ) {
-            return;
-        }
-
-        if (
-            isNodeClick(
-                path
-            )
-        ) {
-            return;
-        }
-
-        sendEscape();
-    }
-
-
     // Pointer state
 
 
     function handlePointerDown(event) {
+        if (event.pointerType !== "touch") suppressClickUntil = 0;
         if (
             event.button !== 0
         ) {
@@ -1357,50 +1198,14 @@
             return;
         }
 
-        pointerState =
-            null;
+        if (pointerState.moved) suppressClickUntil = Math.max(suppressClickUntil, Date.now() + 250);
+        pointerState = null;
     }
 
 
     function handlePointerCancel() {
         pointerState =
             null;
-    }
-
-
-    // Plot background
-
-
-    function bindPlotBackgrounds() {
-        const backgrounds =
-            gd.querySelectorAll(
-                ".nsewdrag"
-            );
-
-        backgrounds.forEach(
-            (background) => {
-                if (
-                    background
-                        .dataset
-                        .printHumanDeselectBound
-                    ===
-                    "1"
-                ) {
-                    return;
-                }
-
-                background
-                    .dataset
-                    .printHumanDeselectBound =
-                    "1";
-
-                background.addEventListener(
-                    "click",
-                    sendEscape,
-                    true
-                );
-            }
-        );
     }
 
 
@@ -1428,55 +1233,20 @@
                 enforceZoomOutLimit();
 
                 scheduleVisualScale();
-
-                requestAnimationFrame(
-                    bindPlotBackgrounds
-                );
             }
         );
 
         gd.on(
             "plotly_afterplot",
             () => {
-                bindPlotBackgrounds();
-
                 scheduleVisualScale();
             }
         );
     }
 
 
-    function observePlotlyDom() {
-        const observer =
-            new MutationObserver(
-                () => {
-                    bindPlotBackgrounds();
-                }
-            );
-
-        observer.observe(
-            gd,
-            {
-                childList:
-                    true,
-
-                subtree:
-                    true,
-            }
-        );
-
-        return observer;
-    }
-
-
     // DOM events
 
-
-    document.addEventListener(
-        "click",
-        handleMapClick,
-        true
-    );
 
     document.addEventListener(
         "pointerdown",
@@ -1530,11 +1300,7 @@
 
     bindTouchNavigation();
 
-    bindPlotBackgrounds();
-
     bindPlotlyLifecycle();
-
-    observePlotlyDom();
 
     Promise
         .allSettled([

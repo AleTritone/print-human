@@ -60,10 +60,14 @@ A link is retained when enriched cosine similarity is at least 0.35 or the pair
 shares a publication. Selecting an idea builds an exploration tree from these
 links and leaves the layout coordinates fixed.
 
-The map renders that tree as organic neural curves and branching arbors. The
-"neural tree" checkbox is enabled by default and controls the selected idea's
-tree. The complete interaction graph is available to the tree algorithm but is
-never plotted as a mesh of straight connections.
+The map renders connections as organic neural curves and branching arbors. The
+"neural connections" checkbox is enabled by default and controls a background
+forest of disjoint trees built with the original branching rules. Every idea
+belongs to one tree, so the overview has at most N - 1 connections and no cycles.
+Selecting an idea always highlights its original exploration tree, including
+when the background checkbox is off. Background and selection use independent
+SVG layers and definitions. The complete interaction graph is available to the
+tree algorithm but is never plotted as a mesh of straight connections.
 
 ## Labels and explanations
 
@@ -135,3 +139,13 @@ embedded JavaScript before writing.
 node --test tests/semantic_map_explanations.test.cjs
 python -m unittest discover -s tests -p "test_*.py"
 ```
+
+With Streamlit running, Playwright and Chrome installed, the browser regression
+check clicks actual markers and labels with both mouse and touch in the full app:
+
+```bash
+node scripts/check_semantic_map_browser.cjs http://127.0.0.1:8502
+```
+
+It checks the initial overview, checkbox behavior without a selection, persistent
+selected paths with the checkbox off, and SVG definitions in both neural layers.

@@ -43,6 +43,29 @@ test("the map loads cacheable Plotly separately from the Streamlit payload", () 
     assert.match(preview, /id="semantic-map"/);
 });
 
+test("the background is a sparse forest with one parent per idea and the original branch limits", () => {
+    const forest = neural.forest(config.nodes, config.edges);
+    const covered = new Set();
+    let connectionCount = 0;
+    for (const tree of forest) {
+        const children = new Map();
+        assert(!covered.has(tree.rootTag));
+        covered.add(tree.rootTag);
+        for (const relation of tree.treeEdges) {
+            assert(covered.has(relation.parent), "A parent must precede its child");
+            assert(!covered.has(relation.child), "An idea must not acquire a second parent or form a cycle");
+            covered.add(relation.child);
+            children.set(relation.parent, (children.get(relation.parent) || 0) + 1);
+            assert(relation.depth <= 3);
+            connectionCount++;
+        }
+        for (const [parent, count] of children) assert(count <= (parent === tree.rootTag ? 3 : 2));
+    }
+    assert.deepEqual([...covered].sort(), config.nodes.map(node => node.tag).sort());
+    assert.equal(connectionCount, config.nodes.length - forest.length);
+    assert(connectionCount < config.edges.length / 2);
+});
+
 function shape(value) {
     if (Array.isArray(value)) return value.map(shape);
     if (value && typeof value === "object") return Object.fromEntries(Object.keys(value).sort().map((key) => [key, shape(value[key])]));

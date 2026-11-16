@@ -128,6 +128,7 @@
     let overlayFrame = null;
     let responsiveTimer = null;
     let neuralManager = null;
+    let backgroundNeuralManager = null;
     let ambientManager = null;
 
     const state = {
@@ -1623,20 +1624,24 @@
             ===
             "function"
         ) {
-            neuralManager =
-                window
-                    .PrintHumanNeural
-                    .create({
-                        gd,
-                        nodes,
-                        edges,
-                        colors,
-                        brainPaths,
-                        brainPathTransform,
-                        brainViewBox,
-                        brainBounds,
-                        dataToPixel,
-                    });
+            const neuralConfig = {
+                gd,
+                nodes,
+                edges,
+                colors,
+                brainPaths,
+                brainPathTransform,
+                brainViewBox,
+                brainBounds,
+                dataToPixel,
+            };
+            neuralManager = window.PrintHumanNeural.create(neuralConfig);
+            backgroundNeuralManager = window.PrintHumanNeural.create({
+                ...neuralConfig,
+                layerId: "semantic-neural-background",
+                background: true,
+            });
+            updateBackgroundNeuralNetwork();
 
         } else {
             console.warn(
@@ -1687,7 +1692,7 @@
             return null;
         }
 
-        if (!selectedTag || !state.neuralLinks) {
+        if (!selectedTag) {
             neuralManager.clear();
             return null;
         }
@@ -1711,7 +1716,17 @@
     }
 
 
+    function updateBackgroundNeuralNetwork() {
+        if (!backgroundNeuralManager) return;
+        if (state.neuralLinks) backgroundNeuralManager.drawForest();
+        else backgroundNeuralManager.clear();
+    }
+
+
     function redrawVisualModules() {
+        if (backgroundNeuralManager && state.neuralLinks) {
+            backgroundNeuralManager.redraw();
+        }
         if (ambientManager) {
             ambientManager.redraw();
         }
@@ -1963,8 +1978,7 @@
                     state.neuralLinks =
                         event.target.checked;
 
-                    drawSelectedNeuralNetwork();
-                    refreshSelectedInfo();
+                    updateBackgroundNeuralNetwork();
                 }
             );
 
@@ -3823,36 +3837,6 @@
     }
 
 
-    function bindBackgroundDeselect() {
-        const background =
-            gd.querySelector(
-                ".nsewdrag"
-            );
-
-        if (
-            !background
-            ||
-            background
-                .dataset
-                .semanticBound
-            ===
-            "1"
-        ) {
-            return;
-        }
-
-        background
-            .dataset
-            .semanticBound =
-            "1";
-
-        background.addEventListener(
-            "click",
-            clearSelection
-        );
-    }
-
-
     // Responsive layout
 
 
@@ -3982,7 +3966,15 @@
         else clearSelection();
     });
 
-    bindBackgroundDeselect();
+    // Resolve native clicks and touch taps through the same hit test. Plotly's
+    // drag rectangle sits over every marker, so its DOM target cannot tell a
+    // node click from an empty-background click.
+    gd.addEventListener("click", (event) => {
+        if (event.defaultPrevented) return;
+        gd.dispatchEvent(new CustomEvent("print-human-maptap", {detail: {
+            clientX: event.clientX, clientY: event.clientY, target: event.target,
+        }}));
+    });
 
     initializeVisualModules();
 
@@ -3996,8 +3988,6 @@
     gd.on(
         "plotly_afterplot",
         () => {
-            bindBackgroundDeselect();
-
             scheduleOverlayUpdate();
         }
     );
@@ -4061,51 +4051,6 @@
             }
         );
     }
-
-
-    gd.on(
-        "plotly_click",
-        (event) => {
-            const point =
-                event.points
-                &&
-                event.points[0];
-
-            if (!point) {
-                return;
-            }
-
-            const trace =
-                gd.data[
-                    point.curveNumber
-                ];
-
-            if (
-                (
-                    trace.meta
-                    ||
-                    {}
-                ).layer
-                !==
-                "node"
-            ) {
-                clearSelection();
-
-                return;
-            }
-
-            const node =
-                nodesByTag.get(
-                    point.customdata
-                );
-
-            if (node) {
-                selectTag(
-                    node
-                );
-            }
-        }
-    );
 
 
     document.addEventListener(

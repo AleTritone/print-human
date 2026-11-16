@@ -1246,6 +1246,29 @@
     }
 
 
+    // Build disjoint trees for the overview. Each idea belongs to one tree,
+    // using the same branching rules as an individual selected idea.
+    function buildSemanticForest(nodes, graphEdges, options) {
+        const remaining = new Set(nodes.map((node) => node.tag));
+        const roots = [...nodes].sort((a, b) => (
+            numberOr(b.priority, b.label_priority || 0) - numberOr(a.priority, a.label_priority || 0)
+            || numberOr(b.weight, 0) - numberOr(a.weight, 0)
+            || a.tag.localeCompare(b.tag)
+        ));
+        const forest = [];
+        for (const root of roots) {
+            if (!remaining.has(root.tag)) continue;
+            const availableEdges = graphEdges.filter((edge) => (
+                remaining.has(edge.source) && remaining.has(edge.target)
+            ));
+            const tree = annotateTreeFlow(buildSemanticTree(root.tag, availableEdges, options), options);
+            for (const tag of tree.connected) remaining.delete(tag);
+            forest.push(tree);
+        }
+        return forest;
+    }
+
+
     // Angular distribution
 
 
@@ -1891,11 +1914,12 @@
 
 
     function createLayer(
-        gd
+        gd,
+        id = "semantic-neural-layer"
     ) {
         const existing =
             document.getElementById(
-                "semantic-neural-layer"
+                id
             );
 
         if (
@@ -1911,8 +1935,9 @@
                 "svg"
             );
 
-        svg.id =
-            "semantic-neural-layer";
+        svg.id = id;
+        const glowId = `${id}-glow`;
+        const clipId = `${id}-brain-clip`;
 
         svg.setAttribute(
             "width",
@@ -1948,7 +1973,7 @@
 
         createGlowFilter(
             defs,
-            "semantic-neural-module-glow"
+            glowId
         );
 
 
@@ -1960,7 +1985,7 @@
 
         clipPath.setAttribute(
             "id",
-            "semantic-neural-brain-clip"
+            clipId
         );
 
         clipPath.setAttribute(
@@ -1998,7 +2023,7 @@
 
         content.setAttribute(
             "clip-path",
-            "url(#semantic-neural-brain-clip)"
+            `url(#${clipId})`
         );
 
         svg.appendChild(
@@ -2022,6 +2047,7 @@
 
         return {
             svg,
+            glowId,
             defs,
             content,
             overlay,
@@ -2100,7 +2126,7 @@
         ) {
             path.setAttribute(
                 "filter",
-                "url(#semantic-neural-module-glow)"
+                `url(#${layer.glowId})`
             );
         }
 
@@ -2195,7 +2221,7 @@
         ) {
             circle.setAttribute(
                 "filter",
-                "url(#semantic-neural-module-glow)"
+                `url(#${layer.glowId})`
             );
         }
 
@@ -3094,6 +3120,7 @@
         opacityMid,
         opacityFar
     ) {
+        id = `${layer.svg.id}-${id}`;
         const gradient =
             document.createElementNS(
                 NS,
@@ -4542,7 +4569,7 @@
 
         signal.setAttribute(
             "filter",
-            "url(#semantic-neural-module-glow)"
+            `url(#${layer.glowId})`
         );
 
         signal.setAttribute(
@@ -4911,8 +4938,15 @@
 
         const layer =
             createLayer(
-                gd
+                gd,
+                config.layerId
             );
+
+        if (config.background) {
+            layer.svg.style.zIndex = "30";
+            layer.svg.style.opacity = "0.55";
+            options.signalEnabled = false;
+        }
 
 
         const silhouette =
@@ -4932,6 +4966,9 @@
 
         let activeTree =
             null;
+
+        let forestMode = false;
+        let forestTrees = null;
 
 
         function updateClip() {
@@ -4972,6 +5009,7 @@
 
 
         function clear() {
+            forestMode = false;
             activeTag =
                 null;
 
@@ -5311,16 +5349,21 @@
 
 
         function draw(
-            tag
+            tag,
+            tree = null,
+            append = false
         ) {
+            if (!append) forestMode = false;
             activeTag =
                 tag
                 ||
                 null;
 
 
-            clearVisuals();
-            updateClip();
+            if (!append) {
+                clearVisuals();
+                updateClip();
+            }
 
 
             if (
@@ -5343,7 +5386,7 @@
 
 
             activeTree =
-                buildSemanticTree(
+                tree || buildSemanticTree(
                     activeTag,
                     graphEdges,
                     options
@@ -5552,7 +5595,22 @@
         }
 
 
+        function drawForest() {
+            forestMode = true;
+            clearVisuals();
+            updateClip();
+            if (!forestTrees) forestTrees = buildSemanticForest(nodes, graphEdges, options);
+            for (const tree of forestTrees) {
+                if (tree.treeEdges.length) draw(tree.rootTag, tree, true);
+            }
+        }
+
+
         function redraw() {
+            if (forestMode) {
+                drawForest();
+                return;
+            }
             updateClip();
 
             if (
@@ -5585,6 +5643,7 @@
 
         return {
             draw,
+            drawForest,
             redraw,
             clear,
             destroy,
@@ -5622,6 +5681,9 @@
             };
         },
         priority: edgePriority,
+        forest(nodes, edges) {
+            return buildSemanticForest(nodes, buildGraphEdges(nodes, edges), DEFAULTS);
+        },
     };
 
 })();
